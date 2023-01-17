@@ -1,0 +1,35 @@
+.user-header{
+    height: 70px;
+    display: flex;
+    align-items: center;
+}
+.header-item{
+    display: flex;
+    align-items: center;
+}
+.search-box{
+    width: 500px;
+    height: 40px;
+    background-color: var(--lightGrey);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 10px ;
+}
+.search-box input{
+    all:unset
+}
+.header-right{
+    display: flex;
+    gap: 30px;
+    align-items: center;
+}
+.right-icon.profile{
+    width: 45px;
+    height: 45px;
+    border-radius: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--lightGrey);
+}

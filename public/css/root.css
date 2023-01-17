@@ -4,6 +4,3 @@
     --white: rgb(255, 255, 255);
     --lightWhite: #F6F6F6;
 }
-body{
-    background-color: var(--lightWhite);
-}
