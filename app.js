@@ -1,8 +1,15 @@
-const express = require("express");
-let ejs = require("ejs");
+import express from "express"
+import ejs from 'ejs'
+import path from 'path'
 const app = express();
 
 app.set("view engine", "ejs");
+
+const __dirname=path.resolve()
+app.use(express.urlencoded({extended:true}))
+app.use(express.json())
+app.use(express.static(__dirname+"/public"))
+
 
 
 app.get("/",(req, res)=>{
