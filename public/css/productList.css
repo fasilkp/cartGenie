@@ -1,0 +1,24 @@
+.product-list{
+    background-color: var(--lightWhite);
+}
+.filter-sec{
+    background-color: var(--white);
+    height: 90vh;
+    padding: 50px 20px;
+}
+.filter-options{
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+.ft-option input{
+    margin-right: 10px;
+}
+.filter-sec button{
+    width: 90px;
+    height: 40px;
+    color: white;
+    background-color: var(--black);
+    outline: none;
+    border: none;
+}
