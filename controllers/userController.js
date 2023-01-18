@@ -7,3 +7,6 @@ export function getProductList(req, res){
 export function getProduct(req, res){
     res.render("user/product")
 }
+export function getWishlist(req, res){
+    res.render("user/wishlist")
+}
