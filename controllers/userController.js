@@ -4,3 +4,6 @@ export function getHome(req, res){
 export function getProductList(req, res){
     res.render("user/productList")
 }
+export function getProduct(req, res){
+    res.render("user/product")
+}
