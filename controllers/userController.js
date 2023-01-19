@@ -19,3 +19,6 @@ export function getOrderHistory(req, res){
 export function getCheckout(req, res){
     res.render("user/checkout")
 }
+export function getAddAddress(req, res){
+    res.render("user/addAddress")
+}
