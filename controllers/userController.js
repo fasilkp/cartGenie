@@ -16,3 +16,6 @@ export function getCart(req, res){
 export function getOrderHistory(req, res){
     res.render("user/orderHistory")
 }
+export function getCheckout(req, res){
+    res.render("user/checkout")
+}
