@@ -4,3 +4,6 @@ export function getUserLogin(req, res){
 export function getUserSignup(req, res){
     res.render("user/signup")
 }
+export function getVerifyEmail(req, res){
+    res.render("user/emailVerify")
+}
