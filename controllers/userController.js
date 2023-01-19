@@ -13,3 +13,6 @@ export function getWishlist(req, res){
 export function getCart(req, res){
     res.render("user/cart")
 }
+export function getOrderHistory(req, res){
+    res.render("user/orderHistory")
+}

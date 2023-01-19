@@ -1,0 +1,54 @@
+.order-img{
+    flex: 5%;
+}  
+.order-img img{
+    height: 100px;
+} 
+.order-detail{
+    flex: 40%;
+    padding-left: 15px;
+}
+.order-status{
+    flex: 35%;
+}
+.order-status div{
+    padding: 10px;
+    background-color: rgba(0, 0, 255, 0.147);
+    color: blue;
+    max-width: 120px;
+    display: flex;
+    justify-content: center;
+    border-radius: 5px;
+    font-weight: 500;
+}
+.order-status .pending{
+    background-color: #ff99002f;
+    color: #FF9900;
+}
+.order-status .rejected{
+    background-color: #ca01012d;
+    color: #CA0101;
+}
+.order-status .delivered{
+    background-color: #0090292b;
+    color: #009028;
+}
+.order-cancel{
+    flex: 10%;
+}
+.order-cancel button{
+    width: 100px;
+    height: 40px;
+    color: white;
+    background-color: var(--black);
+    border: none;
+    outline: none;
+
+}
+
+.order-cancel, .order-detail, .order-status{
+    height:100%7;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
