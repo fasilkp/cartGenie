@@ -58,3 +58,36 @@
     font-size: 1.2rem;
     font-weight: 750;
 }
+@media(max-width:600px){
+    .home-banner{
+        height: 200px;
+    }
+    .category{
+        margin-top: 10px;
+        font-size: .8rem;
+    }
+    .carousal-img{
+        height: 150px;
+    }
+    .category-img{
+        height: 80px;
+        width: 80px;
+        margin-top: 20px;
+    }
+    .product-img img{
+        height: 130px;
+    }
+    .product-img{
+        height: 150px;
+    }
+    .product-name, .product-price{
+        font-size: .9rem;
+    }
+    .product-desc{
+        font-size: .8rem;
+    }
+    .carousal-btn span{
+        width: 20px;
+        height: 20px;
+    }
+}
