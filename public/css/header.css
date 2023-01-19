@@ -11,6 +11,7 @@
 .header-item {
   display: flex;
   align-items: center;
+  color: var(--black);
 }
 .search-box {
   width: 500px;
@@ -37,4 +38,32 @@
   justify-content: center;
   align-items: center;
   background-color: var(--lightGrey);
+}
+a{
+  text-decoration: none;
+}
+.right-icon{
+  color: var(--black);
+}
+@media(max-width:600px){
+  .user-header{
+    padding: 50px 0px;
+  }
+  .header-right{
+    display: none;
+  }
+  .header-item h1{
+    font-size: 1.3rem;
+    margin-top: 8px;
+  }
+  .header-item i{
+    font-size: 1.3rem;
+    margin-right: 10px;
+  }
+  .search-box{
+    width:100%;
+  }
+  .search-box input{
+    width: 90%;
+  }
 }

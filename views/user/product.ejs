@@ -14,6 +14,7 @@
                 aria-current="true"
                 aria-label="Slide 1"
               ></button>
+
               <button
                 type="button"
                 data-bs-target="#carouselExampleIndicators"
@@ -109,9 +110,9 @@ A16 Bionic Chip, 6 Core Processor Processor
 
           <h4 class="mt-4">Quantity</h4>
           <div class="quantity-box mt-3">
-            <button class="quantity minus">-</button>
-            <input type="text" value="3" disabled />
-            <button class="quantity plus">+</button>
+            <button class="quantity minus" onclick="quantityDec()">-</button>
+            <input type="number" value="1" id="quantity" disabled />
+            <button class="quantity plus" onclick="quantityInc()">+</button>
           </div>
 
           <h4 class="mt-5">Ratings and Reviews</h4>
@@ -211,3 +212,14 @@ A16 Bionic Chip, 6 Core Processor Processor
     </div>
   </div>
 </div>
+
+<script>
+  function quantityInc(){
+    var quantity= document.getElementById("quantity")
+    quantity.value++;
+  }
+  function quantityDec(){
+    var quantity= document.getElementById("quantity")
+    quantity.value--;
+  }
+</script>
