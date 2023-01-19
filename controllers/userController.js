@@ -10,3 +10,6 @@ export function getProduct(req, res){
 export function getWishlist(req, res){
     res.render("user/wishlist")
 }
+export function getCart(req, res){
+    res.render("user/cart")
+}

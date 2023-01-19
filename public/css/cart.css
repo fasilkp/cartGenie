@@ -1,0 +1,127 @@
+.cartlist-main{
+    width: 100vw;
+    min-height: 100vh;
+    background-color: var(--lightGrey);
+}
+.cart-head{
+    display: flex;
+    justify-content: flex-start;
+    padding-top: 30px;
+    align-items: center;
+    gap: 10px;
+}
+.cart-item{
+    width: 100%;
+    background-color: var(--white);
+    padding: 10px;
+    display: flex;
+    margin-top: 20px;
+}
+.cart-item i{
+    font-size: 1.3rem;
+}
+.cart-img img{
+    height: 100px;
+}
+.cart-img{
+    flex: 20%;
+}
+.cart-detail{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+    flex: 50%;
+}
+.cart-quantity{
+    flex: 20%;
+    display: flex;
+    align-items: center;
+}
+.cart-quantity input{
+    width: 30px;
+    text-align: center;
+    border: none;
+    outline: none;
+    background:none;
+}
+.cart-quantity button{
+    width: 30px;
+    height: 30px;
+    border: none;
+    outline: none;
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+.cart-quantity button:last-child{
+    background-color: var(--black);
+    color: white;
+}
+.cart-detail h3{
+    font-weight: 50;
+}
+.cart-cancel{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100%;
+    flex: 10%;
+}
+.cart-price-details{
+    background-color: var(--white);
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    padding: 40px;
+
+}
+.price-item{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+.price-item label{
+    font-size: 1.1rem;
+}
+.price-item b{
+    font-size: 1.2rem;
+}
+.price-item button{
+    height: 50px;
+    border: none;
+    outline: none;
+    background-color: var(--black);
+    color: white;
+    font-weight: 550;
+}
+@media(max-width:600px){
+    .cart-img img{
+        height: 70px;
+    }
+    .cart-detail{
+        padding-left: 10px;
+    }
+    .cart-detail b{
+        font-size: .9rem;
+    }
+    .cart-detail h5{
+        font-size: 1rem;
+    }
+    .cart-quantity button{
+        width: 25px;
+        height: 25px;
+        font-weight: 500;
+        font-size: .9rem;
+    }
+    .cart-quantity input{
+        width: 20px;
+    }
+    .cart-detail{
+        flex: 40%;
+        overflow: hidden;
+    }
+    .cart-quantity{
+        flex: 20%;
+    }
+}
