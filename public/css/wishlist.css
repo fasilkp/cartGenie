@@ -43,3 +43,18 @@
     min-height: 100%;
     flex: 10%;
 }
+
+@media(max-width:600px){
+    .wish-img img{
+        height: 80px;
+    }
+    .wish-detail{
+        padding-left: 10px;
+    }
+    .wish-detail b{
+        font-size: .9rem;
+    }
+    .wish-detail h5{
+        font-size: 1rem;
+    }
+}

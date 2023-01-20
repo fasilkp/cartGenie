@@ -13,3 +13,6 @@ export function getForgotPassword(req, res){
 export function getForgotPassVerify(req, res){
     res.render("user/forgotPassVerify")
 }
+export function getChanegPassword(req, res){
+    res.render("user/changePassword")
+}
