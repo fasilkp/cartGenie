@@ -28,3 +28,6 @@ export function getEditAddress(req, res){
 export function getOrderProduct(req, res){
     res.render("user/orderedProduct")
 }
+export function getUserProfile(req, res){
+    res.render("user/userProfile")
+}

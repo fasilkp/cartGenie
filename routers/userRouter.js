@@ -1,5 +1,5 @@
 import express from "express"
-import { getAddAddress, getCart, getCheckout, getEditAddress, getHome, getOrderHistory, getOrderProduct, getProduct, getProductList, getWishlist } from "../controllers/userController.js"
+import { getAddAddress, getCart, getCheckout, getEditAddress, getHome, getOrderHistory, getOrderProduct, getProduct, getProductList, getUserProfile, getWishlist } from "../controllers/userController.js"
 const router = express.Router()
 
 router.get("/", getHome)
@@ -12,5 +12,6 @@ router.get("/checkout", getCheckout)
 router.get("/add-address", getAddAddress)
 router.get("/edit-address", getEditAddress)
 router.get("/ordered-product", getOrderProduct)
+router.get("/profile", getUserProfile)
 
 export default router
