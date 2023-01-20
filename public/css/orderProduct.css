@@ -1,0 +1,61 @@
+
+.rate {
+    float: left;
+    height: 100px;
+}
+.rate:not(:checked) > input {
+    position:absolute;
+    top:-9999px;
+}
+.rate:not(:checked) > label {
+    float:right;
+    width:1em;
+    overflow:hidden;
+    white-space:nowrap;
+    cursor:pointer;
+    font-size:50px;
+    color:#ccc;
+}
+.rate:not(:checked) > label:before {
+    content: '★ ';
+}
+.rate > input:checked ~ label {
+    color: #ffc700;    
+}
+.rate:not(:checked) > label:hover,
+.rate:not(:checked) > label:hover ~ label {
+    color: #deb217;  
+}
+.rate > input:checked + label:hover,
+.rate > input:checked + label:hover ~ label,
+.rate > input:checked ~ label:hover,
+.rate > input:checked ~ label:hover ~ label,
+.rate > label:hover ~ input:checked ~ label {
+    color: #c59b08;
+}
+
+.add-review textarea{
+    width: 100%;
+    border: none;
+    outline: none;
+    background-color: var(--lightGrey);
+    padding: 10px;
+}
+
+
+.ratings button, .add-review button{
+    width: 100px;
+    height: 40px;
+    border: none;
+    outline: none;
+    background-color: var(--black);
+    color: white;
+    font-weight: 500;
+}
+.product-main{
+    padding-bottom: 30px;
+}
+
+button:disabled{
+    opacity: 50%;
+}

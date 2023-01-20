@@ -25,3 +25,6 @@ export function getAddAddress(req, res){
 export function getEditAddress(req, res){
     res.render("user/editAddress")
 }
+export function getOrderProduct(req, res){
+    res.render("user/orderedProduct")
+}

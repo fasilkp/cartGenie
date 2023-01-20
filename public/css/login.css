@@ -68,11 +68,15 @@
         gap: 50px;
         margin-top: 50px;
     }
+    .login-image-container img{
+        height: 300px;
+        width: 280px;
+    }
     .login-image-container.signup img{
         height: 220px;
         width: 250px;
     }
-    .login-image-container.signup{
+    .login-image-container{
         display: flex;
         justify-content: center;
     }
