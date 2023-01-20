@@ -8,7 +8,7 @@
 .login-header{
      height: 50px;
      background-color: var(--white);
-     padding: 20px 0px;
+     padding: 20px 10px;
 }
 .login-container{
     display: flex;
@@ -60,4 +60,20 @@
 }
 .login-image-container img{
     width: 90%;
+}
+
+@media(max-width:600px){
+    .login-container{
+        flex-direction: column-reverse;
+        gap: 50px;
+        margin-top: 50px;
+    }
+    .login-image-container.signup img{
+        height: 220px;
+        width: 250px;
+    }
+    .login-image-container.signup{
+        display: flex;
+        justify-content: center;
+    }
 }

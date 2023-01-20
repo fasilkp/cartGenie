@@ -10,3 +10,6 @@ export function getVerifyEmail(req, res){
 export function getForgotPassword(req, res){
     res.render("user/forgotPassword")
 }
+export function getForgotPassVerify(req, res){
+    res.render("user/forgotPassVerify")
+}
