@@ -45,6 +45,75 @@ a{
 .right-icon{
   color: var(--black);
 }
+
+.sidebar{
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  z-index: 90;
+  top: 0px;
+  backdrop-filter: blur(5px);
+  margin-left: -100%;
+  transition: .3s;
+}
+.sidebar-container{
+  width: 70%;
+  height: 100%;
+  background-color: #fff;
+  z-index: 100;
+  
+
+}
+.sidebar.open{
+  margin-left: 0px;
+}
+.side-head{
+  height: 60px;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+}
+.side-head i{
+  font-size: 1.3rem;
+}
+
+.side-items{
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  padding-left: 40px;
+  padding-top: 25px;
+}
+.side-items li{
+  list-style: none;
+  font-size: 1rem;
+  color: black;
+  font-weight: 450;
+}
+.side-items a{
+  display: flex;
+  color: black;
+  gap: 20px;
+}
+.logout-btn{
+  position: fixed;
+  bottom: 0px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  padding-left: 40px;
+  font-weight: 500;
+}
+.logout-btn a{
+  display: flex;
+  gap: 20px;
+  color: red;
+}
+@media(min-width:600px){
+  .sidebar{
+    display: none;
+  }
+}
 @media(max-width:600px){
   .user-header{
     padding: 50px 0px;
@@ -66,4 +135,5 @@ a{
   .search-box input{
     width: 90%;
   }
+  
 }

@@ -3,7 +3,7 @@
     <div class="row">
 
         <div class="col-12 col-md-3 header-item">
-            <i class="ri-menu-2-line d-block d-md-none"></i>
+            <i id="sidebarBtn" class="ri-menu-2-line d-block d-md-none"></i>
             <h1><a href="/">E-cart</a></h1>
         </div>
         <div class="col-12 col-md-5 header-item">
@@ -29,3 +29,42 @@
     </div>
   </div>
 </header>
+
+<div class="sidebar" id="sidebar">
+    <div class="sidebar-container" id="sidebarContainer">
+        <div class="side-head">
+            <i id="sideClose" class="ri-close-fill"></i>
+        </div>
+        <div class="side-items">
+            <a href=""><i class="ri-user-line"></i> <li>Profile</li></a>
+            <a href="/cart"><i class="ri-shopping-cart-line"></i> <li>Carts</li></a>
+            <a href="/wishlist"><i class="ri-heart-line"></i> <li>Wishlist</li></a>
+            <a href=""><i class="ri-coupon-line"></i> <li>Coupons</li></a>
+        </div>
+        <div class="logout-btn">
+            <a href=""><i class="ri-logout-box-line"></i><span>Logout</span></a>
+        </div>
+    </div>
+</div>
+
+<script>
+    var sidebarBtn = document.getElementById("sidebarBtn");
+    var sidebar = document.getElementById("sidebar");
+    var sidebarContainer = document.getElementById("sidebarContainer");
+    var sideClose = document.getElementById("sideClose");
+
+    sidebarBtn.addEventListener("click", ()=>{
+        sidebar.classList.add("open")
+    })
+    sidebar.addEventListener("click", ()=>{
+        sidebar.classList.remove("open")
+    })
+    sideClose.addEventListener("click", (e)=>{
+        e.stopPropagation()
+        sidebar.classList.remove("open")
+    })
+    sidebarContainer.addEventListener("click", (e)=>{
+        e.stopPropagation()
+        sidebar.classList.add("open")
+    })
+</script>
