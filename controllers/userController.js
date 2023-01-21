@@ -31,3 +31,6 @@ export function getOrderProduct(req, res){
 export function getUserProfile(req, res){
     res.render("user/userProfile")
 }
+export function getCoupons(req, res){
+    res.render("user/coupons")
+}
