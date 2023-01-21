@@ -2,7 +2,7 @@
 
 <div class="cartlist-main">
   <div class="container">
-    <h2 class="cart-head">cartlist <i class="ri-heart-line"></i></h2>
+    <h2 class="cart-head">Cart <i class="ri-heart-line"></i></h2>
     <div class="row">
       <div class="col-12 col-md-7">
 
@@ -125,14 +125,38 @@
       <div class="col-12 col-md-5">
         <div class="row">
           <div class="cart-price-details">
-            <h3>Price details</h3>
+            <h4>Apply Coupons</h4>
+            <div class="coupon-item">
+              <input type="checkbox" id="coupon1" value="coupon1" name="coupon">
+              <label for="coupon1">₹ 67 Cashback</label>
+            </div>
+            <div class="coupon-item">
+              <input type="checkbox" id="coupon2" value="coupon2" name="coupon">
+              <label for="coupon2">₹ 25 Cashback</label>
+            </div>
+            <div class="coupon-item">
+              <input type="checkbox" id="coupon3" value="coupon3" name="coupon">
+              <label for="coupon3">₹ 38 Cashback</label>
+            </div>
+            <div class="coupon-item">
+              <button>Apply</button>
+            </div>
+             
+            
+          </div>
+          <div class="cart-price-details">
+            <h4>Price details</h4>
             <div class="price-item">
               <label for="">Price (3 item)</label>
               <b>₹ 78,654</b>
             </div>
             <div class="price-item">
               <label for="">Discount</label>
-              <b class="text-success">₹ 78,654</b>
+              <b class="text-success">-₹2,654</b>
+            </div>
+            <div class="price-item">
+              <label for="">Coupons Applied</label>
+              <b class="text-success">-₹567</b>
             </div>
             <div class="price-item">
               <label for="">Delivery</label>
@@ -143,7 +167,9 @@
               <b>₹ 78,654</b>
             </div>
             <div class="price-item">
-              <button>Checkout</button>
+              <a href="/checkout" class="w-100">
+                <button class="w-100">Checkout</button>
+              </a>
             </div>
           </div>
         </div>

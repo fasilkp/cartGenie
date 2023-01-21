@@ -11,19 +11,19 @@
     gap: 10px;
     margin-top: 20px;
 }
-.profil-row button, .man-ad-right button{
+.profil-row button{
     width: 70px;
     height: 35px;
     border: none;
     outline: none;
-    background-color: var(--black);
+    background-color: rgb(37, 35, 35);
     color: white;
     font-weight: 500;
     font-size: .9rem;
     margin-top: 20px;
 }
-.profil-row button:last-child, .man-ad-right button:last-child{
-   background-color: rgb(161, 0, 0);
+.profil-row button:last-child{
+   background-color: rgb(248, 50, 50);
 }
 .profil-row i{
     font-size: .7rem;
@@ -49,9 +49,24 @@
 .manage-address-row{
     background-color: #fff;
     padding: 20px;
-    margin-top: 5px;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
 }
 .man-ad-left{
     display: flex;
     flex-direction: column;
+}
+.man-ad-right{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.man-ad-right i{
+    font-size: 1.2rem;
+    color: red;
+    font-weight: 500;
+}
+.man-ad-right i:last-child{
+    color: blue;
 }

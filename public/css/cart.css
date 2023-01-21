@@ -72,14 +72,31 @@
     margin-top: 20px;
     display: flex;
     flex-direction: column;
-    gap: 30px;
-    padding: 40px;
+    gap: 15px;
+    padding: 30px;
 
 }
 .price-item{
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 5px;
+}
+.coupon-item{
+    display: flex;
+    align-items: center;
+}
+.coupon-item input{
+    margin-right: 10px;
+    width: 15px;
+    height: 15px;
+}
+.coupon-item button{
+    background-color: var(--black);
+    color: white;
+    border: none;
+    outline: none;
+    padding: 10px;
+    font-size: .9rem;
 }
 .price-item label{
     font-size: 1.1rem;

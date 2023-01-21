@@ -30,6 +30,10 @@
     margin-top: 20px;
     cursor: pointer;
 }
+.recommendation a{
+    background-color: var(--white);
+    color: var(--black);
+}
 .product-card{
     width: 100%;
     background-color: var(--white);
@@ -40,6 +44,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: #fff;
 }
 .product-img img{
     max-width: 95%;
