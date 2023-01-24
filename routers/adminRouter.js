@@ -1,8 +1,7 @@
 import express from "express"
+import { getAdminOrders } from "../controllers/adminController.js"
 const router = express.Router()
 
-router.get("/", (req, res)=>{
-    res.send("Admin Home")
-})
+router.get("/", getAdminOrders)
 
 export default router

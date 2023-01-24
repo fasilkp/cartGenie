@@ -1,0 +1,112 @@
+.orders-main{
+    display: flex;
+    min-height: 100vh;
+    background-color: var(--lightWhite);
+}
+.side-menu{
+    flex: 15%;
+    height: 100vh;
+    background-color: #fff;
+    padding-left: 50px;
+    padding-right: 10px;
+    padding-top: 30px;
+    position: sticky;
+    top: 0px;
+}
+.side-menu li{
+    list-style: none;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding-left: 20px;
+    color: black;
+}
+.side-menu i{
+    margin-right: 20px;
+}
+.side-menu .selected{
+    background-color: var(--black);
+    border-radius: 10px;
+    color: white;
+}
+.order-container{
+    flex: 85%;
+    padding-right: 100px;
+    padding-left: 20px;
+}
+.dashboard-item{
+    display: flex;
+    background-color: #fff;
+    padding: 20px;
+    gap: 20px;
+    border-radius: 10px;
+}
+.dash-img{
+ width: 100px;
+ height: 100px;
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ border-radius: 50px;
+}
+.dash-img.one{
+    background-color: #65d04a57;
+}
+.dash-img.two{
+    background-color: #f7e4654c;
+}
+.dash-img.three{
+    background-color: #E4EEF9;
+}
+.dash-img.four{
+    background-color: #ffc36950;
+}
+.dash-img img{
+    object-fit: contain;
+    max-height: 50px;
+}
+.dash-desc{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.dash-desc h5{
+    color: grey;
+}
+.chart-container{
+    width: 100%;
+    height: 400px;
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    padding: 50px;
+}
+#chart{
+    width: 70%;
+}
+.orders-table{
+    width: 100%;
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+}
+.del-status{
+    padding: 10px;
+    width: 100px;
+    border-radius: 5px;
+    font-weight: 500;
+}
+.del-status.pending{
+    background-color: #ff99002f;
+    color: #FF9900;
+}
+.del-status.rejected{
+    background-color: #ca01012d;
+    color: #CA0101;
+}
+.del-status.delivered{
+    background-color: #0090292b;
+    color: #009028;
+}
