@@ -110,3 +110,19 @@
     background-color: #0090292b;
     color: #009028;
 }
+.product-search{
+    display: flex;
+    align-items: center;
+    height: 50px;
+    background-color: #fff;
+    padding: 0px 15px;
+}
+.product-search{
+    margin-left: 20px;
+    border-radius: 5px;
+}
+.product-search input{
+    border: none;
+    outline: none;
+    background: none;
+}
