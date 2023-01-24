@@ -1,5 +1,4 @@
 import express from "express"
-import ejs from 'ejs'
 import path from 'path'
 import  adminAuth from "./routers/adminAuthRouter.js"
 import  userAuth from "./routers/userAuth.js"
@@ -21,7 +20,7 @@ app.use(ejsLayout)
 app.use("/", userRouter)
 app.use("/", userAuth)
 app.use("/admin/", adminRouter)
-app.use("/admin/auth", adminAuth)
+app.use("/admin/", adminAuth)
 
 
 
