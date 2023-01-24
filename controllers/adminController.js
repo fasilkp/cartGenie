@@ -7,3 +7,6 @@ export function getAdminProduct(req,res){
 export function getAdminUsers(req,res){
     res.render("admin/adminUsers")
 } 
+export function getAdminCategory(req,res){
+    res.render("admin/adminCategory")
+} 
