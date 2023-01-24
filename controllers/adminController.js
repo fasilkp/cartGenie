@@ -16,3 +16,9 @@ export function getAddProduct(req,res){
 export function getEditProduct(req,res){
     res.render("admin/editProduct")
 } 
+export function getAdminOffers(req,res){
+    res.render("admin/adminOffers")
+} 
+export function getAddOffers(req,res){
+    res.render("admin/addOffers")
+} 
