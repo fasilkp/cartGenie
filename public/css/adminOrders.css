@@ -5,13 +5,13 @@
 }
 .side-menu{
     flex: 15%;
-    height: 100vh;
+    height: 92vh;
     background-color: #fff;
     padding-left: 50px;
     padding-right: 10px;
     padding-top: 30px;
     position: sticky;
-    top: 0px;
+    top: 70px;
 }
 .side-menu li{
     list-style: none;
