@@ -10,3 +10,6 @@ export function getAdminUsers(req,res){
 export function getAdminCategory(req,res){
     res.render("admin/adminCategory")
 } 
+export function getAddProduct(req,res){
+    res.render("admin/addProduct")
+} 
