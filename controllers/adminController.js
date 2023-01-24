@@ -13,3 +13,6 @@ export function getAdminCategory(req,res){
 export function getAddProduct(req,res){
     res.render("admin/addProduct")
 } 
+export function getEditProduct(req,res){
+    res.render("admin/editProduct")
+} 
