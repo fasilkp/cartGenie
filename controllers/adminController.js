@@ -1,4 +1,5 @@
 import categoryModel from "../models/categoryModel.js"
+import UserModel from "../models/userModel.js";
 
 export function getAdminOrders(req,res){
     res.render("admin/adminOrders")
@@ -6,8 +7,9 @@ export function getAdminOrders(req,res){
 export function getAdminProduct(req,res){
     res.render("admin/adminProduct")
 } 
-export function getAdminUsers(req,res){
-    res.render("admin/adminUsers")
+export async function getAdminUsers(req,res){
+    const users= await UserModel.find().lean();
+    res.render("admin/adminUsers", {users})
 } 
 export async function getAdminCategory(req,res){
     const categories= await categoryModel.find().lean();

@@ -36,46 +36,21 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <th scope="row">Fasil</th>
-                      <td>fasil@gmail.com</td>
-                      <td><div class="dropdown">
-                        <button class="btn btn-white dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="ri-more-2-fill"></i>
-                        </button>
-                        <ul class="dropdown-menu">
-                          <li><a class="dropdown-item" href="#">Ban</a></li>
-                          <li><a class="dropdown-item" href="#">Delete</a></li>
-                        </ul>
-                      </div></td>
-                    </tr>
-                    <tr>
-                      <th scope="row">Fasil</th>
-                      <td>fasil@gmail.com</td>
-                      <td><div class="dropdown">
-                        <button class="btn btn-white dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="ri-more-2-fill"></i>
-                        </button>
-                        <ul class="dropdown-menu">
-                          <li><a class="dropdown-item" href="#">Ban</a></li>
-                          <li><a class="dropdown-item" href="#">Delete</a></li>
-                        </ul>
-                      </div></td>
-                    </tr>
-                    <tr>
-                      <th scope="row">Fasil</th>
-                      <td>fasil@gmail.com</td>
-                      <td><div class="dropdown">
-                        <button class="btn btn-white dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="ri-more-2-fill"></i>
-                        </button>
-                        <ul class="dropdown-menu">
-                          <li><a class="dropdown-item" href="#">Ban</a></li>
-                          <li><a class="dropdown-item" href="#">Delete</a></li>
-                        </ul>
-                      </div></td>
-                    </tr>
-                   
+                    <% users.forEach(item=>{ %>
+                      <tr>
+                        <th scope="row"><%=item.name  %> </th>
+                        <td><%= item.email  %> </td>
+                        <td><div class="dropdown">
+                          <button class="btn btn-white dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                              <i class="ri-more-2-fill"></i>
+                          </button>
+                          <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Ban</a></li>
+                            <li><a class="dropdown-item" href="#">Delete</a></li>
+                          </ul>
+                        </div></td>
+                      </tr>
+                    <% }) %> 
                   </tbody>
               </table>
         </div>
