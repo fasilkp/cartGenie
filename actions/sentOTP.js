@@ -7,12 +7,12 @@ export default function sentOTP(email, otp){
             secure: true,
             auth: {
               user: process.env.EMAIL,
-              pass: "wvdzabexfvezlpnq",
+              pass: process.env.PASSWORD,
             },
           });
       
             var mailOptions={
-              from: 'emailconfirmotp@gmail.com',
+              from: process.env.EMAIL,
               to: email,
               subject: "E-cart Email verification",
               html: `
