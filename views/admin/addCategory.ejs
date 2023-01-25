@@ -1,7 +1,7 @@
 <%- include('../partials/adminHeader') %>
 <div class="add-product-main">
     <h3>Add Category</h3>
-    <div class="add-product-container mt-3">
+    <form action="/admin/add-category" method="post" class="add-product-container mt-3">
         <div class="a-p-form-row">
             <div class="a-p-form-col">
                 <label for="Name">Category</label>
@@ -9,7 +9,7 @@
             </div>
         </div>
         <div class="a-p-form-row">
-            <button>Add Category</button>
+            <button type="submit">Add Category</button>
         </div>
-    </div>
+    </form>
 </div>
