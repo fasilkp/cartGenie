@@ -8,9 +8,9 @@
             <form action="/verifyEmail" method="post">
               <h2>Verify OTP</h2>
               <p>Enter the OTP sent to <b>fasil@gmail.com</b></p>
-              <input type="text" name="email" style="height: 0px; visibility: hidden;" value="<%= user?.email %> "/>
-              <input type="text" name="name" style="height: 0px; visibility: hidden;" value="<%= user?.name %> " />
-              <input type="text" name="password" style="height: 0px; visibility: hidden;" value="<%= user?.password  %> " />
+              <input type="text" name="email" style="height: 0px; visibility: hidden;" value="<%= user?.email %>"/>
+              <input type="text" name="name" style="height: 0px; visibility: hidden;" value="<%= user?.name %>" />
+              <input type="text" name="password" style="height: 0px; visibility: hidden;" value="<%= user?.password  %>" />
               <div class="form-row">
                 <input type="text" placeholder="OTP" name="otp" />
                 <% if(error){ %> 
@@ -20,6 +20,9 @@
               <div class="form-row">
                 <button>Verify</button>
               </div>
+              <div class="d-flex justify-content-center text-center" style="font-weight: 500; cursor: pointer;" id="countdown">
+               
+              </div>
             </form>
           </div>
           <div class="login-image-container">
@@ -27,5 +30,23 @@
           </div>
         </div>
       </div>
+
+      <script>
+        let countdown=document.getElementById("countdown");
+        let count=10;
+        const coundownInterval = setInterval(() => {
+          count--;
+          countdown.innerText=" OTP Resend in "+count;
+          checkOver()
+        }, 1000);
+        function checkOver(){
+          if(count==0){
+            clearInterval(coundownInterval)
+            countdown.innerHTML=`
+            <span onclick="window.location.reload()">Resend OTP</span>
+            `
+          }
+        }
+      </script>
   
   
