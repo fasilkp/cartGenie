@@ -22,3 +22,6 @@ export function getAdminOffers(req,res){
 export function getAddOffers(req,res){
     res.render("admin/addOffers")
 } 
+export function getAddCategory(req,res){
+    res.render("admin/addCategory")
+} 
