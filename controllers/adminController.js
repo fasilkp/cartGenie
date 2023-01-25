@@ -12,7 +12,7 @@ export function getAdminUsers(req,res){
 export async function getAdminCategory(req,res){
     const categories= await categoryModel.find().lean();
     res.render("admin/adminCategory", {categories})
-} 
+}
 export function getAddProduct(req,res){
     res.render("admin/addProduct")
 } 
@@ -42,4 +42,9 @@ export function addCategory(req, res){
         })
     }
 
+}
+export async function deleteCategory(req, res){
+    const _id=req.params.id;
+    await categoryModel.deleteOne({_id});
+    res.redirect("/admin/category")
 }

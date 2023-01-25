@@ -1,5 +1,5 @@
 import express from "express"
-import { addCategory, getAddCategory, getAddOffers, getAddProduct, getAdminCategory, getAdminOffers, getAdminOrders, getAdminProduct, getAdminUsers, getEditProduct } from "../controllers/adminController.js"
+import { addCategory, deleteCategory, getAddCategory, getAddOffers, getAddProduct, getAdminCategory, getAdminOffers, getAdminOrders, getAdminProduct, getAdminUsers, getEditProduct } from "../controllers/adminController.js"
 const router = express.Router()
 
 router.get("/", getAdminOrders)
@@ -12,9 +12,7 @@ router.get("/offers", getAdminOffers)
 router.get("/add-offer", getAddOffers)
 router.get("/add-category", getAddCategory)
 router.post("/add-category", addCategory)
-
-
-
+router.get("/delete-category/:id", deleteCategory)
 
 
 export default router

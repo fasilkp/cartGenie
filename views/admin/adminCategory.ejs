@@ -38,42 +38,20 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <th scope="row">mobile</th>
-                      <td><div class="dropdown">
-                        <button class="btn btn-white dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="ri-more-2-fill"></i>
-                        </button>
-                        <ul class="dropdown-menu">
-                          <li><a class="dropdown-item" href="#">Edit</a></li>
-                          <li><a class="dropdown-item" href="#">Delete</a></li>
-                        </ul>
-                      </div></td>
-                    </tr>
-                    <tr>
-                      <th scope="row">mobile</th>
-                      <td><div class="dropdown">
-                        <button class="btn btn-white dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="ri-more-2-fill"></i>
-                        </button>
-                        <ul class="dropdown-menu">
-                          <li><a class="dropdown-item" href="#">Ban</a></li>
-                          <li><a class="dropdown-item" href="#">Delete</a></li>
-                        </ul>
-                      </div></td>
-                    </tr>
-                    <tr>
-                      <th scope="row">mobile</th>
-                      <td><div class="dropdown">
-                        <button class="btn btn-white dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="ri-more-2-fill"></i>
-                        </button>
-                        <ul class="dropdown-menu">
-                          <li><a class="dropdown-item" href="#">Ban</a></li>
-                          <li><a class="dropdown-item" href="#">Delete</a></li>
-                        </ul>
-                      </div></td>
-                    </tr>
+                    <% categories.forEach(item=>{%>
+                      <tr>
+                        <th scope="row"><%= item.category  %> </th>
+                        <td><div class="dropdown">
+                          <button class="btn btn-white dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                              <i class="ri-more-2-fill"></i>
+                          </button>
+                          <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Edit</a></li>
+                            <li><a class="dropdown-item" href="/admin/delete-category/<%= item._id  %>">Delete</a></li>
+                          </ul>
+                        </div></td>
+                      </tr>
+                    <% }) %> 
                    
                   </tbody>
               </table>
