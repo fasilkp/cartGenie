@@ -5,7 +5,7 @@
       </header>
       <div class="container login-container">
         <div class="login-box">
-          <form action="">
+          <form action="/login" method="post">
             <h2>Login</h2>
             <div class="form-row">
               <label>Email</label>
@@ -17,6 +17,9 @@
               <a href="/forgot-password">Forgot Password </a>
             </div>
             <div class="form-row">
+              <% if(error){ %> 
+                <b class="text-danger"><%= message  %> </b>
+              <% } %> 
               <button>Login</button>
               <a class="text-center" href="/signup">Don't have account create one </a>
             </div>

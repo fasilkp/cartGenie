@@ -4,7 +4,7 @@ import bcrypt from 'bcryptjs'
 var salt = bcrypt.genSaltSync(10);
 
 export function getUserLogin(req, res) {
-    res.render("user/login");
+    res.render("user/login", {error:false});
 }
 export function getUserSignup(req, res) {
     res.render("user/signup", { error: false });
@@ -103,6 +103,33 @@ export function verifyEmail(req, res) {
     }
 }
 
-export function userLogin(req, res){
-
+export async function userLogin(req, res){
+    const { email, password } = req.body;
+    if (email == "" || password == "") {
+        return res.render("user/login", {
+            error: true,
+            message: "all fields must be filled",
+        });
+    }
+    const user = await UserModel.findOne({email});
+    if(!user){
+        return res.render("user/login", {
+            error: true,
+            message: "No user found",
+        });
+    }
+    if(user.ban){
+        return res.render("user/login", {
+            error: true,
+            message: "You are banned",
+        });
+    }
+    if(bcrypt.compareSync(password, user.password)){
+        return res.redirect("/")
+    }else{
+        return res.render("user/login",{
+            error:true,
+            message:"invalid email or password" 
+        })
+    }
 }
