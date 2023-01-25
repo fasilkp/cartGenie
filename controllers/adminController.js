@@ -50,3 +50,16 @@ export async function deleteCategory(req, res){
     await categoryModel.deleteOne({_id});
     res.redirect("/admin/category")
 }
+
+
+export async function banUser(req, res){
+    const _id= req.params.id;
+    await UserModel.findByIdAndUpdate(_id, {$set:{ban:true}})
+    res.redirect("/admin/users")
+}
+
+export async function deleteUser(req, res){
+    const _id=req.params.id;
+    await UserModel.deleteOne({_id});
+    res.redirect("/admin/users")
+}
