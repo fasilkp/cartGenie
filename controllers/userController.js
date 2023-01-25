@@ -1,3 +1,4 @@
+
 export function getHome(req, res){
     res.render("user/home")
 }
@@ -34,3 +35,6 @@ export function getUserProfile(req, res){
 export function getCoupons(req, res){
     res.render("user/coupons")
 }
+
+
+

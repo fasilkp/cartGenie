@@ -11,4 +11,8 @@ router.get("/edit-product", getEditProduct)
 router.get("/offers", getAdminOffers)
 router.get("/add-offer", getAddOffers)
 
+
+
+
+
 export default router

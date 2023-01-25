@@ -5,9 +5,12 @@
         </header>
         <div class="container login-container">
           <div class="login-box">
-            <form action="" method="post">
+            <form action=".verifyEmail" method="post">
               <h2>Verify OTP</h2>
               <p>Enter the OTP sent to <b>fasil@gmail.com</b></p>
+              <input type="text" name="email" style="height: 0px; visibility: hidden;" value="<%= user?.email %> "/>
+              <input type="text" name="name" style="height: 0px; visibility: hidden;" value="<%= user?.name %> " />
+              <input type="text" name="password" style="height: 0px; visibility: hidden;" value="<%= user?.password  %> " />
               <div class="form-row">
                 <input type="text" placeholder="OTP" name="otp" />
               </div>
