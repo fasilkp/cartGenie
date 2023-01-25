@@ -8,7 +8,7 @@
       <li><i class="ri-smartphone-fill"></i> Products</li>
     </a>
     <a href="/admin/users">
-      <li  class="selected"><i class="ri-user-fill"></i> Users</li>
+      <li ><i class="ri-user-fill"></i> Users</li>
     </a>
     <a href="/admin/category">
         <li><i class="ri-layout-grid-fill"></i> Category</li>
@@ -17,7 +17,7 @@
         <li><i class="ri-percent-fill"></i> Offers</li>
       </a>
       <a href="/admin/banned-users">
-        <li><i class="ri-indeterminate-circle-fill"></i> Banned Users</li>
+        <li  class="selected"><i class="ri-indeterminate-circle-fill"></i> Banned Users</li>
       </a>
   </div>
   <div class="order-container">
@@ -48,8 +48,7 @@
                               <i class="ri-more-2-fill"></i>
                           </button>
                           <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="/admin/ban-user/<%= item._id  %> ">Ban</a></li>
-                            <li><a class="dropdown-item" href="/admin/delete-user/<%= item._id  %> ">Delete</a></li>
+                            <li><a class="dropdown-item" href="/admin/unban-user/<%= item._id  %> ">Unban</a></li>
                           </ul>
                         </div></td>
                       </tr>

@@ -8,8 +8,12 @@ export function getAdminProduct(req,res){
     res.render("admin/adminProduct")
 } 
 export async function getAdminUsers(req,res){
-    const users= await UserModel.find().lean();
+    const users= await UserModel.find({ban:false}).lean();
     res.render("admin/adminUsers", {users})
+} 
+export async function getBannedUsers(req,res){
+    const users= await UserModel.find({ban:true}).lean();
+    res.render("admin/bannedUsers", {users})
 } 
 export async function getAdminCategory(req,res){
     const categories= await categoryModel.find().lean();
@@ -56,6 +60,13 @@ export async function banUser(req, res){
     const _id= req.params.id;
     await UserModel.findByIdAndUpdate(_id, {$set:{ban:true}})
     res.redirect("/admin/users")
+}
+
+
+export async function unBanUser(req, res){
+    const _id= req.params.id;
+    await UserModel.findByIdAndUpdate(_id, {$set:{ban:false}})
+    res.redirect("/admin/banned-users")
 }
 
 export async function deleteUser(req, res){
