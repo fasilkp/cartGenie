@@ -5,7 +5,7 @@
         </header>
         <div class="container login-container" style="height:85vh">
           <div class="login-box">
-            <form action="">
+            <form action="/admin/login" method="post">
                 <div class="form-row">
                   <h2 class="text-center">Login</h2>
                 <label class="mt-3">Email</label>
@@ -14,11 +14,14 @@
               <div class="form-row">
                 <label>Password</label>
                 <input type="password" name="password" placeholder="password" />
-                <a href="/forgot-password">Forgot Password </a>
+                <!-- <a href="/forgot-password">Forgot Password </a> -->
+                <% if(error){ %> 
+                  <b class="text-danger"><%= message  %> </b>
+                <% } %> 
               </div>
               <div class="form-row">
                 <button>Login</button>
-                <a class="text-center" href="/signup">Don't have account create one </a>
+                <!-- <a class="text-center" href="/signup">Don't have account create one </a> -->
               </div>
             </form>
           </div>
