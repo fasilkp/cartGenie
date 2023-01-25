@@ -5,6 +5,7 @@ import  userAuth from "./routers/userAuth.js"
 import adminRouter from "./routers/adminRouter.js"
 import userRouter from "./routers/userRouter.js"
 import ejsLayout from 'express-ejs-layouts'
+import dbConnect from "./config/dbConnect.js"
 const app = express();
 
 app.set("view engine", "ejs");
@@ -14,6 +15,7 @@ app.use(express.urlencoded({extended:true}))
 app.use(express.json())
 app.use(express.static(__dirname+"/public"))
 app.use(ejsLayout)
+dbConnect();
 
 
 //Routers
