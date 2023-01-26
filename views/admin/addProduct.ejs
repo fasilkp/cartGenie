@@ -1,52 +1,52 @@
 <%- include('../partials/adminHeader') %>
 <div class="add-product-main">
     <h3>Add Product</h3>
-    <div class="add-product-container mt-3">
+    <form class="add-product-container mt-3" action="/admin/add-product" method="post">
         <div class="a-p-form-row">
             <div class="a-p-form-col">
                 <label for="Name">Name</label>
-                <input type="text" placeholder="Product Name">
+                <input type="text" name="name" placeholder="Product Name">
             </div>
             <div class="a-p-form-col">
                 <label for="Category">Category</label>
-                <input type="text" placeholder="Category">
+                <input type="text" name="category" placeholder="Category">
             </div>
         </div>
         <div class="a-p-form-row">
             <div class="a-p-form-col">
                 <label for="Name">Brand</label>
-                <input type="text" placeholder="Brand">
+                <input type="text" name="brand" placeholder="Brand">
             </div>
             <div class="a-p-form-col">
                 <label for="Category">Quanitity</label>
-                <input type="text" placeholder="Quantity">
+                <input type="text" name="quantity" placeholder="Quantity">
             </div>
         </div>
         <div class="a-p-form-row">
             <div class="a-p-form-col">
                 <label for="Name">MRP</label>
-                <input type="text" placeholder="MRP">
+                <input type="text" name="MRP" placeholder="MRP">
             </div>
             <div class="a-p-form-col">
                 <label for="Category">Price</label>
-                <input type="text" placeholder="category">
+                <input type="text" name="price" placeholder="category">
             </div>
         </div>
         <div class="a-p-form-row">
             <div class="a-p-form-col">
                 <label for="Category">Description</label>
-                <textarea name="" id="" rows="4" placeholder="Description"></textarea>
+                <textarea name="" id="" name="description" rows="4" placeholder="Description"></textarea>
             </div>
         </div>
         <div class="a-p-form-row">
             <div class="a-p-form-col">
                 <label for="Category">Image</label>
-                <input type="file">
+                <input type="file" name="images">
                 <!-- <input class="form-control a-p-file form-control-lg" id="formFileLg" type="file"> -->
             </div>
         </div>
         <div class="a-p-form-row">
-            <button>Add product</button>
+            <button type="submit">Add product</button>
         </div>
-    </div>
+    </form>
 </div>
