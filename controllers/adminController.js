@@ -25,8 +25,11 @@ export async function getAddProduct(req,res){
     const categories= await categoryModel.find().lean();
     res.render("admin/addProduct", {error:false, categories})
 } 
-export function getEditProduct(req,res){
-    res.render("admin/editProduct")
+export async function getEditProduct(req,res){
+    const _id=req.params.id;
+    const product=await productModel.findOne({_id});
+    const categories= await categoryModel.find().lean();
+    res.render("admin/editProduct", {product, error:false, categories})
 } 
 export function getAdminOffers(req,res){
     res.render("admin/adminOffers")
@@ -103,6 +106,49 @@ export async function addProduct(req, res){
         console.log(err)
         const categories= await categoryModel.find().lean();
         res.render('admin/addProduct',{error:true, message:"Please fill all the fields", categories})
+    }
+}
+
+
+export async function editProduct(req, res){
+    try{
+        const {name, category, quantity, brand, MRP, price, description, _id}=req.body;
+        console.log(req.files)
+        if(req.files.image && req.files.images){
+            await productModel.findByIdAndUpdate(_id, {$set:{
+                    name, category, quantity, brand, MRP, price, description,
+                    mainImage:req.files.image[0],
+                    sideImages:req.files.images
+            }})
+        return res.redirect("/admin/product");
+        }
+        if(!req.files.image && req.files.images){
+            await productModel.findByIdAndUpdate(_id, {$set:{
+                name, category, quantity, brand, MRP, price, description,
+                sideImages:req.files.images
+            }})
+        return res.redirect("/admin/product");
+
+        }
+        if(req.files.image && !req.files.images){
+            await productModel.findByIdAndUpdate(_id, {$set:{
+                name, category, quantity, brand, MRP, price, description,
+                mainImage:req.files.image[0]
+            }})
+        return res.redirect("/admin/product");
+
+        } 
+        if(!req.files.image && !req.files.images){
+            await productModel.findByIdAndUpdate(_id, {$set:{
+                name, category, quantity, brand, MRP, price, description
+            }})
+        return res.redirect("/admin/product");
+        } 
+        return res.redirect("/admin/product");
+    }catch(err){
+        console.log(err)
+        const categories= await categoryModel.find().lean();
+        res.render('admin/editProduct',{error:true, message:"Please fill all the fields", categories, product:req.body})
     }
 }
 

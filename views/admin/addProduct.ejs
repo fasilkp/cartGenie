@@ -5,12 +5,12 @@
         <div class="a-p-form-row">
             <div class="a-p-form-col">
                 <label for="Name">Name</label>
-                <input type="text" name="name" placeholder="Product Name">
+                <input type="text" name="name" placeholder="Product Name" required>
             </div>
             <div class="a-p-form-col">
                 <label for="Category">Category</label>
                 <!-- <input type="text" name="category" placeholder="Category"> -->
-                <select name="category" placeholder="category">
+                <select name="category" placeholder="category" required>
                     <% categories.forEach(item=>{ %> 
                         <option value="<%=item.category  %>"><%= item.category  %></option>
                     <% }) %> 
@@ -20,21 +20,21 @@
         <div class="a-p-form-row">
             <div class="a-p-form-col">
                 <label for="Name">Brand</label>
-                <input type="text" name="brand" placeholder="Brand">
+                <input type="text" name="brand" placeholder="Brand" required>
             </div>
             <div class="a-p-form-col">
                 <label for="Category">Quanitity</label>
-                <input type="number" name="quantity" placeholder="Quantity">
+                <input type="number" name="quantity" placeholder="Quantity" required>
             </div>
         </div>
         <div class="a-p-form-row">
             <div class="a-p-form-col">
                 <label for="Name">MRP</label>
-                <input type="number" name="MRP" placeholder="MRP">
+                <input type="number" name="MRP" placeholder="MRP" required>
             </div>
             <div class="a-p-form-col">
                 <label for="Category">Price</label>
-                <input type="number" name="price" placeholder="category">
+                <input type="number" name="price" placeholder="category" required>
             </div>
         </div>
         <div class="a-p-form-row">
@@ -46,14 +46,14 @@
         <div class="a-p-form-row">
             <div class="a-p-form-col">
                 <label for="Category">Main Image</label>
-                <input type="file" name="image">
+                <input type="file" name="image" required>
                 <!-- <input class="form-control a-p-file form-control-lg" id="formFileLg" type="file"> -->
             </div>
         </div>
         <div class="a-p-form-row">
             <div class="a-p-form-col">
                 <label for="Category">Other Images</label>
-                <input type="file" name="images" multiple>
+                <input type="file" name="images" multiple required>
                 <!-- <input class="form-control a-p-file form-control-lg" id="formFileLg" type="file"> -->
             </div>
             
