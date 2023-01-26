@@ -5,21 +5,45 @@
         </header>
         <div class="container login-container">
           <div class="login-box">
-            <form action="" method="post">
+            <form action="/forgot-password-verify" method="post">
               <h2>Verify OTP</h2>
               <p>Enter the OTP sent to <b>fasil@gmail.com</b></p>
               <div class="form-row">
                 <input type="text" placeholder="OTP" name="otp" />
               </div>
+              <% if(error){ %> 
+                <b class="text-danger"><%= message  %> </b>
+              <% } %> 
               <div class="form-row">
-                <button>Verify</button>
+                <button type="submit">Check</button>
+              </div>
+              <div class="d-flex justify-content-center text-center" style="font-weight: 500; cursor: pointer;" id="countdown">
+               
               </div>
             </form>
           </div>
+          
           <div class="login-image-container">
             <img src="/images/otp.jpg" alt="" />
           </div>
         </div>
       </div>
+      <script>
+        let countdown=document.getElementById("countdown");
+        let count=31;
+        const coundownInterval = setInterval(() => {
+          count--;
+          countdown.innerText=" OTP Resend in "+count;
+          checkOver()
+        }, 1000);
+        function checkOver(){
+          if(count==0){
+            clearInterval(coundownInterval)
+            countdown.innerHTML=`
+            <a href="/resend-otp">Resend OTP</a>
+            `
+          }
+        }
+      </script>
   
   

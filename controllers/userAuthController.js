@@ -13,10 +13,10 @@ export function getVerifyEmail(req, res) {
     res.render("user/emailVerify", { error: false });
 }
 export function getForgotPassword(req, res) {
-    res.render("user/forgotPassword");
+    res.render("user/forgotPassword", {error:false});
 }
 export function getForgotPassVerify(req, res) {
-    res.render("user/forgotPassVerify");
+    res.render("user/forgotPassVerify", {error:false});
 }
 export function getChanegPassword(req, res) {
     res.render("user/changePassword");
@@ -132,4 +132,53 @@ export async function userLogin(req, res){
             message:"invalid email or password" 
         })
     }
+}
+export async function forgotPasswordEmail(req, res){
+    const {email}=req.body;
+    const user= await UserModel.findOne({email});
+    if(!user){
+        return res.render("admin/forgotPassVerify", {error:true, message:"User not found"})
+    }
+    let otp=Math.floor(Math.random()*1000000)
+    await sentOTP(req.body.email, otp)
+    req.session.tempUser={
+        email, otp
+    }
+    return res.redirect("/forgot-pass-verify");
+}
+
+export async function forgotPasswordVerify(req, res){
+    const {otp}=req.body;
+    if(req.session.tempUser.otp==otp){
+        return res.render("user/changePassword",{error:false})
+    }
+    return res.render("user/forgotPassVerify", {error:true, message:"invalid otp"})
+}
+
+export async function changePassword(req, res){
+    try{
+        const {password, confirmPassword}=req.body;
+        if(password==confirmPassword){
+            await UserModel.findOneAndUpdate({email:req.session.tempUser.email}, {
+                $set:{
+                    password:bcrypt.hashSync(password, salt)
+                }
+            })
+            // req.session.tempUser=null;
+            return res.redirect("/login")
+        }
+        return res.render("user/changePassword", {error:true, message:"password not match"})
+    }catch(err){
+        console.log(err)
+        return res.render("user/changePassword", {error:true, message:"change password failed"})
+    }
+}
+
+export async function forgotResendOTP(req, res){
+    let otp=Math.floor(Math.random()*1000000)
+    if(req.session?.tempUser?.email){
+        await sentOTP(req.session.tempUser.email, otp)
+        req.session.tempUser.otp=otp
+    }
+    return res.redirect("/forgot-pass-verify");
 }
