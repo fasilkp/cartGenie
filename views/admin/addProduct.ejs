@@ -1,7 +1,7 @@
 <%- include('../partials/adminHeader') %>
 <div class="add-product-main">
     <h3>Add Product</h3>
-    <form class="add-product-container mt-3" action="/admin/add-product" method="post">
+    <form class="add-product-container mt-3" id="addProductForm" action="/admin/add-product" method="post" enctype="multipart/form-data">
         <div class="a-p-form-row">
             <div class="a-p-form-col">
                 <label for="Name">Name</label>
@@ -9,7 +9,12 @@
             </div>
             <div class="a-p-form-col">
                 <label for="Category">Category</label>
-                <input type="text" name="category" placeholder="Category">
+                <!-- <input type="text" name="category" placeholder="Category"> -->
+                <select name="category" placeholder="category">
+                    <% categories.forEach(item=>{ %> 
+                        <option value="<%=item.category  %>"><%= item.category  %></option>
+                    <% }) %> 
+                </select>
             </div>
         </div>
         <div class="a-p-form-row">
@@ -35,15 +40,25 @@
         <div class="a-p-form-row">
             <div class="a-p-form-col">
                 <label for="Category">Description</label>
-                <textarea name="" id="" name="description" rows="4" placeholder="Description"></textarea>
+                <textarea name="description" rows="4" form="addProductForm" placeholder="Description"></textarea>
             </div>
         </div>
         <div class="a-p-form-row">
             <div class="a-p-form-col">
-                <label for="Category">Image</label>
-                <input type="file" name="images">
+                <label for="Category">Main Image</label>
+                <input type="file" name="image">
                 <!-- <input class="form-control a-p-file form-control-lg" id="formFileLg" type="file"> -->
             </div>
+        </div>
+        <div class="a-p-form-row">
+            <div class="a-p-form-col">
+                <label for="Category">Other Images</label>
+                <input type="file" name="images" multiple>
+                <!-- <input class="form-control a-p-file form-control-lg" id="formFileLg" type="file"> -->
+            </div>
+            <% if(error){ %> 
+                <b class="text-danger"><%= message  %> </b>
+              <% } %> 
         </div>
         <div class="a-p-form-row">
             <button type="submit">Add product</button>

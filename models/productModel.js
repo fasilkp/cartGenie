@@ -29,9 +29,14 @@ const productSchema= new mongoose.Schema({
         type:String,
         required:true
     },
-    images:{
-        type:Array
+    mainImage:{
+        type:Object,
+        required:true
+    },
+    sideImages:{
+        type: Array,
+        required:true,
     }
 })
-const productModel= mongoose.model("category", productSchema);
+const productModel= mongoose.model("product", productSchema);
 export default productModel;

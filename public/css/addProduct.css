@@ -26,7 +26,7 @@
     width: 100%;
     gap: 5px;
 }
-.a-p-form-row input, .a-p-form-row textarea{
+.a-p-form-row input, .a-p-form-row textarea, .a-p-form-row select{
     width: 100%;
     border: none;
     outline: none;
