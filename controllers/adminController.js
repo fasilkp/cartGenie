@@ -153,6 +153,16 @@ export async function editProduct(req, res){
 }
 
 export async function adminSearchProduct(req, res){
-    const products = await productModel.find({name: new RegExp(req.body.name, 'i')}).lean();
+    const products = await productModel.find({$or:[{name: new RegExp(req.body.name, 'i')},{category: new RegExp(req.body.name, 'i')}]}).lean();
     res.render("admin/adminProduct", {products})
+}
+
+export async function adminSearchUser(req, res){
+    const users = await UserModel.find({$or:[{name: new RegExp(req.body.name, 'i')},{email: new RegExp(req.body.name, 'i')}], ban:false}).lean();
+    res.render("admin/adminUsers", {users})
+}
+
+export async function adminSearchBanUser(req, res){
+    const users = await UserModel.find({$or:[{name: new RegExp(req.body.name, 'i')},{email: new RegExp(req.body.name, 'i')}], ban:true}).lean();
+    res.render("admin/bannedUsers", {users})
 }

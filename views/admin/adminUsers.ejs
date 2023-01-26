@@ -22,11 +22,11 @@
   </div>
   <div class="order-container">
     <div class="mt-2 p-3 d-flex align-items-center">
-        <h3>Orders</h3>
-        <div class="product-search">
-            <input type="text" placeholder="search for users">
-            <i class="ri-search-line"></i>
-        </div>
+        <h3>Users</h3>
+        <form action="/admin/search-user" method="post" class="product-search">
+            <input type="text" placeholder="search for users" name="name">
+            <button class="ri-search-line"></button>
+        </form>
     </div>
     <div class="row mt-2 p-3">
         <div class="orders-table">

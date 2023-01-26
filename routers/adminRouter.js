@@ -1,5 +1,5 @@
 import express from "express"
-import { addCategory, addProduct, adminSearchProduct, banUser, deleteCategory, deleteUser, editProduct, getAddCategory, getAddOffers, getAddProduct, getAdminCategory, getAdminOffers, getAdminOrders, getAdminProduct, getAdminUsers, getBannedUsers, getEditProduct, unBanUser } from "../controllers/adminController.js"
+import { addCategory, addProduct, adminSearchBanUser, adminSearchProduct, adminSearchUser, banUser, deleteCategory, deleteUser, editProduct, getAddCategory, getAddOffers, getAddProduct, getAdminCategory, getAdminOffers, getAdminOrders, getAdminProduct, getAdminUsers, getBannedUsers, getEditProduct, unBanUser } from "../controllers/adminController.js"
 import upload from "../middlewares/multer.js"
 const router = express.Router()
 
@@ -24,6 +24,8 @@ router.get("/delete-user/:id", deleteUser)
 
 router.post("/add-category", addCategory)
 router.post("/search-product", adminSearchProduct)
+router.post("/search-user", adminSearchUser)
+router.post("/search-ban-user", adminSearchBanUser)
 router.post("/add-product",upload.fields([{name:'images', maxCount:12},{name:'image', maxCount:"1"}]), addProduct)
 router.post("/edit-product",upload.fields([{name:'images', maxCount:12},{name:'image', maxCount:"1"}]), editProduct)
 
