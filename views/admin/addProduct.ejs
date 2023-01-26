@@ -24,17 +24,17 @@
             </div>
             <div class="a-p-form-col">
                 <label for="Category">Quanitity</label>
-                <input type="text" name="quantity" placeholder="Quantity">
+                <input type="number" name="quantity" placeholder="Quantity">
             </div>
         </div>
         <div class="a-p-form-row">
             <div class="a-p-form-col">
                 <label for="Name">MRP</label>
-                <input type="text" name="MRP" placeholder="MRP">
+                <input type="number" name="MRP" placeholder="MRP">
             </div>
             <div class="a-p-form-col">
                 <label for="Category">Price</label>
-                <input type="text" name="price" placeholder="category">
+                <input type="number" name="price" placeholder="category">
             </div>
         </div>
         <div class="a-p-form-row">
@@ -56,10 +56,11 @@
                 <input type="file" name="images" multiple>
                 <!-- <input class="form-control a-p-file form-control-lg" id="formFileLg" type="file"> -->
             </div>
-            <% if(error){ %> 
-                <b class="text-danger"><%= message  %> </b>
-              <% } %> 
+            
         </div>
+        <% if(error){ %> 
+            <b class="text-danger"><%= message  %> </b>
+          <% } %> 
         <div class="a-p-form-row">
             <button type="submit">Add product</button>
         </div>

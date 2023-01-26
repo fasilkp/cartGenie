@@ -23,10 +23,10 @@
   <div class="order-container">
     <div class="mt-2 p-3 d-flex align-items-center">
         <h3>Products</h3>
-        <div class="product-search">
-            <input type="text" placeholder="search for product">
-            <i class="ri-search-line"></i>
-        </div>
+        <form class="product-search" action="/admin/search-product" method="post">
+            <input type="text" placeholder="search for product" name="name">
+            <button class="ri-search-line"></button>
+        </form>
         <a href="/admin/add-product">
           <button class="btn btn-dark" style="height: 50px; margin-left:30px;">Add Product </button>
         </a>
@@ -47,60 +47,29 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <th scope="row">Iphone 14 pro</th>
-                      <td><img src="/images/phone.webp" style="height: 50px;" alt=""></td>
-                      <td>Mobile</td>
-                      <td>56,999</td>
-                      <td>51,999</td>
-                      <td>Apple</td>
-                      <td>56</td>
-                      <td><div class="dropdown">
-                        <button class="btn btn-white dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="ri-more-2-fill"></i>
-                        </button>
-                        <ul class="dropdown-menu">
-                          <li><a class="dropdown-item" href="#">Edit</a></li>
-                          <li><a class="dropdown-item" href="#">Delete</a></li>
-                        </ul>
-                      </div></td>
-                    </tr>
-                    <tr>
-                      <th scope="row">Iphone 14 pro</th>
-                      <td><img src="/images/phone.webp" style="height: 50px;" alt=""></td>
-                      <td>Mobile</td>
-                      <td>56,999</td>
-                      <td>51,999</td>
-                      <td>Apple</td>
-                      <td>56</td>
-                      <td><div class="dropdown">
-                        <button class="btn btn-white dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="ri-more-2-fill"></i>
-                        </button>
-                        <ul class="dropdown-menu">
-                          <li><a class="dropdown-item" href="#">Edit</a></li>
-                          <li><a class="dropdown-item" href="#">Delete</a></li>
-                        </ul>
-                      </div></td>
-                    </tr>
-                    <tr>
-                      <th scope="row">Iphone 14 pro</th>
-                      <td><img src="/images/phone.webp" style="height: 50px;" alt=""></td>
-                      <td>Mobile</td>
-                      <td>56,999</td>
-                      <td>51,999</td>
-                      <td>Apple</td>
-                      <td>56</td>
-                      <td><div class="dropdown">
-                        <button class="btn btn-white dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="ri-more-2-fill"></i>
-                        </button>
-                        <ul class="dropdown-menu">
-                          <li><a class="dropdown-item" href="#">Edit</a></li>
-                          <li><a class="dropdown-item" href="#">Delete</a></li>
-                        </ul>
-                      </div></td>
-                    </tr>
+                    <% products.forEach(item=>{ %>
+
+                      <tr>
+                        <th scope="row"><%= item.name  %> </th>
+                        <td><img src="http://localhost:4001/product-images/<%= item.mainImage.filename  %>" style="height: 50px;" alt=""></td>
+                        <td><%=item.category %> </td>
+                        <td><%= item.MRP  %></td>
+                        <td><%= item.price  %></td>
+                        <td><%= item.brand  %></td>
+                        <td><%= item.quantity  %></td>
+                        <td><div class="dropdown">
+                          <button class="btn btn-white dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                              <i class="ri-more-2-fill"></i>
+                          </button>
+                          <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Edit</a></li>
+                            <li><a class="dropdown-item" href="#">Delete</a></li>
+                          </ul>
+                        </div></td>
+                      </tr>
+
+                    <% }) %> 
+                   
                    
                   </tbody>
               </table>

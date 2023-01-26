@@ -5,8 +5,9 @@ import productModel from "../models/productModel.js";
 export function getAdminOrders(req,res){
     res.render("admin/adminOrders")
 } 
-export function getAdminProduct(req,res){
-    res.render("admin/adminProduct")
+export async function getAdminProduct(req,res){
+    const products = await productModel.find().lean()
+    res.render("admin/adminProduct", {products})
 } 
 export async function getAdminUsers(req,res){
     const users= await UserModel.find({ban:false}).lean();
@@ -81,23 +82,31 @@ export async function addProduct(req, res){
     try{
 
         const {name, category, quantity, brand, MRP, price, description}=req.body;
+
         const product= new productModel({
             name, category, quantity, brand, MRP, price, description,
             mainImage:req.files.image[0],
             sideImages:req.files.images
-    })
-    product.save(async (err, data)=>{
-        if(err){
-            const categories= await categoryModel.find().lean();
-            res.render({error:true, message:"Fields validation failed", categories})
-            console.log(err)
-        }else{
-            res.redirect("/admin/product")
-            console.log("completed")
-        }
-    })
+            })
+
+        product.save(async (err, data)=>{
+            if(err){
+                console.log(err)
+                const categories= await categoryModel.find().lean();
+                res.render('admin/addProduct',{error:true, message:"Fields validation failed", categories})
+            }else{
+                res.redirect("/admin/product")
+                console.log("completed")
+            }
+        }) 
     }catch(err){
+        console.log(err)
         const categories= await categoryModel.find().lean();
-        res.render({error:true, message:"Something went wrong", categories})
+        res.render('admin/addProduct',{error:true, message:"Please fill all the fields", categories})
     }
+}
+
+export async function adminSearchProduct(req, res){
+    const products = await productModel.find({name: new RegExp(req.body.name, 'i')}).lean();
+    res.render("admin/adminProduct", {products})
 }
