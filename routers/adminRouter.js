@@ -1,10 +1,11 @@
 import express from "express"
-import { addCategory, addProduct, adminSearchBanUser, adminSearchProduct, adminSearchUser, banUser, deleteCategory, deleteUser, editProduct, getAddCategory, getAddOffers, getAddProduct, getAdminCategory, getAdminOffers, getAdminOrders, getAdminProduct, getAdminUsers, getBannedUsers, getEditProduct, unBanUser } from "../controllers/adminController.js"
+import { addCategory, addProduct, adminSearchBanUser, adminSearchProduct, adminSearchUser, banUser, deleteCategory, deleteUser, editProduct, getAddCategory, getAddOffers, getAddProduct, getAdminCategory, getAdminOffers, getAdminOrders, getAdminProduct, getAdminUsers, getBannedUsers, getDashboard, getEditProduct, listProduct, unBanUser, unListProduct } from "../controllers/adminController.js"
 import upload from "../middlewares/multer.js"
 const router = express.Router()
 
 
-router.get("/", getAdminOrders)
+router.get("/", getDashboard)
+router.get("/orders", getAdminOrders)
 router.get("/product", getAdminProduct)
 router.get("/users", getAdminUsers)
 router.get("/category", getAdminCategory)
@@ -20,6 +21,8 @@ router.get("/delete-category/:id", deleteCategory)
 router.get("/ban-user/:id", banUser)
 router.get("/unban-user/:id", unBanUser)
 router.get("/delete-user/:id", deleteUser)
+router.get("/unlist-product/:id", unListProduct)
+router.get("/list-product/:id", listProduct)
 
 
 router.post("/add-category", addCategory)

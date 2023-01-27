@@ -36,6 +36,10 @@ const productSchema= new mongoose.Schema({
     sideImages:{
         type: Array,
         required:true,
+    },
+    unlist:{
+        type:Boolean,
+        default:false
     }
 })
 const productModel= mongoose.model("product", productSchema);

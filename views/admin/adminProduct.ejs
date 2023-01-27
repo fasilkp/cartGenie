@@ -2,6 +2,9 @@
 <div class="orders-main">
   <div class="side-menu">
     <a href="/admin/">
+      <li><i class="ri-dashboard-fill"></i>DashBoard</li>
+    </a>
+    <a href="/admin/orders">
       <li ><i class="ri-shopping-bag-fill"></i> Orders</li>
     </a>
     <a href="/admin/product">
@@ -42,6 +45,7 @@
                       <th scope="col">MRP</th>
                       <th scope="col">Price</th>
                       <th scope="col">Brand</th>
+                      <th scope="col">Product status</th>
                       <th scope="col">Quantity</th>
                       <th scope="col">Action</th>
                     </tr>
@@ -56,6 +60,10 @@
                         <td><%= item.MRP  %></td>
                         <td><%= item.price  %></td>
                         <td><%= item.brand  %></td>
+                        <td>
+                          <% if(item.unlist){ %> Unlisted 
+                          <% } else{ %> Listed <% } %> 
+                        </td>
                         <td><%= item.quantity  %></td>
                         <td><div class="dropdown">
                           <button class="btn btn-white dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -63,7 +71,9 @@
                           </button>
                           <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="/admin/edit-product/<%=item._id %> ">Edit</a></li>
-                            <li><a class="dropdown-item" href="#">Delete</a></li>
+                            <% if(item.unlist){ %> <li><a class="dropdown-item" href="/admin/list-product/<%=item._id %>">List product</a></li>
+                              <% } else{ %><li><a class="dropdown-item" href="/admin/unlist-product/<%=item._id %>">Unlist product</a></li> <% } %> 
+                            
                           </ul>
                         </div></td>
                       </tr>

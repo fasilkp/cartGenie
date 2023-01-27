@@ -41,7 +41,7 @@
       <div class="a-p-form-col">
         <label for="Category">Description</label>
         <textarea name="" id="" rows="4" name="description" placeholder="Description" form="editProductForm">
-                <%= product.description  %> 
+<%= product.description  %> 
                 </textarea>
       </div>
     </div>
@@ -53,7 +53,7 @@
     <div class="a-p-form-row">
       <div class="a-p-form-col">
         <label for="Category">Image</label>
-        <input type="file" name="image" id="sImg" onchange="changeSingleImage()" />
+        <input type="file" name="image" id="sImg" accept="image/*" onchange="changeSingleImage()" />
         <!-- <input class="form-control a-p-file form-control-lg" id="formFileLg" type="file"> -->
       </div>
     </div>
@@ -67,7 +67,7 @@
     <div class="a-p-form-row">
       <div class="a-p-form-col">
         <label for="Category">Other Images</label>
-        <input type="file" name="images" id="mImg" multiple onchange="changeMultiImage()" />
+        <input type="file" name="images" id="mImg" accept="image/*"  multiple onchange="changeMultiImage()" />
       </div>
     </div>
     <% if(error){ %> 

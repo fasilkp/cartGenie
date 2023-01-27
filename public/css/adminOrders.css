@@ -131,3 +131,6 @@
     outline: none;
     background: none;
 }
+table th, table td{
+    text-align: center;
+}

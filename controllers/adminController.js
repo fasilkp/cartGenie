@@ -5,6 +5,9 @@ import productModel from "../models/productModel.js";
 export function getAdminOrders(req,res){
     res.render("admin/adminOrders")
 } 
+export function getDashboard(req,res){
+    res.render("admin/adminDashboard")
+} 
 export async function getAdminProduct(req,res){
     const products = await productModel.find().lean()
     res.render("admin/adminProduct", {products})
@@ -165,4 +168,25 @@ export async function adminSearchUser(req, res){
 export async function adminSearchBanUser(req, res){
     const users = await UserModel.find({$or:[{name: new RegExp(req.body.name, 'i')},{email: new RegExp(req.body.name, 'i')}], ban:true}).lean();
     res.render("admin/bannedUsers", {users})
+}
+
+
+export async function unListProduct(req, res){
+        const _id= req.params.id;
+        await productModel.findByIdAndUpdate(_id, {
+            $set:{
+                unlist:true
+            }
+        })
+        res.redirect("/admin/product")
+}
+
+export async function listProduct(req, res){
+        const _id= req.params.id;
+        await productModel.findByIdAndUpdate(_id, {
+            $set:{
+                unlist:false
+            }
+        })
+        res.redirect("/admin/product")
 }

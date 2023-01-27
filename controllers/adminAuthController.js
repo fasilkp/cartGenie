@@ -21,6 +21,10 @@ export async function adminLogin(req, res){
         });
     }
     if(bcrypt.compareSync(password, admin.password)){
+        req.session.admin={
+            id:admin._id,
+            name:admin.name
+        }
         return res.redirect("/admin/")
     }else{
         return res.render("admin/adminLogin",{
@@ -28,4 +32,8 @@ export async function adminLogin(req, res){
             message:"invalid email or password" 
         })
     }
+}
+export function adminLogout(req, res){
+    req.session.admin=null;
+    res.redirect("/admin/login")
 }
