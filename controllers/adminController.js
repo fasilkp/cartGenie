@@ -1,6 +1,7 @@
 import categoryModel from "../models/categoryModel.js"
 import UserModel from "../models/userModel.js";
 import productModel from "../models/productModel.js";
+import offerModel from "../models/offerModel.js";
 
 export function getAdminOrders(req,res){
     res.render("admin/adminOrders")
@@ -38,7 +39,7 @@ export function getAdminOffers(req,res){
     res.render("admin/adminOffers")
 } 
 export function getAddOffers(req,res){
-    res.render("admin/addOffers")
+    res.render("admin/addOffers", {error:false})
 } 
 export function getAddCategory(req,res){
     res.render("admin/addCategory")
@@ -114,14 +115,18 @@ export async function addProduct(req, res){
 
 export async function addOffer(req, res){
     try{
-
         const {name, url}=req.body;
-        console.log(req.body)
-        console.log(req.file)
+        const offer= new offerModel({name, url, image:req.file.filename});
+        offer.save((err, data)=>{
+            if(err){
+                return res.render("adsOffer", {error:true, message:"Offer adding failed"})
+            }
+            return res.redirect("/admin/offers")
+        })
 
         
     }catch(err){
-        console.log(err)
+        return res.render("adsOffer", {error:true, message:"Offer adding failed"})
     }
 }
 

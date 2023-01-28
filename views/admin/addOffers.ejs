@@ -21,6 +21,9 @@
                 <!-- <input class="form-control a-p-file form-control-lg" id="formFileLg" type="file"> -->
             </div>
         </div>
+        <% if(error){ %> 
+            <b class="text-danger"><%= message  %> </b>
+          <% } %> 
         <div class="a-p-form-row">
             <button type="submit">Add Offer</button>
         </div>
