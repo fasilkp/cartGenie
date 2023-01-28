@@ -244,3 +244,8 @@ export async function deleteOffer(req, res){
     }
 }
 
+// export async function getCouponsPage(req, res){
+//     const {name, url}=req.body;
+//     const offer= await offerModel.findOne({_id:req.params.id});
+//     res.render("admin/editOffer", {offer, error:false}) 
+// }
