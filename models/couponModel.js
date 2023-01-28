@@ -12,6 +12,10 @@ const couponSchema= new mongoose.Schema({
         type:String,
         required:true
     },
+    cashback:{
+        type:String,
+        required:true
+    },
     expiry:{
         type:Date,
         required:true

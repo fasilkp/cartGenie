@@ -17,13 +17,13 @@
         <li><i class="ri-layout-grid-fill"></i> Category</li>
       </a>
     <a href="/admin/offers">
-        <li class="selected"><i class="ri-percent-fill"></i> Offers</li>
+        <li ><i class="ri-percent-fill"></i> Offers</li>
       </a>
       <a href="/admin/banned-users">
         <li><i class="ri-indeterminate-circle-fill"></i> Banned Users</li>
       </a>
       <a href="/admin/coupons">
-        <li><i class="ri-ticket-fill"></i> Coupons</li>
+        <li class="selected"><i class="ri-ticket-fill"></i> Coupons</li>
       </a>
   </div>
   <div class="order-container">
@@ -33,7 +33,7 @@
             <input type="text" placeholder="search for product">
             <i class="ri-search-line"></i>
         </div> -->
-        <a href="/admin/add-offer"><button class="btn btn-dark" style="height: 50px; margin-left:30px;">Add Offers </button></a>
+        <a href="/admin/add-coupon"><button class="btn btn-dark" style="height: 50px; margin-left:30px;">Add Coupon </button></a>
     </div>
     <div class="row mt-2 p-3">
         <div class="orders-table">
@@ -43,6 +43,7 @@
                       <th scope="col">No</th>
                       <th scope="col">Name</th>
                       <th scope="col">Coupon Code</th>
+                      <th scope="col">Cashback</th>
                       <th scope="col">Min-Amount</th>
                       <th scope="col">Expiry</th>
                       <th scope="col">Action</th>
@@ -55,8 +56,10 @@
                       <tr>
                         <th scope="row"><%= index+1  %> </th>
                       <th scope="row"><%= item.name  %> </th>
+                      <th scope="row"><%= item.code  %> </th>
+                      <th scope="row"><%= item.cashback  %> </th>
                       <td><%=item.minAmount  %></td>
-                      <td><%= item.expiry  %> </td>
+                      <td><%= item.expiry.toLocaleDateString()  %> </td>
                       <td><div class="dropdown">
                         <button class="btn btn-white dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="ri-more-2-fill"></i>

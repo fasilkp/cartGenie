@@ -1,5 +1,5 @@
 import express from "express"
-import { addCategory, addOffer, addProduct, adminSearchBanUser, adminSearchProduct, adminSearchUser, banUser, deleteCategory, deleteOffer, deleteUser, editOffer, editProduct, getAddCategory, getAddOffers, getAddProduct, getAdminCategory, getAdminOffers, getAdminOrders, getAdminProduct, getAdminUsers, getBannedUsers, getDashboard, getEditOffer, getEditProduct, listProduct, unBanUser, unListProduct } from "../controllers/adminController.js"
+import { addCategory, addCoupon, addOffer, addProduct, adminSearchBanUser, adminSearchProduct, adminSearchUser, banUser, deleteCategory, deleteOffer, deleteUser, editCoupon, editOffer, editProduct, getAddCategory, getAddCoupon, getAddOffers, getAddProduct, getAdminCategory, getAdminOffers, getAdminOrders, getAdminProduct, getAdminUsers, getBannedUsers, getCouponsPage, getDashboard, getEditCoupon, getEditOffer, getEditProduct, listProduct, unBanUser, unListProduct } from "../controllers/adminController.js"
 import upload from "../middlewares/multer.js"
 import verifyAdmin from "../middlewares/verifyAdmin.js"
 const router = express.Router()
@@ -17,6 +17,8 @@ router.get("/offers", getAdminOffers)
 router.get("/banned-users", getBannedUsers)
 router.get("/add-offer", getAddOffers)
 router.get("/add-category", getAddCategory)
+router.get("/coupons", getCouponsPage)
+router.get("/add-coupon", getAddCoupon)
 
 
 router.get("/delete-category/:id", deleteCategory)
@@ -27,6 +29,7 @@ router.get("/unlist-product/:id", unListProduct)
 router.get("/list-product/:id", listProduct)
 router.get("/delete-offer/:id", deleteOffer)
 router.get("/edit-offer/:id", getEditOffer)
+router.get("/edit-coupon/:id", getEditCoupon)
 
 
 router.post("/add-category", addCategory)
@@ -37,6 +40,8 @@ router.post("/add-product",upload.fields([{name:'images', maxCount:12},{name:'im
 router.post("/edit-product",upload.fields([{name:'images', maxCount:12},{name:'image', maxCount:"1"}]), editProduct)
 router.post("/add-offer",upload.single('image'), addOffer)
 router.post("/edit-offer",upload.single('image'), editOffer)
+router.post("/add-coupon", addCoupon)
+router.post("/edit-coupon", editCoupon)
 
 
 

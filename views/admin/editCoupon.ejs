@@ -1,0 +1,40 @@
+<%- include('../partials/adminHeader') %>
+<div class="add-product-main">
+    <h3>Edit Coupon</h3>
+    <form action="/admin/edit-coupon" method="post" class="add-product-container mt-3">
+        <input type="text" name="_id"  style="height: 0px; visibility: hidden;" value="<%=coupon._id  %>"/>
+        <div class="a-p-form-row">
+            <div class="a-p-form-col">
+                <label for="Name">Name</label>
+                <input type="text" name="name" placeholder="name" required value="<%=coupon.name  %>" />
+            </div>
+        </div>
+        <div class="a-p-form-row">
+            <div class="a-p-form-col">
+                <label for="Name">Coupon Code </label>
+                <input type="text" name="code" placeholder="code" required value="<%=coupon.code  %>"/>
+            </div>
+        </div>
+        <div class="a-p-form-row">
+            <div class="a-p-form-col">
+                <label for="Name">Minimum amount of purchase </label>
+                <input type="text" name="minAmount" placeholder="minimum amount" required value="<%=coupon.minAmount  %>"/>
+            </div>
+        </div>
+        <div class="a-p-form-row">
+            <div class="a-p-form-col">
+                <label for="Name">Cashback </label>
+                <input type="text" name="cashback" placeholder="cashback" required value="<%=coupon.cashback  %>"/>
+            </div>
+        </div>
+        <div class="a-p-form-row">
+            <div class="a-p-form-col">
+                <label for="Name">Expiry </label>
+                <input type="date" name="expiry" placeholder="expiry" required value="<%=coupon.expiry %>"/>
+            </div>
+        </div>
+        <div class="a-p-form-row">
+            <button type="submit">Edit Coupon</button>
+        </div>
+    </form>
+</div>

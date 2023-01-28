@@ -2,6 +2,8 @@ import categoryModel from "../models/categoryModel.js"
 import UserModel from "../models/userModel.js";
 import productModel from "../models/productModel.js";
 import offerModel from "../models/offerModel.js";
+import couponModel from "../models/couponModel.js";
+import moment from "moment";
 
 export function getAdminOrders(req,res){
     res.render("admin/adminOrders")
@@ -113,9 +115,6 @@ export async function addProduct(req, res){
         res.render('admin/addProduct',{error:true, message:"Please fill all the fields", categories})
     }
 }
-
-
-
 
 export async function editProduct(req, res){
     try{
@@ -244,8 +243,51 @@ export async function deleteOffer(req, res){
     }
 }
 
-// export async function getCouponsPage(req, res){
-//     const {name, url}=req.body;
-//     const offer= await offerModel.findOne({_id:req.params.id});
-//     res.render("admin/editOffer", {offer, error:false}) 
-// }
+export async function getCouponsPage(req, res){
+    const coupons= await couponModel.find().lean();
+    res.render("admin/adminCoupons", {coupons}) 
+}
+
+export async function getAddCoupon(req, res){
+    res.render("admin/addCoupon") 
+}
+
+export async function addCoupon(req, res){
+    try{
+        const {name, cashback, minAmount, expiry, code }=req.body
+        const coupon= new couponModel({name, cashback, minAmount, expiry, code});
+        coupon.save((err, data)=>{
+            if(err){
+                console.log(err)
+            }
+            res.redirect("/admin/coupons")
+        })
+    }catch(err){
+        console.log(err)
+        res.redirect("/admin/coupons")
+    }
+}
+
+export async function getEditCoupon(req, res){
+        const _id=req.params.id
+        let coupon= await couponModel.findOne({_id});
+        const expiry=moment(coupon.expiry).utc().format('YYYY-MM-DD')
+        const {name, code, cashback, minAmount}=coupon;
+        res.render("admin/editCoupon", {coupon:{name,_id, code, cashback, minAmount, expiry}})
+}
+
+export async function editCoupon(req, res){
+    try{
+        const {name, cashback, minAmount, expiry, code, _id }=req.body
+        
+        await couponModel.findByIdAndUpdate(_id, {
+            $set:{
+                name, cashback, minAmount, expiry, code
+            }
+        })
+        res.redirect("/admin/coupons")
+    }catch(err){
+        console.log(err)
+        res.redirect("/admin/coupons")
+    }
+}
