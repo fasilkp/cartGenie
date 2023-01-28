@@ -46,20 +46,24 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <th scope="row"><%= 1  %> </th>
-                      <th scope="row">Iphone 14 pro</th>
-                      <td><img src="https://image01.realme.net/general/20230116/1673851994653.jpg.webp" style="height: 50px;" alt=""></td>
-                      <td>http://localhost:4000/product/sdjhrlikvdlei</td>
+                    <% offers.forEach((item, index)=>{ %>
+
+                      <tr>
+                        <th scope="row"><%= index+1  %> </th>
+                      <th scope="row"><%= item.name  %> </th>
+                      <td><img src="http://localhost:4001/product-images/<%=item.image  %>" style="height: 50px;" alt=""></td>
+                      <td><%= item.url  %> </td>
                       <td><div class="dropdown">
                         <button class="btn btn-white dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="ri-more-2-fill"></i>
-                        </button>
+                          </button>
                         <ul class="dropdown-menu">
-                          <li><a class="dropdown-item" href="#">Delete</a></li>
+                          <li><a class="dropdown-item" href="/admin/edit-offer/<%=item._id %> ">Edit</a></li>
+                          <li><a class="dropdown-item" href="/admin/delete-offer/<%=item._id %> ">Delete</a></li>
                         </ul>
                       </div></td>
                     </tr>
+                    <% }) %> 
                   </tbody>
               </table>
         </div>

@@ -1,5 +1,5 @@
 import express from "express"
-import { addCategory, addOffer, addProduct, adminSearchBanUser, adminSearchProduct, adminSearchUser, banUser, deleteCategory, deleteUser, editProduct, getAddCategory, getAddOffers, getAddProduct, getAdminCategory, getAdminOffers, getAdminOrders, getAdminProduct, getAdminUsers, getBannedUsers, getDashboard, getEditProduct, listProduct, unBanUser, unListProduct } from "../controllers/adminController.js"
+import { addCategory, addOffer, addProduct, adminSearchBanUser, adminSearchProduct, adminSearchUser, banUser, deleteCategory, deleteOffer, deleteUser, editProduct, getAddCategory, getAddOffers, getAddProduct, getAdminCategory, getAdminOffers, getAdminOrders, getAdminProduct, getAdminUsers, getBannedUsers, getDashboard, getEditProduct, listProduct, unBanUser, unListProduct } from "../controllers/adminController.js"
 import upload from "../middlewares/multer.js"
 import verifyAdmin from "../middlewares/verifyAdmin.js"
 const router = express.Router()
@@ -25,6 +25,7 @@ router.get("/unban-user/:id", unBanUser)
 router.get("/delete-user/:id", deleteUser)
 router.get("/unlist-product/:id", unListProduct)
 router.get("/list-product/:id", listProduct)
+router.get("/delete-offer/:id", deleteOffer)
 
 
 router.post("/add-category", addCategory)

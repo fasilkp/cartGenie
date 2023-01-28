@@ -35,8 +35,9 @@ export async function getEditProduct(req,res){
     const categories= await categoryModel.find().lean();
     res.render("admin/editProduct", {product, error:false, categories})
 } 
-export function getAdminOffers(req,res){
-    res.render("admin/adminOffers")
+export async function getAdminOffers(req,res){
+    const offers= await offerModel.find().lean();
+    res.render("admin/adminOffers", {offers})
 } 
 export function getAddOffers(req,res){
     res.render("admin/addOffers", {error:false})
@@ -113,22 +114,7 @@ export async function addProduct(req, res){
     }
 }
 
-export async function addOffer(req, res){
-    try{
-        const {name, url}=req.body;
-        const offer= new offerModel({name, url, image:req.file.filename});
-        offer.save((err, data)=>{
-            if(err){
-                return res.render("adsOffer", {error:true, message:"Offer adding failed"})
-            }
-            return res.redirect("/admin/offers")
-        })
 
-        
-    }catch(err){
-        return res.render("adsOffer", {error:true, message:"Offer adding failed"})
-    }
-}
 
 
 export async function editProduct(req, res){
@@ -208,3 +194,31 @@ export async function listProduct(req, res){
         })
         res.redirect("/admin/product")
 }
+
+export async function addOffer(req, res){
+    try{
+        const {name, url}=req.body;
+        const offer= new offerModel({name, url, image:req.file.filename});
+        offer.save((err, data)=>{
+            if(err){
+                return res.render("adminOffer", {error:true, message:"Offer adding failed"})
+            }
+            return res.redirect("/admin/offers")
+        })
+
+        
+    }catch(err){
+        return res.render("adminOffer", {error:true, message:"Offer adding failed"})
+    }
+}
+
+export async function deleteOffer(req, res){
+    try{
+        const _id=req.params.id
+        await offerModel.deleteOne({_id});
+        return res.redirect("/admin/offers")
+    }catch(err){
+        return res.redirect("/admin/offers")
+    }
+}
+
