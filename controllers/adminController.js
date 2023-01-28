@@ -112,6 +112,19 @@ export async function addProduct(req, res){
     }
 }
 
+export async function addOffer(req, res){
+    try{
+
+        const {name, url}=req.body;
+        console.log(req.body)
+        console.log(req.file)
+
+        
+    }catch(err){
+        console.log(err)
+    }
+}
+
 
 export async function editProduct(req, res){
     try{

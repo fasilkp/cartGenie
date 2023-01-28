@@ -28,10 +28,10 @@ dbConnect();
 
 
 //Routers
-app.use("/", userRouter)
 app.use("/", userAuth)
-app.use("/admin/", adminRouter)
+app.use("/", userRouter)
 app.use("/admin/", adminAuth)
+app.use("/admin/", adminRouter)
 
 
 

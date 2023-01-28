@@ -30,13 +30,14 @@
             <input type="text" placeholder="search for product">
             <i class="ri-search-line"></i>
         </div> -->
-        <button class="btn btn-dark" style="height: 50px; margin-left:30px;">Add Offers </button>
+        <a href="/admin/add-offer"><button class="btn btn-dark" style="height: 50px; margin-left:30px;">Add Offers </button></a>
     </div>
     <div class="row mt-2 p-3">
         <div class="orders-table">
             <table class="table table-striped">
                 <thead>
                     <tr>
+                      <th scope="col">No</th>
                       <th scope="col">Name</th>
                       <th scope="col">Image</th>
                       <th scope="col">Product link</th>
@@ -46,6 +47,7 @@
                   </thead>
                   <tbody>
                     <tr>
+                      <th scope="row"><%= 1  %> </th>
                       <th scope="row">Iphone 14 pro</th>
                       <td><img src="https://image01.realme.net/general/20230116/1673851994653.jpg.webp" style="height: 50px;" alt=""></td>
                       <td>http://localhost:4000/product/sdjhrlikvdlei</td>
@@ -58,34 +60,6 @@
                         </ul>
                       </div></td>
                     </tr>
-                    <tr>
-                      <th scope="row">Iphone 14 pro</th>
-                      <td><img src="https://image01.realme.net/general/20230116/1673851994653.jpg.webp" style="height: 50px;" alt=""></td>
-                      <td>http://localhost:4000/product/sdjhrlikvdlei</td>
-                      <td><div class="dropdown">
-                        <button class="btn btn-white dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="ri-more-2-fill"></i>
-                        </button>
-                        <ul class="dropdown-menu">
-                          <li><a class="dropdown-item" href="#">Delete</a></li>
-                        </ul>
-                      </div></td>
-                    </tr>
-                    <tr>
-                      <th scope="row">Iphone 14 pro</th>
-                      <td><img src="https://image01.realme.net/general/20230116/1673851994653.jpg.webp" style="height: 50px;" alt=""></td>
-                      <td>http://localhost:4000/product/sdjhrlikvdlei</td>
-                      <td><div class="dropdown">
-                        <button class="btn btn-white dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="ri-more-2-fill"></i>
-                        </button>
-                        <ul class="dropdown-menu">
-                          <li><a class="dropdown-item" href="#">Delete</a></li>
-                        </ul>
-                      </div></td>
-                    </tr>
-                   
-                   
                   </tbody>
               </table>
         </div>
