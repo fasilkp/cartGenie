@@ -1,0 +1,77 @@
+<%- include('../partials/adminHeader') %>
+<div class="orders-main">
+  <div class="side-menu">
+    <a href="/admin/">
+      <li><i class="ri-dashboard-fill"></i>DashBoard</li>
+    </a>
+    <a href="/admin/orders">
+      <li ><i class="ri-shopping-bag-fill"></i> Orders</li>
+    </a>
+    <a href="/admin/product">
+      <li><i class="ri-smartphone-fill"></i> Products</li>
+    </a>
+    <a href="/admin/users">
+      <li><i class="ri-user-fill"></i> Users</li>
+    </a>
+    <a href="/admin/category">
+        <li><i class="ri-layout-grid-fill"></i> Category</li>
+      </a>
+    <a href="/admin/offers">
+        <li class="selected"><i class="ri-percent-fill"></i> Offers</li>
+      </a>
+      <a href="/admin/banned-users">
+        <li><i class="ri-indeterminate-circle-fill"></i> Banned Users</li>
+      </a>
+      <a href="/admin/coupons">
+        <li><i class="ri-indeterminate-circle-fill"></i> Coupons</li>
+      </a>
+  </div>
+  <div class="order-container">
+    <div class="mt-2 p-3 d-flex align-items-center">
+        <h3>Coupons</h3>
+        <!-- <div class="product-search">
+            <input type="text" placeholder="search for product">
+            <i class="ri-search-line"></i>
+        </div> -->
+        <a href="/admin/add-offer"><button class="btn btn-dark" style="height: 50px; margin-left:30px;">Add Offers </button></a>
+    </div>
+    <div class="row mt-2 p-3">
+        <div class="orders-table">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                      <th scope="col">No</th>
+                      <th scope="col">Name</th>
+                      <th scope="col">Coupon Code</th>
+                      <th scope="col">Min-Amount</th>
+                      <th scope="col">Expiry</th>
+                      <th scope="col">Action</th>
+
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% coupons.forEach((item, index)=>{ %>
+
+                      <tr>
+                        <th scope="row"><%= index+1  %> </th>
+                      <th scope="row"><%= item.name  %> </th>
+                      <td><%=item.minAmount  %></td>
+                      <td><%= item.expiry  %> </td>
+                      <td><div class="dropdown">
+                        <button class="btn btn-white dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="ri-more-2-fill"></i>
+                          </button>
+                        <ul class="dropdown-menu">
+                          <li><a class="dropdown-item" href="/admin/edit-coupon/<%=item._id %> ">Edit</a></li>
+                          <li><a class="dropdown-item" href="/admin/delete-coupon/<%=item._id %> ">Delete</a></li>
+                        </ul>
+                      </div></td>
+                    </tr>
+                    <% }) %> 
+                  </tbody>
+              </table>
+        </div>
+    </div>
+  </div>
+</div>
+

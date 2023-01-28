@@ -195,6 +195,12 @@ export async function listProduct(req, res){
         res.redirect("/admin/product")
 }
 
+export async function getEditOffer(req, res){
+        const {name, url}=req.body;
+        const offer= await offerModel.findOne({_id:req.params.id});
+        res.render("admin/editOffer", {offer, error:false}) 
+}
+
 export async function addOffer(req, res){
     try{
         const {name, url}=req.body;
@@ -208,7 +214,23 @@ export async function addOffer(req, res){
 
         
     }catch(err){
-        return res.render("adminOffer", {error:true, message:"Offer adding failed"})
+        return res.render("admin/addOffer", {error:true, message:"Offer adding failed"})
+    }
+}
+
+export async function editOffer(req, res){
+    try{
+        const {name, _id, url}=req.body;
+        if(req.file){
+            await offerModel.findByIdAndUpdate(_id, {$set:{name, url, image:req.file.filename}})
+        }
+        else{
+            await offerModel.findByIdAndUpdate(_id, {$set:{name, url}})
+        }
+        return res.redirect("/admin/offers")
+
+    }catch(err){
+        return res.redirect("/admin/offers")
     }
 }
 

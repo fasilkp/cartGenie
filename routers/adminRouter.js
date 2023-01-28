@@ -1,5 +1,5 @@
 import express from "express"
-import { addCategory, addOffer, addProduct, adminSearchBanUser, adminSearchProduct, adminSearchUser, banUser, deleteCategory, deleteOffer, deleteUser, editProduct, getAddCategory, getAddOffers, getAddProduct, getAdminCategory, getAdminOffers, getAdminOrders, getAdminProduct, getAdminUsers, getBannedUsers, getDashboard, getEditProduct, listProduct, unBanUser, unListProduct } from "../controllers/adminController.js"
+import { addCategory, addOffer, addProduct, adminSearchBanUser, adminSearchProduct, adminSearchUser, banUser, deleteCategory, deleteOffer, deleteUser, editOffer, editProduct, getAddCategory, getAddOffers, getAddProduct, getAdminCategory, getAdminOffers, getAdminOrders, getAdminProduct, getAdminUsers, getBannedUsers, getDashboard, getEditOffer, getEditProduct, listProduct, unBanUser, unListProduct } from "../controllers/adminController.js"
 import upload from "../middlewares/multer.js"
 import verifyAdmin from "../middlewares/verifyAdmin.js"
 const router = express.Router()
@@ -26,6 +26,7 @@ router.get("/delete-user/:id", deleteUser)
 router.get("/unlist-product/:id", unListProduct)
 router.get("/list-product/:id", listProduct)
 router.get("/delete-offer/:id", deleteOffer)
+router.get("/edit-offer/:id", getEditOffer)
 
 
 router.post("/add-category", addCategory)
@@ -35,6 +36,7 @@ router.post("/search-ban-user", adminSearchBanUser)
 router.post("/add-product",upload.fields([{name:'images', maxCount:12},{name:'image', maxCount:"1"}]), addProduct)
 router.post("/edit-product",upload.fields([{name:'images', maxCount:12},{name:'image', maxCount:"1"}]), editProduct)
 router.post("/add-offer",upload.single('image'), addOffer)
+router.post("/edit-offer",upload.single('image'), editOffer)
 
 
 

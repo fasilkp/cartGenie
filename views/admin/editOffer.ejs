@@ -1,0 +1,32 @@
+<%- include('../partials/adminHeader') %>
+<div class="add-product-main">
+    <h3>Add Offer</h3>
+    <form action="/admin/edit-offer" method="post" class="add-product-container mt-3" enctype="multipart/form-data">
+        <input type="text" name="_id" style="height: 0px; visibility: hidden;" value="<%=offer._id  %>">
+        <div class="a-p-form-row">
+            <div class="a-p-form-col">
+                <label for="Name">Name</label>
+                <input type="text" placeholder="Product Name" name="name" required value="<%=offer.name %> ">
+            </div>
+        </div>
+        <div class="a-p-form-row">
+            <div class="a-p-form-col">
+                <label for="Name">Link</label>
+                <input type="text" placeholder="Link To Product" name="url" required value="<%=offer.url  %> ">
+            </div>
+        </div>
+        <div class="a-p-form-row">
+            <div class="a-p-form-col">
+                <label for="Category">Image</label>
+                <input type="file" accept="image/*" name="image" >
+                <!-- <input class="form-control a-p-file form-control-lg" id="formFileLg" type="file"> -->
+            </div>
+        </div>
+        <% if(error){ %> 
+            <b class="text-danger"><%= message  %> </b>
+          <% } %> 
+        <div class="a-p-form-row">
+            <button type="submit">Edit Offer</button>
+        </div>
+    </form>
+</div>
