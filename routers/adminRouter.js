@@ -1,5 +1,5 @@
 import express from "express"
-import { addCategory, addCoupon, addOffer, addProduct, adminSearchBanUser, adminSearchProduct, adminSearchUser, banUser, deleteCategory, deleteOffer, deleteUser, editCoupon, editOffer, editProduct, getAddCategory, getAddCoupon, getAddOffers, getAddProduct, getAdminCategory, getAdminOffers, getAdminOrders, getAdminProduct, getAdminUsers, getBannedUsers, getCouponsPage, getDashboard, getEditCoupon, getEditOffer, getEditProduct, listProduct, unBanUser, unListProduct } from "../controllers/adminController.js"
+import { addCategory, addCoupon, addOffer, addProduct, adminSearchBanUser, adminSearchProduct, adminSearchUser, banUser, deleteCategory, deleteCoupon, deleteOffer, deleteUser, editCoupon, editOffer, editProduct, getAddCategory, getAddCoupon, getAddOffers, getAddProduct, getAdminCategory, getAdminOffers, getAdminOrders, getAdminProduct, getAdminUsers, getBannedUsers, getCouponsPage, getDashboard, getEditCoupon, getEditOffer, getEditProduct, listProduct, unBanUser, unListProduct } from "../controllers/adminController.js"
 import upload from "../middlewares/multer.js"
 import verifyAdmin from "../middlewares/verifyAdmin.js"
 const router = express.Router()
@@ -30,6 +30,7 @@ router.get("/list-product/:id", listProduct)
 router.get("/delete-offer/:id", deleteOffer)
 router.get("/edit-offer/:id", getEditOffer)
 router.get("/edit-coupon/:id", getEditCoupon)
+router.get("/delete-coupon/:id", deleteCoupon)
 
 
 router.post("/add-category", addCategory)

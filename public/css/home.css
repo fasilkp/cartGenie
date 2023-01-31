@@ -63,6 +63,9 @@
     font-size: 1.2rem;
     font-weight: 750;
 }
+.product-spec{
+    font-size: .9rem;
+}
 @media(max-width:600px){
     .home-banner{
         height: 200px;

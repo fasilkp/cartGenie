@@ -291,3 +291,14 @@ export async function editCoupon(req, res){
         res.redirect("/admin/coupons")
     }
 }
+
+export async function deleteCoupon(req, res){
+    try{
+        const _id=req.params.id
+        await couponModel.deleteOne({_id});
+        res.redirect("/admin/coupons")
+    }catch(err){
+        console.log(err)
+        res.redirect("/admin/coupons")
+    }
+}

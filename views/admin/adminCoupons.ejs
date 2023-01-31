@@ -66,14 +66,22 @@
                           </button>
                         <ul class="dropdown-menu">
                           <li><a class="dropdown-item" href="/admin/edit-coupon/<%=item._id %> ">Edit</a></li>
-                          <li><a class="dropdown-item" href="/admin/delete-coupon/<%=item._id %> ">Delete</a></li>
+                          <li><a class="dropdown-item"  onclick="deleteThis('<%=item._id%>')">Delete</a></li>
                         </ul>
                       </div></td>
                     </tr>
                     <% }) %> 
                   </tbody>
               </table>
+
         </div>
+        <script>
+            function deleteThis(id){
+                if(confirm("Are You Sure Delete")){
+                    window.location.href=`/admin/delete-coupon/${id}`
+                }
+            }
+        </script>
     </div>
   </div>
 </div>

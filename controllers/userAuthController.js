@@ -137,7 +137,7 @@ export async function forgotPasswordEmail(req, res){
     const {email}=req.body;
     const user= await UserModel.findOne({email});
     if(!user){
-        return res.render("admin/forgotPassVerify", {error:true, message:"User not found"})
+        return res.render("user/forgotPassword", {error:true, message:"User not found"})
     }
     let otp=Math.floor(Math.random()*1000000)
     await sentOTP(req.body.email, otp)
@@ -180,5 +180,10 @@ export async function forgotResendOTP(req, res){
         await sentOTP(req.session.tempUser.email, otp)
         req.session.tempUser.otp=otp
     }
+    return res.redirect("/forgot-pass-verify");
+}
+
+export async function userLogout(req, res){
+    req.session.user=null;
     return res.redirect("/forgot-pass-verify");
 }

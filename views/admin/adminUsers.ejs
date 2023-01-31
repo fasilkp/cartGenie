@@ -55,7 +55,7 @@
                           </button>
                           <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="/admin/ban-user/<%= item._id  %> ">Ban</a></li>
-                            <li><a class="dropdown-item" href="/admin/delete-user/<%= item._id  %> ">Delete</a></li>
+                            <li><a class="dropdown-item" onclick="deleteThis('<%=item._id%>')">Delete</a></li>
                           </ul>
                         </div></td>
                       </tr>
@@ -67,3 +67,10 @@
   </div>
 </div>
 
+<script>
+  function deleteThis(id){
+    if(confirm("Are You Sure Delete")){
+        window.location.href=`/admin/delete-user/${id}`
+    }
+  }
+</script>

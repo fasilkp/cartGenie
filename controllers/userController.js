@@ -1,6 +1,10 @@
+import offerModel from '../models/offerModel.js'
+import productModel from '../models/productModel.js'
 
-export function getHome(req, res){
-    res.render("user/home")
+export async function getHome(req, res){
+    const offers= await offerModel.find().lean()
+    const products= await productModel.find({unlist:false}).lean()
+    res.render("user/home", {offers, products})
 }
 export function getProductList(req, res){
     res.render("user/productList")

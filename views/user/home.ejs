@@ -76,19 +76,21 @@
       </div>
     </div>
     <div class="row mt-5  d-flex justify-content-center">
-        <h6>New Launches</h6>
+        <h6>Offers</h6>
         <div class="row mt-3 ">
             <div id="carouselExampleAutoplaying" class="carousel slide carousel-fade" data-bs-ride="carousel">
                 <div class="carousel-inner">
-                  <div class="carousel-item active">
-                    <img src="https://image01.realme.net/general/20230116/1673851994653.jpg.webp" class="d-block w-100 carousal-img" alt="...">
-                  </div>
-                  <div class="carousel-item">
+                  <% offers.forEach(item=>{ %>
+                    <div class="carousel-item active" onclick="window.location.href='<%=item.url%>'">
+                      <img src="http://localhost:4001/product-images/<%= item.image  %> " class="d-block w-100 carousal-img" alt="...">
+                    </div>
+                  <% }) %> 
+                  <!-- <div class="carousel-item">
                     <img src="https://i03.appmifile.com/609_operator_in/13/01/2023/a5c8f0be1ff691f51c520d8fa0fb9481.jpg?f=webp"  class="d-block w-100 carousal-img" alt="...">
                   </div>
                   <div class="carousel-item">
                     <img src="https://image01.realme.net/general/20221124/1669271312450.jpg.webp"  class="d-block w-100 carousal-img" alt="...">
-                  </div>
+                  </div> -->
                 </div>
                 <button class="carousel-control-prev carousal-btn" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
                   <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -102,130 +104,32 @@
         </div>
     </div>
     <div class="row mt-5  d-flex justify-content-center">
-      <h6>Recommendations</h6>
+      <h6>New Launches</h6>
       <div class="row">
-        <div class="col-6 col-md-3">
-          <div class="recommendation">
-            <a href="/product/id" class="product-card">
-              <div class="product-img">
-                <img src="/images/realme9.webp" alt="">
+        <% products.forEach(item=>{ %> 
+            <div class="col-6 col-md-3">
+              <div class="recommendation">
+                <a href="/product/id" class="product-card">
+                  <div class="product-img">
+                    <img src="http://localhost:4001/product-images/<%= item.mainImage.filename  %>" alt="">
+                  </div>
+                  <div class="product-desc">
+                    <div class="product-name"><%= item.name  %> </div>
+                    <div class="product-spec" style="max-height: 65px; overflow: hidden;">
+                      <%= item.description %> 
+                    </div>
+                    <div class="product-price">
+                      ₹<%= item.price %>
+                      &nbsp;
+                      <strike style="font-size: small;">
+                        ₹<%= item.MRP %>
+                      </strike>
+                    </div>
+                  </div>
+                </a>
               </div>
-              <div class="product-desc">
-                <div class="product-name">Realme</div>
-                <div class="product-spec">8GB RAM / 512GB SSD
-                  Ryzen 5 5500U</div>
-                <div class="product-price">₹14,999</div>
-              </div>
-            </a>
-          </div>
-        </div>
-        <div class="col-6 col-md-3">
-          <div class="recommendation">
-            <a href="/product/id" class="product-card">
-              <div class="product-img">
-                <img src="/images/realme9.webp" alt="">
-              </div>
-              <div class="product-desc">
-                <div class="product-name">Realme</div>
-                <div class="product-spec">8GB RAM / 512GB SSD
-                  Ryzen 5 5500U</div>
-                <div class="product-price">₹14,999</div>
-              </div>
-            </a>
-          </div>
-        </div>
-        <div class="col-6 col-md-3">
-          <div class="recommendation">
-            <a href="/product/id" class="product-card">
-              <div class="product-img">
-                <img src="/images/realme9.webp" alt="">
-              </div>
-              <div class="product-desc">
-                <div class="product-name">Realme</div>
-                <div class="product-spec">8GB RAM / 512GB SSD
-                  Ryzen 5 5500U</div>
-                <div class="product-price">₹14,999</div>
-              </div>
-            </a>
-          </div>
-        </div>
-        <div class="col-6 col-md-3">
-          <div class="recommendation">
-            <a href="/product/id" class="product-card">
-              <div class="product-img">
-                <img src="/images/realme9.webp" alt="">
-              </div>
-              <div class="product-desc">
-                <div class="product-name">Realme</div>
-                <div class="product-spec">8GB RAM / 512GB SSD
-                  Ryzen 5 5500U</div>
-                <div class="product-price">₹14,999</div>
-              </div>
-            </a>
-          </div>
-        </div>
-        <div class="col-6 col-md-3">
-          <div class="recommendation">
-            <a href="/product/id" class="product-card">
-              <div class="product-img">
-                <img src="/images/realme9.webp" alt="">
-              </div>
-              <div class="product-desc">
-                <div class="product-name">Realme</div>
-                <div class="product-spec">8GB RAM / 512GB SSD
-                  Ryzen 5 5500U</div>
-                <div class="product-price">₹14,999</div>
-              </div>
-            </a>
-          </div>
-        </div>
-        <div class="col-6 col-md-3">
-          <div class="recommendation">
-            <a href="/product/id" class="product-card">
-              <div class="product-img">
-                <img src="/images/realme9.webp" alt="">
-              </div>
-              <div class="product-desc">
-                <div class="product-name">Realme</div>
-                <div class="product-spec">8GB RAM / 512GB SSD
-                  Ryzen 5 5500U</div>
-                <div class="product-price">₹14,999</div>
-              </div>
-            </a>
-          </div>
-        </div>
-        <div class="col-6 col-md-3">
-          <div class="recommendation">
-            <a href="/product/id" class="product-card">
-              <div class="product-img">
-                <img src="/images/realme9.webp" alt="">
-              </div>
-              <div class="product-desc">
-                <div class="product-name">Realme</div>
-                <div class="product-spec">8GB RAM / 512GB SSD
-                  Ryzen 5 5500U</div>
-                <div class="product-price">₹14,999</div>
-              </div>
-            </a>
-          </div>
-        </div>
-        <div class="col-6 col-md-3">
-          <div class="recommendation">
-            <a href="/product/id" class="product-card">
-              <div class="product-img">
-                <img src="/images/realme9.webp" alt="">
-              </div>
-              <div class="product-desc">
-                <div class="product-name">Realme</div>
-                <div class="product-spec">8GB RAM / 512GB SSD
-                  Ryzen 5 5500U</div>
-                <div class="product-price">₹14,999</div>
-              </div>
-            </a>
-          </div>
-        </div>
-
-        
+            </div>
+        <% }) %> 
       </div>
     </div>
   </div>

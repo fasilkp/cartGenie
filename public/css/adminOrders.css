@@ -134,3 +134,6 @@
 table th, table td{
     text-align: center;
 }
+.dropdown-menu li, .dropdown-menu a{
+    cursor: pointer
+}

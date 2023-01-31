@@ -1,8 +1,8 @@
 import 'dotenv/config'
 import express from "express"
 import path from 'path'
-import  adminAuth from "./routers/adminAuthRouter.js"
-import  userAuth from "./routers/userAuth.js"
+import adminAuth from "./routers/adminAuthRouter.js"
+import userAuth from "./routers/userAuth.js"
 import adminRouter from "./routers/adminRouter.js"
 import userRouter from "./routers/userRouter.js"
 import ejsLayout from 'express-ejs-layouts'
@@ -10,9 +10,7 @@ import dbConnect from "./config/dbConnect.js"
 import session from 'express-session'
 
 const app = express();
-
 app.set("view engine", "ejs");
-
 const __dirname=path.resolve()
 
 app.use(session({
