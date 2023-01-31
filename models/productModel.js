@@ -40,6 +40,10 @@ const productSchema= new mongoose.Schema({
     unlist:{
         type:Boolean,
         default:false
+    },
+    uploadedAt:{
+        type:Date,
+        default:new Date()
     }
 })
 const productModel= mongoose.model("product", productSchema);

@@ -3,50 +3,32 @@
   <div class="container">
     <div class="row">
       <div class="col-3">
-        <form class="filter-sec">
+        <form class="filter-sec" method="get">
           <div class="row">
             <h6>Cartegory</h6>
           </div>
           <div class="filter-options mt-3">
-            <div class="ft-option">
-                <input type="radio" value="smartpohone" name="category" id="Smartphone" />
-                <label for="Smartphone">Smartphone</label>
+            <% categories.forEach(item=>{ %> 
+              <div class="ft-option">
+                <input type="radio" value="<%=item.category%>" name="category" id="Smartphone" />
+                <label for="Smartphone"><%=item.category%></label>
             </div>
-            <div class="ft-option">
-                <input type="radio" value="tv" name="category" id="TV" />
-                <label for="TV">TV</label>
-            </div>
-            <div class="ft-option">
-                <input type="radio" value="smartwatch" name="category" id="Smartwatch" />
-                <label for="Smartwatch">Smartwatch</label>
-            </div>
-            <div class="ft-option">
-                <input type="radio" value="earphones" name="category" id="Earphone" />
-                <label for="Earphone">Earphone</label>
-            </div>
-            <div class="ft-option">
-                <input type="radio" value="laptops" name="category" id="Laptop" />
-                <label for="Laptop">Laptop</label>
-            </div>
-            <div class="ft-option">
-                <input type="radio" value="tablets" name="category" id="Tablets" />
-                <label for="Tablets">Tablets</label>
-            </div>
+            <% }) %> 
           </div>
           <div class="row mt-5">
             <h6>Filter</h6>
           </div>
           <div class="filter-options mt-3">
             <div class="ft-option">
-                <input type="radio" value="low to high" name="filter" id="lowToHigh" />
+                <input type="radio" value="1" name="filter" id="lowToHigh" />
                 <label for="lowToHigh">Price - Low to High</label>
             </div>
             <div class="ft-option">
-                <input type="radio" value="high to low" name="filter" id="highToLow" />
+                <input type="radio" value="-1" name="filter" id="highToLow" />
                 <label for="highToLow">Price - High to Low</label>
             </div>
             <div class="ft-option">
-                <input type="radio" value="new launches" name="filter" id="newLaunches" />
+                <input type="radio" value="0" name="filter" id="newLaunches" />
                 <label for="newLaunches">New Launches</label>
             </div>
             </div>
@@ -56,105 +38,34 @@
       </div>
       <div class="col-9">
         <div class="row mt-5">
-          <h5>Smartphone</h5>
+          <h5>Products</h5>
         </div>
         <div class="row">
+          <% products.forEach(item=>{ %> 
+
           <div class="col-6 col-md-4">
             <div class="recommendation">
-              <a href="/product/id" class="product-card">
+              <a href="/product/<%=item._id  %>" class="product-card">
                 <div class="product-img">
-                  <img src="/images/realme9.webp" alt="" />
+                  <img src="http://localhost:4001/product-images/<%= item.mainImage.filename  %>" alt="" />
                 </div>
                 <div class="product-desc">
-                  <div class="product-name">Realme</div>
-                  <div class="product-spec">
-                    8GB RAM / 512GB SSD Ryzen 5 5500U
+                  <div class="product-name"><%= item.name  %></div>
+                  <div class="product-spec" style="max-height: 65px; overflow: hidden;">
+                    <%= item.description %> 
                   </div>
-                  <div class="product-price">₹14,999</div>
+                  <div class="product-price">
+                    ₹<%= item.price %>
+                      &nbsp;
+                      <strike style="font-size: small;">
+                        ₹<%= item.MRP %>
+                      </strike>
+                  </div>
                 </div>
               </a>
             </div>
           </div>
-          <div class="col-6 col-md-4">
-            <div class="recommendation">
-              <a href="/product/id" class="product-card">
-                <div class="product-img">
-                  <img src="/images/realme9.webp" alt="" />
-                </div>
-                <div class="product-desc">
-                  <div class="product-name">Realme</div>
-                  <div class="product-spec">
-                    8GB RAM / 512GB SSD Ryzen 5 5500U
-                  </div>
-                  <div class="product-price">₹14,999</div>
-                </div>
-              </a>
-            </div>
-          </div>
-          <div class="col-6 col-md-4">
-            <div class="recommendation">
-              <a href="/product/id" class="product-card">
-                <div class="product-img">
-                  <img src="/images/realme9.webp" alt="" />
-                </div>
-                <div class="product-desc">
-                  <div class="product-name">Realme</div>
-                  <div class="product-spec">
-                    8GB RAM / 512GB SSD Ryzen 5 5500U
-                  </div>
-                  <div class="product-price">₹14,999</div>
-                </div>
-              </a>
-            </div>
-          </div>
-          <div class="col-6 col-md-4">
-            <div class="recommendation">
-              <a href="/product/id" class="product-card">
-                <div class="product-img">
-                  <img src="/images/realme9.webp" alt="" />
-                </div>
-                <div class="product-desc">
-                  <div class="product-name">Realme</div>
-                  <div class="product-spec">
-                    8GB RAM / 512GB SSD Ryzen 5 5500U
-                  </div>
-                  <div class="product-price">₹14,999</div>
-                </div>
-              </a>
-            </div>
-          </div>
-          <div class="col-6 col-md-4">
-            <div class="recommendation">
-              <a href="/product/id" class="product-card">
-                <div class="product-img">
-                  <img src="/images/realme9.webp" alt="" />
-                </div>
-                <div class="product-desc">
-                  <div class="product-name">Realme</div>
-                  <div class="product-spec">
-                    8GB RAM / 512GB SSD Ryzen 5 5500U
-                  </div>
-                  <div class="product-price">₹14,999</div>
-                </div>
-              </a>
-            </div>
-          </div>
-          <div class="col-6 col-md-4">
-            <div class="recommendation">
-              <a href="/product/id" class="product-card">
-                <div class="product-img">
-                  <img src="/images/realme9.webp" alt="" />
-                </div>
-                <div class="product-desc">
-                  <div class="product-name">Realme</div>
-                  <div class="product-spec">
-                    8GB RAM / 512GB SSD Ryzen 5 5500U
-                  </div>
-                  <div class="product-price">₹14,999</div>
-                </div>
-              </a>
-            </div>
-          </div>
+          <% }) %> 
         </div>
       </div>
     </div>

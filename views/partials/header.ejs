@@ -7,10 +7,10 @@
             <a href="/"><h1>E-cart</h1></a>
         </div>
         <div class="col-12 col-md-5 header-item">
-            <div class="search-box">
-                <input type="text" placeholder="search products">
-                <i class="ri-search-line"></i>
-            </div>
+            <form class="search-box" action="/search">
+                <input type="text" value="<%= key  %>" name="key" placeholder="search products">
+                <button class="ri-search-line"></button>
+            </form>
         </div>
         <div class="col-1 col-md-4 header-item justify-content-end">
             <div class="header-right">

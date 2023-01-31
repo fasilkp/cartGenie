@@ -116,6 +116,12 @@ a{
   gap: 20px;
   color: red;
 }
+.search-box button{
+  border: none;
+  background: none;
+  outline: none;
+}
+
 @media(min-width:600px){
   .sidebar{
     display: none;
