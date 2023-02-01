@@ -125,6 +125,10 @@ export async function userLogin(req, res){
         });
     }
     if(bcrypt.compareSync(password, user.password)){
+        req.session.user={
+            name:user.name,
+            id:user._id
+        }
         return res.redirect("/")
     }else{
         return res.render("user/login",{
@@ -185,5 +189,5 @@ export async function forgotResendOTP(req, res){
 
 export async function userLogout(req, res){
     req.session.user=null;
-    return res.redirect("/forgot-pass-verify");
+    return res.redirect("/login");
 }

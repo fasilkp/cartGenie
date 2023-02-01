@@ -1,7 +1,7 @@
 export default function(req, res, next){
-    if(req.session.admin){
+    if(req.session.user){
         next()
     }else{
-        res.redirect("/admin/login")
+        res.redirect("/login")
     }
 }

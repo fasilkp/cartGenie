@@ -8,6 +8,7 @@ import userRouter from "./routers/userRouter.js"
 import ejsLayout from 'express-ejs-layouts'
 import dbConnect from "./config/dbConnect.js"
 import session from 'express-session'
+import verifyAdmin from './middlewares/verifyAdmin.js'
 
 const app = express();
 app.set("view engine", "ejs");
@@ -27,9 +28,9 @@ dbConnect();
 
 //Routers
 app.use("/", userAuth)
-app.use("/", userRouter)
 app.use("/admin/", adminAuth)
-app.use("/admin/", adminRouter)
+app.use("/admin/",verifyAdmin, adminRouter)
+app.use("/", userRouter)
 
 
 

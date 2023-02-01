@@ -44,6 +44,14 @@ const productSchema= new mongoose.Schema({
     uploadedAt:{
         type:Date,
         default:new Date()
+    },
+    ratings:{
+        type:Array,
+        default:[]
+    },
+    type:Array,
+    reviews:{
+        default:[]
     }
 })
 const productModel= mongoose.model("product", productSchema);

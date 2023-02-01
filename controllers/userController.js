@@ -1,6 +1,7 @@
 import offerModel from '../models/offerModel.js'
 import productModel from '../models/productModel.js'
 import categoryModel from '../models/categoryModel.js'
+import UserModel from '../models/userModel.js'
 
 export async function getHome(req, res){
     const offers= await offerModel.find().lean()
@@ -34,9 +35,10 @@ export async function getProduct(req, res){
     try{
         const proId=req.params.id;
         const product= await productModel.findOne({_id:proId, unlist:false});
+        console.log(product.ratings)
         res.render("user/product", {product, key:""})
 
-    }catch(err){
+    }catch(err){ 
         res.redirect("back")
     }
 }
@@ -66,6 +68,15 @@ export function getUserProfile(req, res){
 }
 export function getCoupons(req, res){
     res.render("user/coupons", {key:""}) 
+}
+
+export async function addToWishlist(req, res){
+    const _id=req.session.user.id;
+    const proId=req.params.id;
+    await UserModel.updateOne({_id}, {$push:{
+        wishlist:proId
+    }})
+    res.redirect("back")
 }
 
 

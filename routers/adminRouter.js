@@ -1,10 +1,9 @@
 import express from "express"
 import { addCategory, addCoupon, addOffer, addProduct, adminSearchBanUser, adminSearchProduct, adminSearchUser, banUser, deleteCategory, deleteCoupon, deleteOffer, deleteUser, editCoupon, editOffer, editProduct, getAddCategory, getAddCoupon, getAddOffers, getAddProduct, getAdminCategory, getAdminOffers, getAdminOrders, getAdminProduct, getAdminUsers, getBannedUsers, getCouponsPage, getDashboard, getEditCoupon, getEditOffer, getEditProduct, listProduct, unBanUser, unListProduct } from "../controllers/adminController.js"
 import upload from "../middlewares/multer.js"
-import verifyAdmin from "../middlewares/verifyAdmin.js"
 const router = express.Router()
 
-router.use(verifyAdmin)
+
 
 router.get("/", getDashboard)
 router.get("/orders", getAdminOrders)

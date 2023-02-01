@@ -77,7 +77,10 @@
         <div class="product-container">
           <div class="product-head mt-5">
             <h3 ><%= product.name  %> </h3>
-            <i class="ri-heart-line"></i>
+            <a href="/add-to-wishlist/<%=product._id %>">
+              <i class="ri-heart-line"></i>
+            </a>
+            <i class="ri-heart-fill"style="color:red"></i>
           </div>
           <div class="ratings">
             <i class="ri-star-fill rating-color"></i>
@@ -88,7 +91,7 @@
             <i class="ri-star-line"></i>
           </div>
           <div class="rating-desc">
-            <b>4.2 </b>Rating and <b> 97 </b>Reviews
+            <b><%= product.ratings.length  %>  </b>Rating and <b> <%= product.reviews.length  %> </b>Reviews
           </div>
           <div class="product-price mt-3">
             <h3 class="me-2">₹<%= product.price  %>  </h3>
@@ -116,7 +119,7 @@
             <i class="ri-star-line"></i>
           </div>
           <div class="rating-desc">
-            <b>4.2 </b>Rating and <b> 97 </b>Reviews
+            <b><%= product.ratings.length  %>  </b>Rating and <b> <%= product.reviews.length  %> </b>Reviews
           </div>
           <div class="review-sec mt-5">
             <div class="review">
