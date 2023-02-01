@@ -35,14 +35,23 @@ export async function getProduct(req, res){
     try{
         const proId=req.params.id;
         const product= await productModel.findOne({_id:proId, unlist:false});
-        console.log(product.ratings)
-        res.render("user/product", {product, key:""})
+        console.log(req.user)
+        console.log(proId)
+        if(req?.user?.wishlist?.includes(proId)){
+            console.log("present")
+            return res.render("user/product", {product, key:"", wish:true})
+        }else{
+            console.log("not")
+            return res.render("user/product", {product, key:"", wish:false})
+        }
 
     }catch(err){ 
+        console.log(err)
         res.redirect("back")
     }
 }
-export function getWishlist(req, res){
+export async function getWishlist(req, res){
+
     res.render("user/wishlist", {key:""})
 }
 export function getCart(req, res){
@@ -74,6 +83,15 @@ export async function addToWishlist(req, res){
     const _id=req.session.user.id;
     const proId=req.params.id;
     await UserModel.updateOne({_id}, {$push:{
+        wishlist:proId
+    }})
+    res.redirect("back")
+}
+
+export async function removeFromWishlist(req, res){
+    const _id=req.session.user.id;
+    const proId=req.params.id;
+    await UserModel.updateOne({_id}, {$pull:{
         wishlist:proId
     }})
     res.redirect("back")

@@ -1,12 +1,12 @@
 import express from "express"
-import { addToWishlist, getAddAddress, getCart, getCheckout, getCoupons, getEditAddress, getHome, getOrderHistory, getOrderProduct, getProduct, getProductList, getUserProfile, getWishlist } from "../controllers/userController.js"
+import { addToWishlist, getAddAddress, getCart, getCheckout, getCoupons, getEditAddress, getHome, getOrderHistory, getOrderProduct, getProduct, getProductList, getUserProfile, getWishlist, removeFromWishlist } from "../controllers/userController.js"
 import checkUser from "../middlewares/checkUser.js"
 const router = express.Router()
 import verifyUser from "../middlewares/verifyUser.js"
 
 router.get("/", getHome)
 router.get("/search", getProductList)
-router.get("/product/:id", getProduct)
+router.get("/product/:id",checkUser, getProduct)
 
 router.use(verifyUser);
 router.use(checkUser);
@@ -23,6 +23,7 @@ router.get("/coupons", getCoupons)
 
 
 router.get("/add-to-wishlist/:id", addToWishlist);
+router.get("/remove-from-wishlist/:id", removeFromWishlist);
 
 
 

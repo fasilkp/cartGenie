@@ -77,10 +77,15 @@
         <div class="product-container">
           <div class="product-head mt-5">
             <h3 ><%= product.name  %> </h3>
-            <a href="/add-to-wishlist/<%=product._id %>">
-              <i class="ri-heart-line"></i>
-            </a>
-            <i class="ri-heart-fill"style="color:red"></i>
+            <% if(wish){ %> 
+              <a href="/remove-from-wishlist/<%=product._id %>">
+                <i class="ri-heart-fill" style="color:red"></i>
+              </a>
+            <% }else{ %> 
+              <a href="/add-to-wishlist/<%=product._id %>">
+                <i class="ri-heart-line"></i>
+              </a>
+            <% } %> 
           </div>
           <div class="ratings">
             <i class="ri-star-fill rating-color"></i>
