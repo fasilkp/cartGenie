@@ -5,14 +5,14 @@
         <h3 class="wish-head">Wishlist <i class="ri-heart-line"></i></h3>
         <div class="row">
             <% products.forEach(item=>{ %>
-                <div class="col-12 col-md-6">
+                <a href="/product/<%=item._id %>" style="color:rgb(6, 6, 6)" class="col-12 col-md-6">
                     <div class="wish-item">
                         <div class="wish-img">
                             <img src="/product-images/<%=item.mainImage.filename  %>" alt="">
                         </div>
                         <div class="wish-detail">
                             <b><%=item.name  %> </b>
-                            <h5><%= item.price  %> </h4>
+                            <h5>₹<%= item.price  %> </h4>
                         </div>
                         <div class="wish-cancel">
                                 <i class="ri-close-line"

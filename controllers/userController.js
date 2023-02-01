@@ -98,5 +98,20 @@ export async function removeFromWishlist(req, res){
     res.redirect("back")
 }
 
+export async function addToCart(req, res){
+    const _id=req.session.user.id;
+    const proId=req.params.id;
+    await UserModel.updateOne({_id}, {$push:{
+        cart:proId
+    }})
+    res.redirect("back")
+}
 
-
+export async function removeFromCart(req, res){
+    const _id=req.session.user.id;
+    const proId=req.params.id;
+    await UserModel.updateOne({_id}, {$pull:{
+        cart:proId
+    }})
+    res.redirect("back")
+}
