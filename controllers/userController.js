@@ -51,8 +51,9 @@ export async function getProduct(req, res){
     }
 }
 export async function getWishlist(req, res){
-
-    res.render("user/wishlist", {key:""})
+    const wishlist=req?.user?.wishlist ?? [];
+    const products= await productModel.find({_id:{$in:wishlist} , unlist:false}).lean()
+    res.render("user/wishlist", {key:"", products})
 }
 export function getCart(req, res){
     res.render("user/cart", {key:""}) 

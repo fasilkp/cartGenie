@@ -4,66 +4,27 @@
     <div class="container">
         <h3 class="wish-head">Wishlist <i class="ri-heart-line"></i></h3>
         <div class="row">
-            <div class="col-12 col-md-6">
-                <div class="wish-item">
-                    <div class="wish-img">
-                        <img src="/images/tv.jpg" alt="">
+            <% products.forEach(item=>{ %>
+                <div class="col-12 col-md-6">
+                    <div class="wish-item">
+                        <div class="wish-img">
+                            <img src="/product-images/<%=item.mainImage.filename  %>" alt="">
+                        </div>
+                        <div class="wish-detail">
+                            <b><%=item.name  %> </b>
+                            <h5><%= item.price  %> </h4>
+                        </div>
+                        <div class="wish-cancel">
+                                <i class="ri-close-line"
+                                onclick="
+                                if(confirm('Are you Sure Remove this item from wishlist ?')) 
+                                    window.location.href='/remove-from-wishlist/<%=item._id %>'"
+                                ></i>
+                        </div>
                     </div>
-                    <div class="wish-detail">
-                        <b>Redmi note 7 pro</b>
-                        <h5>76,543</h4>
-                    </div>
-                    <div class="wish-cancel">
-                        <i class="ri-close-line"></i>
-                    </div>
+                   
                 </div>
-               
-            </div>
-            <div class="col-12 col-md-6">
-                <div class="wish-item">
-                    <div class="wish-img">
-                        <img src="/images/tv.jpg" alt="">
-                    </div>
-                    <div class="wish-detail">
-                        <b>Redmi note 7 pro</b>
-                        <h5>76,543</h5>
-                    </div>
-                    <div class="wish-cancel">
-                        <i class="ri-close-line"></i>
-                    </div>
-                </div>
-               
-            </div>
-            <div class="col-12 col-md-6">
-                <div class="wish-item">
-                    <div class="wish-img">
-                        <img src="/images/tv.jpg" alt="">
-                    </div>
-                    <div class="wish-detail">
-                        <b>Redmi note 7 pro</b>
-                        <h5>76,543</h5>
-                    </div>
-                    <div class="wish-cancel">
-                        <i class="ri-close-line"></i>
-                    </div>
-                </div>
-               
-            </div>
-            <div class="col-12 col-md-6">
-                <div class="wish-item">
-                    <div class="wish-img">
-                        <img src="/images/tv.jpg" alt="">
-                    </div>
-                    <div class="wish-detail">
-                        <b>Redmi note 7 pro</b>
-                        <h5>76,543</h5>
-                    </div>
-                    <div class="wish-cancel">
-                        <i class="ri-close-line"></i>
-                    </div>
-                </div>
-               
-            </div>
+            <% }) %> 
         </div>
     </div>
 </div>

@@ -78,13 +78,17 @@
           <div class="product-head mt-5">
             <h3 ><%= product.name  %> </h3>
             <% if(wish){ %> 
-              <a href="/remove-from-wishlist/<%=product._id %>">
-                <i class="ri-heart-fill" style="color:red"></i>
-              </a>
+              <i class="ri-heart-fill" style="color:red"
+              onclick="
+              if(confirm('Are you Sure Remove this item from wishlist ?')) 
+                window.location.href='/remove-from-wishlist/<%=product._id %>'"
+              ></i>
             <% }else{ %> 
-              <a href="/add-to-wishlist/<%=product._id %>">
-                <i class="ri-heart-line"></i>
-              </a>
+                <i class="ri-heart-line"
+                onclick="
+                if(confirm('Add New Item to wishlist ?')) 
+                  window.location.href='/add-to-wishlist/<%=product._id %>'"
+                ></i>
             <% } %> 
           </div>
           <div class="ratings">
