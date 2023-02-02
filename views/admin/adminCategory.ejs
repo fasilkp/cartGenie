@@ -44,6 +44,7 @@
                     <tr>
                       <th scope="col">No</th>
                       <th scope="col">Category Name</th>
+                      <th scope="col">Status</th>
                       <th scope="col">Action</th>
                     </tr>
                   </thead>
@@ -51,14 +52,19 @@
                     <% categories.forEach((item, index)=>{%>
                       <tr>
                         <th scope="row"><%= index+1  %> </th>
-                        <th><%= item.category  %> </th>
+                        <th><%= item.category %> </th>
+                        <td>
+                          <% if(item.unlist){ %>Unlist
+                            <%} else { %>List <% } %>  
+                        </td>
                         <td><div class="dropdown">
                           <button class="btn btn-white dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                               <i class="ri-more-2-fill"></i>
                           </button>
                           <ul class="dropdown-menu">
-                            <!-- <li><a class="dropdown-item" href="#">Edit</a></li> -->
-                            <li><a class="dropdown-item" onclick="deleteThis('<%=item._id%>')">Delete</a></li>
+                            <li><a class="dropdown-item" href="/admin/edit-category/<%=item._id%>">Edit</a></li>
+                            <% if(item.unlist){ %> <li><a class="dropdown-item" onclick="confirmList('<%=item._id%>')">List</a></li>
+                            <% } else{ %> <li><a class="dropdown-item" onclick="confirmUnList('<%=item._id%>')">Unlist</a></li> <% } %> 
                           </ul>
                         </div></td>
                       </tr>
@@ -72,9 +78,14 @@
 </div>
 
 <script>
-  function deleteThis(id){
-    if(confirm("Are You Sure Delete")){
-        window.location.href=`/admin/delete-category/${id}`
+  function confirmList(id){
+    if(confirm("Are You Sure List this category")){
+        window.location.href=`/admin/list-category/${id}`
+    }
+  }
+  function confirmUnList(id){
+    if(confirm("Are You Sure Unlist this category")){
+        window.location.href=`/admin/unlist-category/${id}`
     }
   }
 </script>

@@ -7,7 +7,7 @@ import moment from "moment";
 
 export function getAdminOrders(req,res){
     res.render("admin/adminOrders")
-} 
+}
 export function getDashboard(req,res){
     res.render("admin/adminDashboard")
 } 
@@ -45,26 +45,49 @@ export function getAddOffers(req,res){
     res.render("admin/addOffers", {error:false})
 } 
 export function getAddCategory(req,res){
-    res.render("admin/addCategory")
+    res.render("admin/addCategory", {error:false})
+} 
+export async function getEditCategory(req,res){
+    const category=await categoryModel.findOne({_id:req.params.id})
+    res.render("admin/editCategory", {error:false, id:req.params.id, category:category.category})
 } 
 
-export function addCategory(req, res){
-    if(req.body.category==""){
-        return res.redirect("/admin/add-category")
+export async function addCategory(req, res){
+    const categoryExist = await categoryModel.findOne({category:req.body.category})
+    if(categoryExist){
+        return res.render("admin/addCategory", {error:true, message:"'"+categoryExist.category+"' already found"})
     }else{
         const category=new categoryModel({category:req.body.category})
         category.save((err, data)=>{
             if(err){
                 return res.redirect("/admin/add-category")
-            }
+            } 
             res.redirect("/admin/category")
         })
     }
 
 }
-export async function deleteCategory(req, res){
+
+export async function editCategory(req, res){
+    const categoryExist = await categoryModel.findOne({category:req.body.category})
+    if(categoryExist){
+        return res.render("admin/editCategory", {error:true, message:"'"+categoryExist.category+"' already found", id:categoryExist._id, category:categoryExist.category})
+    }
+    await categoryModel.updateOne({_id:req.body._id},{category:req.body.category});
+    res.redirect("/admin/category")
+
+}
+
+
+export async function listCategory(req, res){
     const _id=req.params.id;
-    await categoryModel.deleteOne({_id});
+    await categoryModel.updateOne({_id},{$set:{unlist:false}});
+    res.redirect("/admin/category")
+}
+
+export async function unListCategory(req, res){
+    const _id=req.params.id;
+    await categoryModel.updateOne({_id},{$set:{unlist:true}});
     res.redirect("/admin/category")
 }
 
@@ -92,9 +115,11 @@ export async function addProduct(req, res){
     try{
 
         const {name, category, quantity, brand, MRP, price, description}=req.body;
+        const categoryId= category.split(" ")[0]
+        const categoryName= category.split(" ")[1]
 
         const product= new productModel({
-            name, category, quantity, brand, MRP, price, description,
+            name, category:categoryName, categoryId, quantity, brand, MRP, price, description,
             mainImage:req.files.image[0],
             sideImages:req.files.images
             })
@@ -119,10 +144,11 @@ export async function addProduct(req, res){
 export async function editProduct(req, res){
     try{
         const {name, category, quantity, brand, MRP, price, description, _id}=req.body;
-        console.log(req.files)
+        const categoryId= category.split(" ")[0]
+        const categoryName= category.split(" ")[1]
         if(req.files.image && req.files.images){
             await productModel.findByIdAndUpdate(_id, {$set:{
-                    name, category, quantity, brand, MRP, price, description,
+                    name, category:categoryName,categoryId, quantity, brand, MRP, price, description,
                     mainImage:req.files.image[0],
                     sideImages:req.files.images
             }})

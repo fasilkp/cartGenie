@@ -12,8 +12,9 @@
                 <!-- <input type="text" name="category" placeholder="Category"> -->
                 <select name="category" placeholder="category" required>
                     <% categories.forEach(item=>{ %> 
-                        <option value="<%=item.category  %>"><%= item.category  %></option>
+                        <option value="<%=item._id+' '+item.category%>"><%= item.category  %></option>
                     <% }) %> 
+                    
                 </select>
             </div>
         </div>

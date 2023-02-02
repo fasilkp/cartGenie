@@ -16,15 +16,20 @@
     padding: 10px;
     display: flex;
     margin-top: 20px;
+    min-height: 150px;
 }
 .cart-item i{
     font-size: 1.3rem;
 }
 .cart-img img{
-    height: 100px;
+    max-width: 100px;
+    max-height: 120px;
 }
 .cart-img{
     flex: 20%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 .cart-detail{
     display: flex;
@@ -83,12 +88,16 @@
 }
 .coupon-item{
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    gap: 10px;
 }
 .coupon-item input{
-    margin-right: 10px;
-    width: 15px;
-    height: 15px;
+    border: none;
+    width: 100%;
+    height: 50px;
+    outline: none;
+    background-color: var(--lightGrey);
+    padding-left: 10px;
 }
 .coupon-item button{
     background-color: var(--black);

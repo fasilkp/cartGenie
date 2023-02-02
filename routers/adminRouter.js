@@ -1,5 +1,5 @@
 import express from "express"
-import { addCategory, addCoupon, addOffer, addProduct, adminSearchBanUser, adminSearchProduct, adminSearchUser, banUser, deleteCategory, deleteCoupon, deleteOffer, deleteUser, editCoupon, editOffer, editProduct, getAddCategory, getAddCoupon, getAddOffers, getAddProduct, getAdminCategory, getAdminOffers, getAdminOrders, getAdminProduct, getAdminUsers, getBannedUsers, getCouponsPage, getDashboard, getEditCoupon, getEditOffer, getEditProduct, listProduct, unBanUser, unListProduct } from "../controllers/adminController.js"
+import { addCategory, addCoupon, addOffer, addProduct, adminSearchBanUser, adminSearchProduct, adminSearchUser, banUser, deleteCoupon, deleteOffer, deleteUser, editCategory, editCoupon, editOffer, editProduct, getAddCategory, getAddCoupon, getAddOffers, getAddProduct, getAdminCategory, getAdminOffers, getAdminOrders, getAdminProduct, getAdminUsers, getBannedUsers, getCouponsPage, getDashboard, getEditCategory, getEditCoupon, getEditOffer, getEditProduct, listCategory, listProduct, unBanUser, unListCategory, unListProduct } from "../controllers/adminController.js"
 import upload from "../middlewares/multer.js"
 const router = express.Router()
 
@@ -20,7 +20,8 @@ router.get("/coupons", getCouponsPage)
 router.get("/add-coupon", getAddCoupon)
 
 
-router.get("/delete-category/:id", deleteCategory)
+router.get("/list-category/:id", listCategory)
+router.get("/unlist-category/:id",unListCategory)
 router.get("/ban-user/:id", banUser)
 router.get("/unban-user/:id", unBanUser)
 router.get("/delete-user/:id", deleteUser)
@@ -30,9 +31,12 @@ router.get("/delete-offer/:id", deleteOffer)
 router.get("/edit-offer/:id", getEditOffer)
 router.get("/edit-coupon/:id", getEditCoupon)
 router.get("/delete-coupon/:id", deleteCoupon)
+router.get("/edit-category/:id", getEditCategory)
+
 
 
 router.post("/add-category", addCategory)
+router.post("/edit-category", editCategory)
 router.post("/search-product", adminSearchProduct)
 router.post("/search-user", adminSearchUser)
 router.post("/search-ban-user", adminSearchBanUser)

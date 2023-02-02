@@ -29,6 +29,10 @@
     width: 100%;
     margin-top: 20px;
     cursor: pointer;
+    transition: .2s;
+}
+.recommendation:hover{
+    box-shadow: 0px 0px 10px 0px rgba(128, 128, 128, 0.329);
 }
 .recommendation a{
     background-color: var(--white);

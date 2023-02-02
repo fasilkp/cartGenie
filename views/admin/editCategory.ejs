@@ -1,0 +1,19 @@
+<%- include('../partials/adminHeader') %>
+<div class="add-product-main">
+    <h3>Edit Category</h3>
+    <form action="/admin/edit-category" method="post" class="add-product-container mt-3">
+        <div class="a-p-form-row">
+            <div class="a-p-form-col">
+                <label for="Name">Category </label>
+                <input type="text" name="_id" value="<%= id %>" style="height: 0px; visibility: hidden;">
+                <input type="text" name="category" placeholder="category" required value="<%= category%>">
+                <% if(error){ %> 
+                    <b class="text-danger"><%= message  %> </b>
+                  <% } %> 
+            </div>
+        </div>
+        <div class="a-p-form-row">
+            <button type="submit">Edit Category</button>
+        </div>
+    </form>
+</div>

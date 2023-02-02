@@ -9,6 +9,10 @@ const productSchema= new mongoose.Schema({
         type:String,
         required:true
     },
+    categoryId:{
+        type:String,
+        default:""
+    },
     brand:{
         type:String,
         required:true

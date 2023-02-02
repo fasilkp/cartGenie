@@ -69,8 +69,12 @@
           </div>
         </div>
         <div class="btns">
-          <button class="btn-gt-cart">Go to Cart</button>
-          <button class="btn-ad-cart">Add To Cart</button>
+          <button class="btn-gt-cart" 
+          onclick="window.location.href='/cart'"
+          >Go to Cart</button>
+          <button class="btn-ad-cart"
+          onclick="window.location.href='/add-to-cart/<%=product._id %>'"
+          >Add To Cart</button>
         </div>
       </div>
       <div class="col-12 col-md-6">

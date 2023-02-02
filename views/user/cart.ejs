@@ -6,137 +6,42 @@
     <div class="row">
       <div class="col-12 col-md-7">
 
-        <div class="col-12">
-
-          <div class="cart-item">
-            <div class="cart-img">
-              <img src="/images/tv.jpg" alt="">
-            </div>
-            <div class="cart-detail">
-              <b>Redmi note 7 pro</b>
-              <h5>76,543</h4>
-            </div>
-            <div class="cart-quantity">
-              <div class="cartquantiy-box">
-                <button>-</button>
-                <input type="text" value="3">
-                <button>+</button>
+        <% products.forEach(item=>{ %>
+          <div class="col-12">
+            <div class="cart-item">
+              <div class="cart-img">
+                <img src="/product-images/<%=item.mainImage.filename %>" alt="">
+              </div>
+              <div class="cart-detail">
+                <b><%=item.name  %> </b>
+                <h5>₹<%=item.price  %> </h4>
+              </div>
+              <div class="cart-quantity">
+                <div class="cartquantiy-box">
+                  <button>-</button>
+                  <input type="text" value="3">
+                  <button>+</button>
+                </div>
+              </div>
+              <div class="cart-cancel">
+                <i class="ri-close-line"
+                onclick="
+                if(confirm('Are you Sure Remove this item from Cart ?')) 
+                  window.location.href='/remove-from-cart/<%=item._id %>'"
+                ></i>
               </div>
             </div>
-            <div class="cart-cancel">
-              <i class="ri-close-line"></i>
-            </div>
           </div>
-
-        </div>
-        <div class="col-12">
-
-          <div class="cart-item">
-            <div class="cart-img">
-              <img src="/images/tv.jpg" alt="">
-            </div>
-            <div class="cart-detail">
-              <b>Redmi note 7 pro</b>
-              <h5>76,543</h4>
-            </div>
-            <div class="cart-quantity">
-              <div class="cartquantiy-box">
-                <button>-</button>
-                <input type="text" value="3">
-                <button>+</button>
-              </div>
-            </div>
-            <div class="cart-cancel">
-              <i class="ri-close-line"></i>
-            </div>
-          </div>
-
-        </div>
-        <div class="col-12">
-
-          <div class="cart-item">
-            <div class="cart-img">
-              <img src="/images/tv.jpg" alt="">
-            </div>
-            <div class="cart-detail">
-              <b>Redmi note 7 pro</b>
-              <h5>76,543</h4>
-            </div>
-            <div class="cart-quantity">
-              <div class="cartquantiy-box">
-                <button>-</button>
-                <input type="text" value="3">
-                <button>+</button>
-              </div>
-            </div>
-            <div class="cart-cancel">
-              <i class="ri-close-line"></i>
-            </div>
-          </div>
-
-        </div>
-        <div class="col-12">
-
-          <div class="cart-item">
-            <div class="cart-img">
-              <img src="/images/tv.jpg" alt="">
-            </div>
-            <div class="cart-detail">
-              <b>Redmi note 7 pro</b>
-              <h5>76,543</h4>
-            </div>
-            <div class="cart-quantity">
-              <div class="cartquantiy-box">
-                <button>-</button>
-                <input type="text" value="3">
-                <button>+</button>
-              </div>
-            </div>
-            <div class="cart-cancel">
-              <i class="ri-close-line"></i>
-            </div>
-          </div>
-
-        </div>
-        <div class="col-12">
-
-          <div class="cart-item">
-            <div class="cart-img">
-              <img src="/images/tv.jpg" alt="">
-            </div>
-            <div class="cart-detail">
-              <b>Redmi note 7 pro</b>
-              <h5>₹76,543</h4>
-            </div>
-            <div class="cart-quantity">
-              <div class="cartquantiy-box">
-                <button>-</button>
-                <input type="text" value="3">
-                <button>+</button>
-              </div>
-            </div>
-            <div class="cart-cancel">
-              <i class="ri-close-line"></i>
-            </div>
-          </div>
-
-        </div>
+        <% }) %> 
+        
       </div>
       <div class="col-12 col-md-5">
         <div class="row">
           <div class="cart-price-details">
             <h4>Apply Coupons</h4>
             <div class="coupon-item">
-              <input type="checkbox" id="coupon1" value="coupon1" name="coupon">
-              <label for="coupon1">₹ 67 Cashback</label>
-            </div>
-            <div class="coupon-item">
-              <input type="checkbox" id="coupon2" value="coupon2" name="coupon">
-              <label for="coupon2">₹ 25 Cashback</label>
-            </div>
-            <div class="coupon-item">
-              <input type="checkbox" id="coupon3" value="coupon3" name="coupon">
-              <label for="coupon3">₹ 38 Cashback</label>
+              <label for="coupon">Coupon</label>
+              <input type="text" id="coupon" placeholder="Enter Coupon Code" name="coupon">
             </div>
             <div class="coupon-item">
               <button>Apply</button>
@@ -148,23 +53,19 @@
             <h4>Price details</h4>
             <div class="price-item">
               <label for="">Price (3 item)</label>
-              <b>₹ 78,654</b>
+              <b>₹ <%=totalPrice  %> </b>
             </div>
             <div class="price-item">
               <label for="">Discount</label>
-              <b class="text-success">-₹2,654</b>
+              <b class="text-success">- ₹<%= totalMRP-totalPrice  %> </b>
             </div>
             <div class="price-item">
               <label for="">Coupons Applied</label>
-              <b class="text-success">-₹567</b>
-            </div>
-            <div class="price-item">
-              <label for="">Delivery</label>
-              <b class="text-success">Free delivery</b>
+              <b class="text-success">- ₹0</b>
             </div>
             <div class="price-item">
               <label for="">Total amount</label>
-              <b>₹ 78,654</b>
+              <b>₹ <%=totalPrice  %> </b>
             </div>
             <div class="price-item">
               <a href="/checkout" class="w-100">

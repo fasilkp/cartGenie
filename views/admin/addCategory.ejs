@@ -5,7 +5,10 @@
         <div class="a-p-form-row">
             <div class="a-p-form-col">
                 <label for="Name">Category</label>
-                <input type="text" name="category" placeholder="category">
+                <input type="text" name="category" placeholder="category" required>
+                <% if(error){ %> 
+                    <b class="text-danger"><%= message  %> </b>
+                  <% } %> 
             </div>
         </div>
         <div class="a-p-form-row">

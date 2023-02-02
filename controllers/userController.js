@@ -15,18 +15,19 @@ export async function getProductList(req, res){
     let products=[]
     if(filter==0){
         products= await productModel.find({
-                name: new RegExp(key, 'i'),
-                category: new RegExp(category, 'i'),
-                unlist:false
+            name: new RegExp(key, 'i'),
+            categoryId: new RegExp(category,'i'),
+            unlist:false
         }).sort({uploadedAt:-1}).lean();
     }else{
         products= await productModel.find({
             name: new RegExp(key, 'i'),
-            category: new RegExp(category, 'i'),
+            categoryId: new RegExp(category,'i'),
             unlist:false
         }).sort({price:filter}).lean(); 
     }
     const categories= await categoryModel.find().lean(); 
+    console.log(products)
 
     return res.render("user/productList", {products, categories, key, category, filter})
 } 
@@ -35,13 +36,10 @@ export async function getProduct(req, res){
     try{
         const proId=req.params.id;
         const product= await productModel.findOne({_id:proId, unlist:false});
-        console.log(req.user)
-        console.log(proId)
         if(req?.user?.wishlist?.includes(proId)){
-            console.log("present")
             return res.render("user/product", {product, key:"", wish:true})
         }else{
-            console.log("not")
+
             return res.render("user/product", {product, key:"", wish:false})
         }
 
@@ -55,8 +53,18 @@ export async function getWishlist(req, res){
     const products= await productModel.find({_id:{$in:wishlist} , unlist:false}).lean()
     res.render("user/wishlist", {key:"", products})
 }
-export function getCart(req, res){
-    res.render("user/cart", {key:""}) 
+export async function getCart(req, res){
+    const cart=req?.user?.cart ?? [];
+    const products= await productModel.find({_id:{$in:cart} , unlist:false}).lean()
+    let totalPrice=0;
+    products.forEach((item)=>{
+        totalPrice=totalPrice+item.price;
+    })
+    let totalMRP=0
+    products.forEach((item)=>{
+        totalMRP=totalMRP+item.MRP;
+    })
+    res.render("user/cart", {key:"", products, totalPrice, totalMRP}) 
 }
 export function getOrderHistory(req, res){
     res.render("user/orderHistory", {key:""})
@@ -83,7 +91,7 @@ export function getCoupons(req, res){
 export async function addToWishlist(req, res){
     const _id=req.session.user.id;
     const proId=req.params.id;
-    await UserModel.updateOne({_id}, {$push:{
+    await UserModel.updateOne({_id}, {$addToSet:{
         wishlist:proId
     }})
     res.redirect("back")
@@ -101,10 +109,10 @@ export async function removeFromWishlist(req, res){
 export async function addToCart(req, res){
     const _id=req.session.user.id;
     const proId=req.params.id;
-    await UserModel.updateOne({_id}, {$push:{
+    await UserModel.updateOne({_id}, {$addToSet:{
         cart:proId
     }})
-    res.redirect("back")
+    res.redirect("/cart")
 }
 
 export async function removeFromCart(req, res){
@@ -113,5 +121,5 @@ export async function removeFromCart(req, res){
     await UserModel.updateOne({_id}, {$pull:{
         cart:proId
     }})
-    res.redirect("back")
+    res.redirect("/cart")
 }
