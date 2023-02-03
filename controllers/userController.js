@@ -77,8 +77,10 @@ export function getCheckout(req, res){
 export function getAddAddress(req, res){
     res.render("user/addAddress", {key:""})
 }
-export function getEditAddress(req, res){
-    res.render("user/editAddress", {key:""})
+export async function getEditAddress(req, res){
+    let {address}= await userModel.findOne({"address.id":req.params.id},{_id:0,address:{$elemMatch:{id:req.params.id}} })
+    console.log(address[0])
+    res.render("user/editAddress", {key:"", address:address[0]})
 }
 export function getOrderProduct(req, res){
     res.render("user/orderedProduct", {key:""})
@@ -147,6 +149,15 @@ export async function deleteAddress(req, res){
                     id:req.params.id
                 }
             
+        }
+    })
+    res.redirect("/profile")
+}
+
+export async function editAddress(req, res){
+    await userModel.updateOne({_id:req.session.user.id,address:{$elemMatch:{id:req.body.id}} },{
+        $set:{
+            "address.$":req.body
         }
     })
     res.redirect("/profile")
