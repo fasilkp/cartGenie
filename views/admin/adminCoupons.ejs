@@ -60,7 +60,10 @@
                       <th scope="row"><%= item.discount  %> </th>
                       <th scope="row"><%= item.maxDiscountAmount  %> </th>
                       <td><%=item.minAmount  %></td>
-                      <td><%= item.expiry.toLocaleDateString()  %> </td>
+                      <td>
+                        <%if(new Date(item.expiry) < new Date()){ %> Expired
+                        <%}else{ %> <%= item.expiry.toLocaleDateString()  %> <% } %> 
+                      </td>
                       <td>
                         <% if(item.unlist){ %> Unlist 
                         <% }else{ %> List <% } %> 

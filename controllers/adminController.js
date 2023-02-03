@@ -318,10 +318,20 @@ export async function editCoupon(req, res){
     }
 }
 
-export async function deleteCoupon(req, res){
+export async function listCoupon(req, res){
     try{
         const _id=req.params.id
-        await couponModel.deleteOne({_id});
+        await couponModel.updateOne({_id}, {$set:{unlist:false}})
+        res.redirect("/admin/coupons")
+    }catch(err){
+        console.log(err)
+        res.redirect("/admin/coupons")
+    }
+}
+export async function unListCoupon(req, res){
+    try{
+        const _id=req.params.id
+        await couponModel.updateOne({_id}, {$set:{unlist:true}})
         res.redirect("/admin/coupons")
     }catch(err){
         console.log(err)
