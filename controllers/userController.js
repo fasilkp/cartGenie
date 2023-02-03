@@ -3,6 +3,7 @@ import productModel from '../models/productModel.js'
 import categoryModel from '../models/categoryModel.js'
 import userModel from '../models/userModel.js'
 import UserModel from '../models/userModel.js'
+import createId from '../actions/createId.js'
 
 export async function getHome(req, res){
     const offers= await offerModel.find().lean()
@@ -83,7 +84,8 @@ export function getOrderProduct(req, res){
     res.render("user/orderedProduct", {key:""})
 }
 export function getUserProfile(req, res){
-    res.render("user/userProfile", {key:""})
+    console.log(req.user)
+    res.render("user/userProfile", {key:"", user:req.user})
 }
 export function getCoupons(req, res){
     res.render("user/coupons", {key:""}) 
@@ -126,10 +128,20 @@ export async function removeFromCart(req, res){
 }
 
 export async function addAddress(req, res){
-    console.log(req.body)
     await userModel.updateOne({_id:req.session.user.id},{
-        $push:{
-            address:req.body
+        $addToSet:{
+            address:{
+                ...req.body,
+                id: createId(),
+            }
+        }
+    })
+    res.redirect("/profile")
+}
+export async function deleteAddress(req, res){
+    await userModel.updateOne({_id:req.session.user.id, },{
+        $pull:{
+            "address.id":req.params.id
         }
     })
     res.redirect("/profile")

@@ -62,44 +62,29 @@
                         <h4>Manage address </h4>
                         <a href="/add-address" class="btn btn-dark rounded-0 ">Add</a>
                     </div>
+                    <% user.address.forEach((item)=>{  %> 
                     <div class="manage-address-row">
                         <div class="man-ad-left">
-                            <b>somethin house</b>
-                            <b>Tirur, malappuram</b>
-                            <b>Near Railway station</b>
-                            <b>PIN: 676101</b>
+                            <b><%=item.name  %> </b>
+                            <b><%=item.mobile  %> </b>
+                            <b><%=item.address  %> </b>
+                            <b>PIN: <%=item.pincode  %> </b>
                         </div>
                         <div class="man-ad-right">
-                            <i class="ri-delete-bin-5-line"></i>
+                            <i class="ri-delete-bin-5-line" onclick="deleteAddress('<%=item.id%>')"></i>
                             <i class="ri-edit-box-line"></i>
                         </div>
                     </div>
-                    <div class="manage-address-row">
-                        <div class="man-ad-left">
-                            <b>somethin house</b>
-                            <b>Tirur, malappuram</b>
-                            <b>Near Railway station</b>
-                            <b>PIN: 676101</b>
-                        </div>
-                        <div class="man-ad-right">
-                            <i class="ri-delete-bin-5-line"></i>
-                            <i class="ri-edit-box-line"></i>
-                        </div>
-                    </div>
-                    <div class="manage-address-row">
-                        <div class="man-ad-left">
-                            <b>somethin house</b>
-                            <b>Tirur, malappuram</b>
-                            <b>Near Railway station</b>
-                            <b>PIN: 676101</b>
-                        </div>
-                        <div class="man-ad-right">
-                            <i class="ri-delete-bin-5-line"></i>
-                            <i class="ri-edit-box-line"></i>
-                        </div>
-                    </div>
+                    <% }) %> 
                 </div>
             </div>
         </div>
     </div>
 </div>
+<script>
+    function deleteAddress(id){
+        if(confirm("Are you sure delete this address")){
+            window.location.href="/delete-address/"+id
+        }
+    }
+</script>
