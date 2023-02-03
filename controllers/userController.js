@@ -57,7 +57,10 @@ export async function getWishlist(req, res){
 }
 export async function getCart(req, res){
     const cart=req?.user?.cart ?? [];
-    const products= await productModel.find({_id:{$in:cart} , unlist:false}).lean()
+    const cartList=cart.map(item=>{
+        return item.id;
+    })
+    const products= await productModel.find({_id:{$in:cartList} , unlist:false}).lean()
     let totalPrice=0;
     products.forEach((item)=>{
         totalPrice=totalPrice+item.price;
@@ -66,7 +69,7 @@ export async function getCart(req, res){
     products.forEach((item)=>{
         totalMRP=totalMRP+item.MRP;
     })
-    res.render("user/cart", {key:"", products, totalPrice, totalMRP}) 
+    res.render("user/cart", {key:"", products, totalPrice,cart, totalMRP}) 
 }
 export function getOrderHistory(req, res){
     res.render("user/orderHistory", {key:""})
@@ -115,7 +118,10 @@ export async function addToCart(req, res){
     const _id=req.session.user.id;
     const proId=req.params.id;
     await UserModel.updateOne({_id}, {$addToSet:{
-        cart:proId
+        cart:{
+            id:proId,
+            quantity:1
+        }
     }})
     res.redirect("/cart")
 }
@@ -124,7 +130,7 @@ export async function removeFromCart(req, res){
     const _id=req.session.user.id;
     const proId=req.params.id;
     await UserModel.updateOne({_id}, {$pull:{
-        cart:proId
+        cart:{id:proId}
     }})
     res.redirect("/cart")
 }
@@ -162,3 +168,27 @@ export async function editAddress(req, res){
     })
     res.redirect("/profile")
 }
+
+export async function addQuantity(req, res){
+    console.log("hai")
+    await userModel.updateOne({_id:req.session.user.id,cart:{$elemMatch:{id:req.params.id}} },{
+        $inc:{
+            "cart.$.quantity":1
+        }
+    })
+    res.redirect("/cart")
+}
+
+export async function minusQuantity(req, res){
+    let {cart}= await userModel.findOne({"cart.id":req.params.id},{_id:0,cart:{$elemMatch:{id:req.params.id}} })
+    if(cart.quantity<=1){
+        return res.redirect("/cart") 
+    }
+    await userModel.updateOne({_id:req.session.user.id,cart:{$elemMatch:{id:req.params.id}} },{
+        $inc:{
+            "cart.$.quantity":-1
+        }
+    })
+    return res.redirect("/cart")
+}
+

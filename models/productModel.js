@@ -53,8 +53,8 @@ const productSchema= new mongoose.Schema({
         type:Array,
         default:[]
     },
-    type:Array,
     reviews:{
+        type:Array,
         default:[]
     }
 })

@@ -6,7 +6,7 @@
     <div class="row">
       <div class="col-12 col-md-7">
 
-        <% products.forEach(item=>{ %>
+        <% products.forEach((item, index)=>{ %>
           <div class="col-12">
             <div class="cart-item">
               <div class="cart-img">
@@ -19,8 +19,8 @@
               <div class="cart-quantity">
                 <div class="cartquantiy-box">
                   <button>-</button>
-                  <input type="text" value="3">
-                  <button>+</button>
+                  <input type="text" value="<%=cart[index].quantity%>">
+                  <button onclick="window.location.href='/add-quantity/<%=cart[index].id%>'">+</button>
                 </div>
               </div>
               <div class="cart-cancel">
@@ -32,7 +32,7 @@
               </div>
             </div>
           </div>
-        <% }) %> 
+      <% }) %> 
         
       </div>
       <div class="col-12 col-md-5">
@@ -41,8 +41,9 @@
           <div class="cart-price-details">
             <h4>Price details</h4>
             <div class="price-item">
-              <label for="">Price (3 item)</label>
-              <b>₹ <%=totalPrice  %> </b>
+              <label for="">Total Price (3 item)</label>
+
+              <b>₹ <%=totalMRP  %> </b>
             </div>
             <div class="price-item">
               <label for="">Discount</label>
