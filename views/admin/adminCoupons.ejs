@@ -40,12 +40,13 @@
             <table class="table table-striped">
                 <thead>
                     <tr>
-                      <th scope="col">No</th>
                       <th scope="col">Name</th>
                       <th scope="col">Coupon Code</th>
-                      <th scope="col">Cashback</th>
+                      <th scope="col">Discount</th>
+                      <th scope="col">Max Discount</th>
                       <th scope="col">Min-Amount</th>
                       <th scope="col">Expiry</th>
+                      <th scope="col">Status</th>
                       <th scope="col">Action</th>
 
                     </tr>
@@ -54,19 +55,27 @@
                     <% coupons.forEach((item, index)=>{ %>
 
                       <tr>
-                        <th scope="row"><%= index+1  %> </th>
                       <th scope="row"><%= item.name  %> </th>
                       <th scope="row"><%= item.code  %> </th>
-                      <th scope="row"><%= item.cashback  %> </th>
+                      <th scope="row"><%= item.discount  %> </th>
+                      <th scope="row"><%= item.maxDiscountAmount  %> </th>
                       <td><%=item.minAmount  %></td>
                       <td><%= item.expiry.toLocaleDateString()  %> </td>
+                      <td>
+                        <% if(item.unlist){ %> Unlist 
+                        <% }else{ %> List <% } %> 
+                      </td>
                       <td><div class="dropdown">
                         <button class="btn btn-white dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="ri-more-2-fill"></i>
                           </button>
                         <ul class="dropdown-menu">
                           <li><a class="dropdown-item" href="/admin/edit-coupon/<%=item._id %> ">Edit</a></li>
-                          <li><a class="dropdown-item"  onclick="deleteThis('<%=item._id%>')">Delete</a></li>
+                          <% if(item.unlist){ %> 
+                          <li><a class="dropdown-item"  onclick="listThis('<%=item._id%>')">List</a></li>
+                          <% }else{ %> 
+                          <li><a class="dropdown-item"  onclick="unListThis('<%=item._id%>')">Unlist</a></li>
+                          <% } %> 
                         </ul>
                       </div></td>
                     </tr>
@@ -76,9 +85,14 @@
 
         </div>
         <script>
-            function deleteThis(id){
-                if(confirm("Are You Sure Delete")){
-                    window.location.href=`/admin/delete-coupon/${id}`
+            function listThis(id){
+                if(confirm("Are You Sure List this Coupon ")){
+                    window.location.href=`/admin/list-coupon/${id}`
+                }
+            }
+            function unListThis(id){
+                if(confirm("Are You Sure Unlist this coupon")){
+                    window.location.href=`/admin/unlist-coupon/${id}`
                 }
             }
         </script>

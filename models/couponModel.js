@@ -9,16 +9,24 @@ const couponSchema= new mongoose.Schema({
         required:true
     },
     minAmount:{
-        type:String,
+        type:Number,
         required:true
     },
-    cashback:{
-        type:String,
+    discount:{
+        type:Number,
+        required:true
+    },
+    maxDiscountAmount:{
+        type:Number,
         required:true
     },
     expiry:{
         type:Date,
         required:true
+    },
+    unlist:{
+        type:Boolean,
+        default:false
     }
 })
 const couponModel= mongoose.model("coupon", couponSchema);

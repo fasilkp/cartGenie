@@ -280,8 +280,8 @@ export async function getAddCoupon(req, res){
 
 export async function addCoupon(req, res){
     try{
-        const {name, cashback, minAmount, expiry, code }=req.body
-        const coupon= new couponModel({name, cashback, minAmount, expiry, code});
+        const {name, discount, maxDiscountAmount, minAmount, expiry, code }=req.body
+        const coupon= new couponModel({name, discount, maxDiscountAmount, minAmount, expiry, code});
         coupon.save((err, data)=>{
             if(err){
                 console.log(err)
@@ -298,17 +298,17 @@ export async function getEditCoupon(req, res){
         const _id=req.params.id
         let coupon= await couponModel.findOne({_id});
         const expiry=moment(coupon.expiry).utc().format('YYYY-MM-DD')
-        const {name, code, cashback, minAmount}=coupon;
-        res.render("admin/editCoupon", {coupon:{name,_id, code, cashback, minAmount, expiry}})
+        const {name, code, discount, maxDiscountAmount, minAmount}=coupon;
+        res.render("admin/editCoupon", {coupon:{name,_id, code, discount, maxDiscountAmount, minAmount, expiry}})
 }
 
 export async function editCoupon(req, res){
     try{
-        const {name, cashback, minAmount, expiry, code, _id }=req.body
+        const {name, discount, maxDiscountAmount, minAmount, expiry, code, _id }=req.body
         
         await couponModel.findByIdAndUpdate(_id, {
             $set:{
-                name, cashback, minAmount, expiry, code
+                name, discount, maxDiscountAmount, minAmount, expiry, code
             }
         })
         res.redirect("/admin/coupons")

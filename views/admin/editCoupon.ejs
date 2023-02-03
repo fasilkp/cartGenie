@@ -23,8 +23,14 @@
         </div>
         <div class="a-p-form-row">
             <div class="a-p-form-col">
-                <label for="Name">Cashback </label>
-                <input type="text" name="cashback" placeholder="cashback" required value="<%=coupon.cashback  %>"/>
+                <label for="Name">Discount (in percentage)</label>
+                <input type="text" name="discount" placeholder="discount (in percentage)" pattern="[0-9]*" maxlength="2"  value="<%=coupon.discount  %>" required/>
+            </div>
+        </div>
+        <div class="a-p-form-row">
+            <div class="a-p-form-col">
+                <label for="Name">Max Disount Amount</label>
+                <input type="number" name="maxDiscountAmount" placeholder="max discount " value="<%=coupon.maxDiscountAmount  %>" required/>
             </div>
         </div>
         <div class="a-p-form-row">
