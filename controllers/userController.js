@@ -139,9 +139,14 @@ export async function addAddress(req, res){
     res.redirect("/profile")
 }
 export async function deleteAddress(req, res){
-    await userModel.updateOne({_id:req.session.user.id, },{
+    console.log(req.params.id)
+    await userModel.updateOne({_id:req.session.user.id,address:{$elemMatch:{id:req.params.id}} },{
         $pull:{
-            "address.id":req.params.id
+            address:
+                {
+                    id:req.params.id
+                }
+            
         }
     })
     res.redirect("/profile")
