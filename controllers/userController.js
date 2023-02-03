@@ -1,6 +1,7 @@
 import offerModel from '../models/offerModel.js'
 import productModel from '../models/productModel.js'
 import categoryModel from '../models/categoryModel.js'
+import userModel from '../models/userModel.js'
 import UserModel from '../models/userModel.js'
 
 export async function getHome(req, res){
@@ -122,4 +123,14 @@ export async function removeFromCart(req, res){
         cart:proId
     }})
     res.redirect("/cart")
+}
+
+export async function addAddress(req, res){
+    console.log(req.body)
+    await userModel.updateOne({_id:req.session.user.id},{
+        $push:{
+            address:req.body
+        }
+    })
+    res.redirect("/profile")
 }

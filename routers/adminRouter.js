@@ -35,7 +35,6 @@ router.get("/unlist-coupon/:id", unListCoupon)
 router.get("/edit-category/:id", getEditCategory)
 
 
-
 router.post("/add-category", addCategory)
 router.post("/edit-category", editCategory)
 router.post("/search-product", adminSearchProduct)

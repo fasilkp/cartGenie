@@ -4,48 +4,48 @@
         
         <h3 >Add Address</h3>
         <div class="add-address-container">
-            <form class="add-box mt-3">
+            <form class="add-box mt-3" id="addAddressForm" action="/add-address" method="post">
             <h4 class="mt-3">Manage Address</h4>
             <div class="add-row mt-1">
                 <div class="add-row-col">
                     <label for="">Name</label>
-                    <input type="text" placeholder="Name">
+                    <input type="text" name="name" placeholder="Name" required>
                 </div>
                 <div class="add-row-col">
                     <label for="">Mobile</label>
-                    <input type="number" placeholder="mobile">
+                    <input type="text" name="mobile" placeholder="mobile" pattern="[0-9]*" maxlength="10" required >
                 </div>
             </div>
             <div class="add-row">
                 <div class="add-row-col">
                     <label for="">PIN Code</label>
-                    <input type="number" placeholder="PIN code">
+                    <input type="number" name="pincode" placeholder="PIN code" required>
                 </div>
                 <div class="add-row-col">
                     <label for="">Locality</label>
-                    <input type="text" placeholder="locality">
+                    <input type="text" name="locality" placeholder="locality" required>
                 </div>
             </div>
             
             <div class="add-row text-area">
                 <div class="add-row-col">
                     <label for="">Address</label>
-                    <textarea name=""placeholder="Address" rows="5"></textarea>
+                    <textarea name="address" placeholder="Address" rows="5" form="addAddressFor" required></textarea>
                 </div>
             </div>
 
             <div class="add-row">
                 <div class="add-row-col">
                     <label for="">City/Village/Town</label>
-                    <input type="text" placeholder="city/village/town">
+                    <input type="text" name="city" placeholder="city/village/town" required>
                 </div>
                 <div class="add-row-col">
                     <label for="">State</label>
-                    <input type="text" placeholder="state">
+                    <input type="text" name="state" placeholder="state" required>
                 </div>
             </div>
             <div class="add-row">
-                <button>Add Address</button>
+                <button type="submit">Add Address</button>
             </div>
         </form>
         </div>
