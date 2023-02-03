@@ -2,51 +2,31 @@
 
 <div class="checkout-main">
     <div class="container">
-        <div class="row">
+        <form action="/checkout" method="post" class="row">
             <div class="col-12 col-md-7">
-                <h3 class="mt-5">Checkout</h3>
-                <label class="address-box mt-3" for="address1">
-                    <div class="address-detail">
-                        <b>Fasil</b>
-                        <b>Tirur., Malappuram</b>
-                        <b>keralal, 676101</b>
-                        <b>9636258514</b>
-                    </div>
-                    <div class="address-radio">
-                        <input type="radio" value="address1" name="address" id="address1">
-                    </div>
-                </label>
-                <label class="address-box mt-3" for="address2">
-                    <div class="address-detail">
-                        <b>Fasil</b>
-                        <b>Tirur., Malappuram</b>
-                        <b>keralal, 676101</b>
-                        <b>9636258514</b>
-                    </div>
-                    <div class="address-radio">
-                        <input type="radio" value="address2" name="address" id="address2">
-                    </div>
-                </label>
-                <label class="address-box mt-3" for="address3">
-                    <div class="address-detail">
-                        <b>Fasil</b>
-                        <b>Tiruru., Malappuram</b>
-                        <b>keralal, 676101</b>
-                        <b>9636258514</b>
-                    </div>
-                    <div class="address-radio">
-                        <input type="radio" value="address3" name="address" id="address3">
-                    </div>
-                </label>
-                <div class="pay-option mt-4">
+                <h3 class="mt-5">Choose Address</h3>
+                <% address.forEach(item=>{ %>
+                    <label class="address-box mt-3" for="<%= item.id  %>">
+                        <div class="address-detail">
+                            <b><%=item.name  %> </b>
+                            <b><%=item.mobile  %> </b>
+                            <b><%=item.address  %> </b>
+                            <b>PIN: <%=item.pincode  %> </b>
+                        </div>
+                        <div class="address-radio">
+                            <input type="radio" value="<%= item.id  %>" name="address" id="<%= item.id  %>" required>
+                        </div>
+                    </label>
+                <% }) %> 
+                <!-- <div class="pay-option mt-4">
                     <a href="/add-address">
                         <button>Add New Address</button>
                     </a>
-                </div>
+                </div> -->
             </div>
             <div class="col-12 col-md-5">
                 <h3 class="mt-5">Payment Info</h3>
-                <div class="cart-price-details">
+                <!-- <div class="cart-price-details">
                     <div class="coupon-item">
                         <h5>Total : 76577</h5>
                       </div>
@@ -60,20 +40,20 @@
                     
                      
                     
-                  </div>
+                  </div> -->
                 <div class="checkout-payment mt-3">
                     <b>Payment Method</b>
                     <div class="pay-option mt-4">
-                        <input type="radio" id="cod" name="payment" value="cod">
+                        <input type="radio" id="cod" name="payment" value="cod" required>
                         <label for="cod">Cash on Dilivery</label>
                     </div>
                     <div class="pay-option mt-2">
-                        <input type="radio" id="online" name="payment" value="online">
+                        <input type="radio" id="online" name="payment" value="online" required>
                         <label for="online">Online Payment</label>
                     </div>
                     <div class="pay-option mt-4">
                         <a href="/ordered-product">
-                            <button>Place Order</button>
+                            <button type="submit">Place Order</button>
                         </a>
                     </div>
 

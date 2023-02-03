@@ -4,6 +4,7 @@ import categoryModel from '../models/categoryModel.js'
 import userModel from '../models/userModel.js'
 import UserModel from '../models/userModel.js'
 import createId from '../actions/createId.js'
+import orderModel from '../models/orderModel.js'
 
 export async function getHome(req, res){
     const offers= await offerModel.find().lean()
@@ -29,7 +30,6 @@ export async function getProductList(req, res){
         }).sort({price:filter}).lean(); 
     }
     const categories= await categoryModel.find().lean(); 
-    console.log(products)
 
     return res.render("user/productList", {products, categories, key, category, filter})
 } 
@@ -74,22 +74,23 @@ export async function getCart(req, res){
 export function getOrderHistory(req, res){
     res.render("user/orderHistory", {key:""})
 }
-export function getCheckout(req, res){ 
-    res.render("user/checkout", {key:""})
+export function getCheckout(req, res){
+    let address= req.user.address
+    res.render("user/checkout", {key:"", address})
 } 
 export function getAddAddress(req, res){
     res.render("user/addAddress", {key:""})
 }
 export async function getEditAddress(req, res){
     let {address}= await userModel.findOne({"address.id":req.params.id},{_id:0,address:{$elemMatch:{id:req.params.id}} })
-    console.log(address[0])
+
     res.render("user/editAddress", {key:"", address:address[0]})
 }
 export function getOrderProduct(req, res){
     res.render("user/orderedProduct", {key:""})
 }
 export function getUserProfile(req, res){
-    console.log(req.user)
+
     res.render("user/userProfile", {key:"", user:req.user})
 }
 export function getCoupons(req, res){
@@ -147,7 +148,6 @@ export async function addAddress(req, res){
     res.redirect("/profile")
 }
 export async function deleteAddress(req, res){
-    console.log(req.params.id)
     await userModel.updateOne({_id:req.session.user.id,address:{$elemMatch:{id:req.params.id}} },{
         $pull:{
             address:
@@ -170,7 +170,6 @@ export async function editAddress(req, res){
 }
 
 export async function addQuantity(req, res){
-    console.log("hai")
     await userModel.updateOne({_id:req.session.user.id,cart:{$elemMatch:{id:req.params.id}} },{
         $inc:{
             "cart.$.quantity":1
@@ -181,7 +180,7 @@ export async function addQuantity(req, res){
 
 export async function minusQuantity(req, res){
     let {cart}= await userModel.findOne({"cart.id":req.params.id},{_id:0,cart:{$elemMatch:{id:req.params.id}} })
-    if(cart.quantity<=1){
+    if(cart[0].quantity<=1){
         return res.redirect("/cart") 
     }
     await userModel.updateOne({_id:req.session.user.id,cart:{$elemMatch:{id:req.params.id}} },{
@@ -191,4 +190,31 @@ export async function minusQuantity(req, res){
     })
     return res.redirect("/cart")
 }
+
+export async function checkout(req, res){
+    const {payment, address:addressId}=req.body
+    if(!payment==="cod"){
+        return res.send("online")
+    }
+    const cart=req?.user?.cart ?? [];
+    const cartList=cart.map(item=>{
+        return item.id;
+    })
+    let {address}= await userModel.findOne({"address.id":addressId},{_id:0,address:{$elemMatch:{id:addressId}} })
+    console.log(address)
+    let products= await productModel.find({_id:{$in:cartList} , unlist:false}).lean()
+    console.log(products)
+
+    products.map(async (item, index)=>{
+        let order= new orderModel({
+            address:address[0],
+            product:item,
+            userId:req.session.user.id,
+            quantity:cart[index].quantity
+        })
+        await order.save();
+    })
+    await userModel.updateOne({_id:req.session.user._id},{$set:{cart:[]}})
+    res.redirect("/orders")
+} 
 

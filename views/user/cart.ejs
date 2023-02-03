@@ -18,7 +18,7 @@
               </div>
               <div class="cart-quantity">
                 <div class="cartquantiy-box">
-                  <button>-</button>
+                  <button onclick="window.location.href='/minus-quantity/<%=cart[index].id%>'">-</button>
                   <input type="text" value="<%=cart[index].quantity%>">
                   <button onclick="window.location.href='/add-quantity/<%=cart[index].id%>'">+</button>
                 </div>

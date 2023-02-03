@@ -1,5 +1,5 @@
 import express from "express"
-import { addAddress, addQuantity, addToCart, addToWishlist, deleteAddress, editAddress, getAddAddress, getCart, getCheckout, getCoupons, getEditAddress, getHome, getOrderHistory, getOrderProduct, getProduct, getProductList, getUserProfile, getWishlist, removeFromCart, removeFromWishlist } from "../controllers/userController.js"
+import { addAddress, addQuantity, addToCart, addToWishlist, checkout, deleteAddress, editAddress, getAddAddress, getCart, getCheckout, getCoupons, getEditAddress, getHome, getOrderHistory, getOrderProduct, getProduct, getProductList, getUserProfile, getWishlist, minusQuantity, removeFromCart, removeFromWishlist } from "../controllers/userController.js"
 import checkUser from "../middlewares/checkUser.js"
 const router = express.Router()
 import verifyUser from "../middlewares/verifyUser.js"
@@ -28,9 +28,11 @@ router.get("/add-to-cart/:id", addToCart);
 router.get("/remove-from-cart/:id", removeFromCart);
 router.get("/delete-address/:id", deleteAddress);
 router.get("/add-quantity/:id", addQuantity);
+router.get("/minus-quantity/:id", minusQuantity);
 
 router.post("/add-address",addAddress)
 router.post("/edit-address",editAddress)
+router.post("/checkout",checkout)
 
 
 
