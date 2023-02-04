@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 const orderSchema= new mongoose.Schema({
-    orederStatus:{
+    orderStatus:{
         type:String,
         default:"pending"
     },
@@ -26,6 +26,14 @@ const orderSchema= new mongoose.Schema({
         required:true
     },
     quantity:{
+        type:Number,
+        required:true
+    },
+    dispatch:{
+        type:Date,
+        default: new Date(new Date().setDate(new Date().getDate() + 7))
+    },
+    total:{
         type:Number,
         required:true
     }

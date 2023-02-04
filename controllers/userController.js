@@ -62,17 +62,18 @@ export async function getCart(req, res){
     })
     const products= await productModel.find({_id:{$in:cartList} , unlist:false}).lean()
     let totalPrice=0;
-    products.forEach((item)=>{
-        totalPrice=totalPrice+item.price;
+    products.forEach((item, index)=>{
+        totalPrice=(totalPrice+item.price)* cart[index].quantity;
     })
     let totalMRP=0
-    products.forEach((item)=>{
-        totalMRP=totalMRP+item.MRP;
+    products.forEach((item, index)=>{
+        totalMRP=(totalMRP+item.MRP)* cart[index].quantity;
     })
     res.render("user/cart", {key:"", products, totalPrice,cart, totalMRP}) 
 }
-export function getOrderHistory(req, res){
-    res.render("user/orderHistory", {key:""})
+export async function getOrderHistory(req, res){
+    const orders= await orderModel.find({userId:req.session.user.id}).lean()
+    res.render("user/orderHistory", {key:"", orders})
 }
 export function getCheckout(req, res){
     let address= req.user.address
@@ -197,24 +198,31 @@ export async function checkout(req, res){
         return res.send("online")
     }
     const cart=req?.user?.cart ?? [];
-    const cartList=cart.map(item=>{
-        return item.id;
-    })
+    const cartList=cart.map(item=>item.id)
     let {address}= await userModel.findOne({"address.id":addressId},{_id:0,address:{$elemMatch:{id:addressId}} })
-    console.log(address)
     let products= await productModel.find({_id:{$in:cartList} , unlist:false}).lean()
-    console.log(products)
-
-    products.map(async (item, index)=>{
-        let order= new orderModel({
+    let orders=[]
+    let i=0
+    for(let item of products) {
+        await productModel.updateOne({_id:item._id}, {
+            $inc:{
+                quantity:(-1 * cart[i].quantity)
+            }
+            })
+        orders.push({
             address:address[0],
             product:item,
             userId:req.session.user.id,
-            quantity:cart[index].quantity
+            quantity:cart[i].quantity,
+            total:cart[i].quantity*item.price,
         })
-        await order.save();
+        i++;
+    }
+
+    await orderModel.create(orders)
+    await userModel.findByIdAndUpdate(req.session.user.id,{
+        $set:{cart:[]}
     })
-    await userModel.updateOne({_id:req.session.user._id},{$set:{cart:[]}})
     res.redirect("/orders")
 } 
 

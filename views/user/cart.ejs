@@ -14,7 +14,11 @@
               </div>
               <div class="cart-detail">
                 <b><%=item.name  %> </b>
-                <h5>₹<%=item.price  %> </h4>
+                <h5>₹<%=item.price  %>
+                <strike style="font-size: .85rem; color: grey;">
+                  ₹<%=item.MRP  %>
+                </strike>
+                </h4>
               </div>
               <div class="cart-quantity">
                 <div class="cartquantiy-box">
