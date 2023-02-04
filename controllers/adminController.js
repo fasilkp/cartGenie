@@ -3,10 +3,12 @@ import UserModel from "../models/userModel.js";
 import productModel from "../models/productModel.js";
 import offerModel from "../models/offerModel.js";
 import couponModel from "../models/couponModel.js";
+import orderModel from "../models/orderModel.js";
 import moment from "moment";
 
-export function getAdminOrders(req,res){
-    res.render("admin/adminOrders")
+export async function getAdminOrders(req,res){
+    const orders=await orderModel.find().lean()
+    res.render("admin/adminOrders",{orders})
 }
 export function getDashboard(req,res){
     res.render("admin/adminDashboard")

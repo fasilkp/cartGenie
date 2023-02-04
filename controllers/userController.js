@@ -15,23 +15,36 @@ export async function getProductList(req, res){
     const category=req.query.category ?? ""
     const key=req.query.key ?? ""
     const filter=req.query.filter ?? ""
+    const page=req.query.page ?? 0
+    let count=0;
     let products=[]
     if(filter==0){
+        count=products= await productModel.find({
+            name: new RegExp(key, 'i'),
+            categoryId: new RegExp(category,'i'),
+            unlist:false
+        }).count()
         products= await productModel.find({
             name: new RegExp(key, 'i'),
             categoryId: new RegExp(category,'i'),
             unlist:false
-        }).sort({uploadedAt:-1}).lean();
+        }).sort({uploadedAt:-1}).skip(page*10).limit(10).lean();
     }else{
+        count= await productModel.find({
+            name: new RegExp(key, 'i'),
+            categoryId: new RegExp(category,'i'),
+            unlist:false
+        }).count()
         products= await productModel.find({
             name: new RegExp(key, 'i'),
             categoryId: new RegExp(category,'i'),
             unlist:false
-        }).sort({price:filter}).lean(); 
+        }).sort({price:filter}).skip(page*10).limit(10).lean(); 
     }
     const categories= await categoryModel.find().lean(); 
-
-    return res.render("user/productList", {products, categories, key, category, filter})
+    let pageCount=Math.floor(count/10)
+    console.log(pageCount )
+    return res.render("user/productList", {products, categories, key, category, filter, pageCount, page})
 } 
 
 export async function getProduct(req, res){

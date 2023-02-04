@@ -34,7 +34,7 @@
                 <thead>
                     <tr>
                       <th scope="col">Name</th>
-                      <th scope="col">Payment Type</th>
+                      <th scope="col">User</th>
                       <th scope="col">Payment Status</th>
                       <th scope="col">Status</th>
                       <th scope="col">Total</th>
@@ -42,16 +42,21 @@
                     </tr>
                   </thead>
                   <tbody>
+                    <% orders.forEach(item=>{ %>
+
                     <tr>
-                      <th scope="row">Iphone 14 pro</th>
-                      <td>Online</td>
-                      <td>Paid</td>
+                      <th scope="row"><%=item.product.name  %> </th>
+                      <td><%=item.address.name  %> </td>
                       <td>
+                        <% if(item.paid){ %> Paid
+                        <% }else{ %> Not Paid <% } %> 
+                        </td>
+                      <td class="d-flex justify-content-center">
                         <div class="del-status pending">
-                            Pending
+                            <%= item.orderStatus  %> 
                         </div>
                     </td>
-                      <td>543</td>
+                      <td><%=item.product.price  * item.quantity  %> </td>
                       <td><div class="dropdown">
                         <button class="btn btn-white dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="ri-more-2-fill"></i>
@@ -63,48 +68,9 @@
                         </ul>
                       </div></td>
                     </tr>
-                    <tr>
-                      <th scope="row">Iphone 14 pro</th>
-                      <td>Online</td>
-                      <td>Paid</td>
-                      <td>
-                        <div class="del-status rejected">
-                            Canceled
-                        </div>
-                    </td>
-                      <td>543</td>
-                      <td><div class="dropdown">
-                        <button class="btn btn-white dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="ri-more-2-fill"></i>
-                        </button>
-                        <ul class="dropdown-menu">
-                          <li><a class="dropdown-item" href="#">Action</a></li>
-                          <li><a class="dropdown-item" href="#">Another action</a></li>
-                          <li><a class="dropdown-item" href="#">Something else here</a></li>
-                        </ul>
-                      </div></td>
-                    </tr>
-                    <tr>
-                      <th scope="row">Iphone 14 pro</th>
-                      <td>Online</td>
-                      <td>Paid</td>
-                      <td>
-                        <div class="del-status delivered">
-                            Delivered
-                        </div>
-                    </td>
-                      <td>543</td>
-                      <td><div class="dropdown">
-                        <button class="btn btn-white dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="ri-more-2-fill"></i>
-                        </button>
-                        <ul class="dropdown-menu">
-                          <li><a class="dropdown-item" href="#">Action</a></li>
-                          <li><a class="dropdown-item" href="#">Another action</a></li>
-                          <li><a class="dropdown-item" href="#">Something else here</a></li>
-                        </ul>
-                      </div></td>
-                    </tr>
+                    <%}) %> 
+
+                    
                   </tbody>
               </table>
         </div>

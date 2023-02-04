@@ -22,3 +22,6 @@
     outline: none;
     border: none;
 }
+.page-link{
+    cursor: pointer;
+}
