@@ -10,7 +10,7 @@
     
 }
 .order-status{
-    flex: 35%;
+    flex: 25%;
 }
 .order-status div{
     padding: 10px;
@@ -26,7 +26,7 @@
     background-color: #ff99002f;
     color: #FF9900;
 }
-.order-status .rejected{
+.order-status .rejected, .order-status .canceled{
     background-color: #ca01012d;
     color: #CA0101;
 }
@@ -35,7 +35,7 @@
     color: #009028;
 }
 .order-cancel{
-    flex: 10%;
+    flex: 20%;
 }
 .order-cancel button{
     width: 100px;
@@ -46,9 +46,20 @@
     outline: none;
 
 }
-.order-cancel, .order-detail, .order-status{
+.order-cancel, .order-detail{
     height:100%7;
     display: flex;
     flex-direction: column;
     justify-content: center;
 }
+.order-status{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+/* .order-detail b{
+ font-size: .9rem;
+}
+.order-detail h5{
+    font-size: 1rem;
+} */

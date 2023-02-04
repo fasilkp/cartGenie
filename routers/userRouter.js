@@ -17,11 +17,11 @@ router.get("/orders", getOrderHistory)
 router.get("/checkout", getCheckout)
 router.get("/add-address", getAddAddress)
 router.get("/edit-address/:id", getEditAddress)
-router.get("/ordered-product", getOrderProduct)
 router.get("/profile", getUserProfile)
 router.get("/coupons", getCoupons)
  
 
+router.get("/order/:id", getOrderProduct)
 router.get("/add-to-wishlist/:id", addToWishlist);
 router.get("/remove-from-wishlist/:id", removeFromWishlist);
 router.get("/add-to-cart/:id", addToCart);

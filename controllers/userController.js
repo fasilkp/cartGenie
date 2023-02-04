@@ -87,8 +87,9 @@ export async function getEditAddress(req, res){
 
     res.render("user/editAddress", {key:"", address:address[0]})
 }
-export function getOrderProduct(req, res){
-    res.render("user/orderedProduct", {key:""})
+export async function getOrderProduct(req, res){
+    const order= await orderModel.findOne({_id:req.params.id, userId:req.session.user.id})
+    res.render("user/orderedProduct", {key:"", order})
 }
 export function getUserProfile(req, res){
 

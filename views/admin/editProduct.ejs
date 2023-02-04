@@ -58,8 +58,19 @@
       </div>
     </div>
     <div class="a-p-form-row">
+      <div class="a-p-form-img" id="oldImage" >
+        <% product.sideImages.forEach((item, index)=>{ %>
+          <img src="/product-images/<%=item.filename %>" alt="">
+          <label for="<%=item.filename %>" >
+            <i class="ri-close-fill"></i>
+            <input type="checkbox" id="<%=item.filename %>" value="<%=item.filename %>"  name="deletedImages">
+          </label>
+        <% })  %> 
+      </div>
+    </div>
+    <div class="a-p-form-row">
       <div class="a-p-form-img" id="multiImage">
-        
+         
       </div>
     </div>
     <div class="a-p-form-row">
@@ -74,10 +85,13 @@
     <div class="a-p-form-row">
       <button type="submit">Edit product</button>
     </div>
+  </form>
   </div>
 </div>
 <% var productImages= product.sideImages %> 
 <script>
+  var productImages=JSON.parse('<%- JSON.stringify(productImages)%>')
+  console.log(productImages)
   function changeSingleImage() {
     const file = document.getElementById("sImg").files[0];
     var binaryData = [];
@@ -89,25 +103,10 @@
     );
     document.getElementById("singleImage").innerHTML= `<img src="${imageData}" />`
   }
-
   function changeMultiImage() {
     const files = document.getElementById("mImg").files;
     const multiImage=document.getElementById("multiImage");
     multiImage.innerHTML=""
-    products.forEach(item=>{
-    const multiImage=document.getElementById("multiImage");
-    var img=document.createElement('img')
-      img.src="http://localhost:4001/product-images/"+item;
-      var i= document.createElement('i');
-      var input= document.createElement('input');
-      input.setAttribute("type", "checkbox")
-      input.setAttribute("name", "deletedImages")
-      input.setAttribute("onchange", "deletedImage("+item+")")
-      i.setAttribute('class', 'ri-close-fill')
-      multiImage.appendChild(img)
-      multiImage.appendChild(i)
-      multiImage.appendChild(input)
-  })
     Array.from(files).forEach((file) => {
       var binaryData = [];
       binaryData.push(file);
@@ -118,51 +117,38 @@
       );
       var img=document.createElement('img')
       img.src=imageData;
-      var i= document.createElement('i');
-      i.setAttribute('class', 'ri-close-fill')
       multiImage.appendChild(img)
-      multiImage.appendChild(i)
     });
   }
-  var products= '<%-JSON.stringify(productImages)%>'
-  products = JSON.parse(products)
-  products= products.map(item=> item.filename)
-  products.forEach(item=>{
-    const multiImage=document.getElementById("multiImage");
-    var img=document.createElement('img')
-      img.src="http://localhost:4001/product-images/"+item;
-      var i= document.createElement('i');
-      var input= document.createElement('input');
-      input.setAttribute("type", "checkbox")
-      input.setAttribute("name", "deletedImages")
-      input.setAttribute("onchange", "deletedImage("+item+")")
+// function deleteOldImage(id){
+//   console.log(id)
+//   var filterImg=productImages.filter(item=>{
+//     return item.filename!=id
+//   })
+//   productImages=filterImg
+//   console.log(productImages)
+//   const oldImage=document.getElementById("oldImage");
+//   oldImage.innerHTML=''
+//   productImages.forEach((item) => {
+//       var img=document.createElement('img')
+//       var label=document.createElement('label')
+//       var i=document.createElement('i')
+//       var input=document.createElement('input')
+//       input.setAttribute('type', 'checkbox')
+//       input.setAttribute('value', item.filename)
+//       input.setAttribute('id', item.filename)
+//       input.setAttribute('name', 'deletedImages')
+//       input.setAttribute('onchange', `deleteOldImage('${item.filename}')`)
+//       label.setAttribute('for', item.filename)
+//       i.setAttribute('class', 'ri-close-fill')
+//       label.appendChild(i);
+//       img.src='/product-images/'+item.filename;
+//       oldImage.appendChild(img)
+//       oldImage.appendChild(label)
+//       oldImage.appendChild(input)
+//   });
 
-      i.setAttribute('class', 'ri-close-fill')
-      multiImage.appendChild(img)
-      multiImage.appendChild(i)
-      multiImage.appendChild(input)
-  })
-  function deletedImage(id){
-    const index = products.indexOf(id);
-    products.splice(index, 1);
-    const multiImage=document.getElementById("multiImage");
-    multiImage.innerHTML=""
-    products.forEach(item=>{
-    const multiImage=document.getElementById("multiImage");
-    var img=document.createElement('img')
-      img.src="http://localhost:4001/product-images/"+item;
-      var i= document.createElement('i');
-      var input= document.createElement('input');
-      input.setAttribute("type", "checkbox")
-      input.setAttribute("name", "deletedImages")
-      input.setAttribute("onchange", "deletedImage("+item+")")
+// }
 
-      i.setAttribute('class', 'ri-close-fill')
-      multiImage.appendChild(img)
-      multiImage.appendChild(i)
-      multiImage.appendChild(input)
-  })
-  }
-  
-
+ 
 </script>

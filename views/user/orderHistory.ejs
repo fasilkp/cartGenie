@@ -9,19 +9,21 @@
 
                 <div class="col-12">
                     <div class="wish-item">
-                        <div class="order-img">
+                        <a href="/order/<%=item._id%>" class="order-img text-dark">
                             <img src="/product-images/<%=item.product.mainImage.filename%>" alt="">
-                        </div>
-                            <div class="order-detail">
+                        </a>
+                            <a href="/order/<%=item._id%>" class="order-detail text-dark">
                                 <b><%= item.product.name %> </b>
                                 <h5 class="mt-2">₹<%= item.total  %> </h5>
-                                <b class="">Quntity : <%= item.quantity  %> </b>
-                            </div>
-                            <div class="order-status">
-                                <div class="<%=item.orderStatus%>"><%=item.orderStatus%></div>
-                            </div>
+                            </a>
                             <div class="order-cancel">
-                                <button>Cancel</button>
+                                <b class="">Quntity : <%= item.quantity  %> </b>
+
+                            </div>
+                            <div class="order-status d-flex">
+                                <b>Status :</b> 
+                                <div class="<%=item.orderStatus%>"> <%=item.orderStatus%></div>
+                                <!-- <button>Cancel</button> -->
                             </div>
                         </div>
                 </div>

@@ -142,23 +142,40 @@ export async function addProduct(req, res){
 }
 
 export async function editProduct(req, res){
+    const {name, category, quantity, brand, MRP, price, description, _id, deletedImages}=req.body;
+    if(deletedImages){
+        if(Array.isArray(deletedImages)){
+            await productModel.updateOne({_id}, {$pull:{
+                sideImages:{filename:{$in:deletedImages}}
+            }})
+        }else{
+            await productModel.updateOne({_id}, {$pull:{
+                sideImages:{filename:deletedImages}
+            }})
+        }
+    }
     try{
-        const {name, category, quantity, brand, MRP, price, description, _id}=req.body;
         const categoryId= category.split(" ")[0]
         const categoryName= category.split(" ")[1]
         if(req.files.image && req.files.images){
-            await productModel.findByIdAndUpdate(_id, {$set:{
-                    name, category:categoryName,categoryId, quantity, brand, MRP, price, description,
-                    mainImage:req.files.image[0],
-                    sideImages:req.files.images
-            }})
+            await productModel.findByIdAndUpdate(_id, {
+                $set:{
+                    name, category:categoryName,categoryId, quantity, brand, MRP, price, description,mainImage:req.files.image[0]
+            },
+            $push:{
+                sideImages:{$each: req.files.images}
+            }
+        })
         return res.redirect("/admin/product");
         }
         if(!req.files.image && req.files.images){
             await productModel.findByIdAndUpdate(_id, {$set:{
-                name, category, quantity, brand, MRP, price, description,
-                sideImages:req.files.images
-            }})
+                name, category, quantity, brand, MRP, price, description
+            },
+            $push:{
+                sideImages:{$each: req.files.images}
+            }
+        })
         return res.redirect("/admin/product");
 
         }
@@ -182,6 +199,7 @@ export async function editProduct(req, res){
         const categories= await categoryModel.find().lean();
         res.render('admin/editProduct',{error:true, message:"Please fill all the fields", categories, product:req.body})
     }
+
 }
 
 export async function adminSearchProduct(req, res){
