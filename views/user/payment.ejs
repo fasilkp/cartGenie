@@ -6,21 +6,33 @@
             <h3 class="text-center mt-5">Payment Gateway</h3>
             <div class="cart-price-details w-50">
                   <div class="price-item">
-                    <label for="">Amount Payable</label>
+                    <label for="">Total Amount</label>
       
-                    <b>₹14999 </b>
+                    <b>₹<%= totalPrice  %>  </b>
                   </div>
                   <div class="price-item">
                     <label for="">Coupons Applied</label>
       
-                    <b>- ₹0 </b>
+                    <b>-₹<%= couponPrice  %>  </b>
+                  </div>
+                  <div class="price-item">
+                    <label for="">Amount Payablet</label>
+      
+                    <b>₹<%= totalPrice-couponPrice  %>  </b>
                   </div>
                 <div class="coupon-item">
                   <label for="coupon">Apply Coupon</label>
-                    <form action="/apply-coupon" class="d-flex">  
+                    <form action="/apply-coupon" method="post" class="d-flex">  
                       <input type="text" id="coupon" placeholder="Enter Coupon Code" name="coupon">
-                      <button>Apply</button>
+                      <button type="submit">Apply</button>
                     </form>
+                    <% if(error){ %> 
+                        <b class="text-danger"><%= message  %> </b>
+                      <% } %> 
+                    <% if(couponPrice!=0){ %> 
+                        <b class="text-success">Coupon Applied </b>
+                      <% } %> 
+                    
                 </div>
                 <div class="coupon-item">
                   <button>Pay Now</button>

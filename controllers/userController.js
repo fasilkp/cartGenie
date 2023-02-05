@@ -94,8 +94,17 @@ export function getCheckout(req, res){
     res.render("user/checkout", {key:"", address})
 } 
 
-export function getPayment(req, res){
-    res.render("user/payment", {key:""})
+export async function getPayment(req, res){
+    const cart=req?.user?.cart ?? [];
+    const cartList=cart.map(item=>{
+        return item.id;
+    })
+    const products= await productModel.find({_id:{$in:cartList} , unlist:false}, {price:1}).lean()
+    let totalPrice=0;
+    products.forEach((item, index)=>{
+        totalPrice=(totalPrice+item.price)* cart[index].quantity;
+    })
+    res.render("user/payment", {key:"", totalPrice, couponPrice:0, error:false})
 } 
 export function getAddAddress(req, res){
     res.render("user/addAddress", {key:""})
@@ -215,7 +224,7 @@ export async function minusQuantity(req, res){
 
 export async function checkout(req, res){
     const {payment, address:addressId}=req.body
-    if(!payment==="cod"){
+    if(payment=="online"){
         return res.redirect("/payment")
     }
     const cart=req?.user?.cart ?? [];
@@ -247,3 +256,29 @@ export async function checkout(req, res){
     res.redirect("/orders")
 } 
 
+export async function applyCoupon(req, res){
+    const {coupon:couponCode}=req.body;
+    const cart=req?.user?.cart ?? [];
+    const cartList=cart.map(item=>{
+        return item.id;
+    })
+    const products= await productModel.find({_id:{$in:cartList} , unlist:false}, {price:1}).lean()
+    let totalPrice=0;
+    products.forEach((item, index)=>{
+        totalPrice=(totalPrice+item.price)* cart[index].quantity;
+    })
+    const coupon = await couponModel.findOne({code:couponCode});
+    if(!coupon || totalPrice<coupon.minAmount){
+        return res.render("user/payment", {key:"", totalPrice, error:true, message:"No Coupon Available", couponPrice:0})
+    }
+    if(coupon.expiry < new Date()){
+        return res.render("user/payment", {key:"", totalPrice, error:true, message:"Coupon Expired", couponPrice:0})
+    }
+    let discountAmount=(totalPrice*coupon.discount)/100
+
+    if(discountAmount>coupon.maxDiscountAmount){
+        discountAmount=coupon.maxDiscountAmount;
+    }
+    return res.render("user/payment", {key:"", totalPrice, error:false, couponPrice:discountAmount})
+
+}
