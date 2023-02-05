@@ -1,0 +1,32 @@
+<%- include('../partials/header') %>
+
+<div class="checkout-main">
+    <div class="container">
+        <div class="row d-flex justify-content-center">
+            <h3 class="text-center mt-5">Payment Gateway</h3>
+            <div class="cart-price-details w-50">
+                  <div class="price-item">
+                    <label for="">Amount Payable</label>
+      
+                    <b>₹14999 </b>
+                  </div>
+                  <div class="price-item">
+                    <label for="">Coupons Applied</label>
+      
+                    <b>- ₹0 </b>
+                  </div>
+                <div class="coupon-item">
+                  <label for="coupon">Apply Coupon</label>
+                    <form action="/apply-coupon" class="d-flex">  
+                      <input type="text" id="coupon" placeholder="Enter Coupon Code" name="coupon">
+                      <button>Apply</button>
+                    </form>
+                </div>
+                <div class="coupon-item">
+                  <button>Pay Now</button>
+                </div>
+        
+              </div>  
+        </div>
+    </div>
+</div>

@@ -1,5 +1,5 @@
 import express from "express"
-import { addAddress, addQuantity, addToCart, addToWishlist, checkout, deleteAddress, editAddress, getAddAddress, getCart, getCheckout, getCoupons, getEditAddress, getHome, getOrderHistory, getOrderProduct, getProduct, getProductList, getUserProfile, getWishlist, minusQuantity, removeFromCart, removeFromWishlist } from "../controllers/userController.js"
+import { addAddress, addQuantity, addToCart, addToWishlist, checkout, deleteAddress, editAddress, getAddAddress, getCart, getCheckout, getCoupons, getEditAddress, getHome, getOrderHistory, getOrderProduct, getPayment, getProduct, getProductList, getUserProfile, getWishlist, minusQuantity, removeFromCart, removeFromWishlist } from "../controllers/userController.js"
 import checkUser from "../middlewares/checkUser.js"
 const router = express.Router()
 import verifyUser from "../middlewares/verifyUser.js"
@@ -19,6 +19,7 @@ router.get("/add-address", getAddAddress)
 router.get("/edit-address/:id", getEditAddress)
 router.get("/profile", getUserProfile)
 router.get("/coupons", getCoupons)
+router.get("/payment", getPayment)
  
 
 router.get("/order/:id", getOrderProduct)

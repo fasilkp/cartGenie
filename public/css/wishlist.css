@@ -21,7 +21,7 @@
     font-size: 1.3rem;
 }
 .wish-img img{
-    height: 100px;
+    height: 130px;
 }
 .wish-img{
     flex: 20%;
@@ -32,6 +32,7 @@
     justify-content: center;
     gap: 10px;
     flex: 70%;
+    padding: 5px;
 }
 .wish-detail h3{
     font-weight: 50;

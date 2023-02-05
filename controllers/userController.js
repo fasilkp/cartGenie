@@ -5,6 +5,7 @@ import userModel from '../models/userModel.js'
 import UserModel from '../models/userModel.js'
 import createId from '../actions/createId.js'
 import orderModel from '../models/orderModel.js'
+import couponModel from '../models/couponModel.js'
 
 export async function getHome(req, res){
     const offers= await offerModel.find().lean()
@@ -28,7 +29,7 @@ export async function getProductList(req, res){
             name: new RegExp(key, 'i'),
             categoryId: new RegExp(category,'i'),
             unlist:false
-        }).sort({uploadedAt:-1}).skip(page*10).limit(10).lean();
+        }).sort({uploadedAt:-1}).skip(page*9).limit(9).lean();
     }else{
         count= await productModel.find({
             name: new RegExp(key, 'i'),
@@ -39,10 +40,10 @@ export async function getProductList(req, res){
             name: new RegExp(key, 'i'),
             categoryId: new RegExp(category,'i'),
             unlist:false
-        }).sort({price:filter}).skip(page*10).limit(10).lean(); 
+        }).sort({price:filter}).skip(page*9).limit(9).lean(); 
     }
     const categories= await categoryModel.find().lean(); 
-    let pageCount=Math.floor(count/10)
+    let pageCount=Math.floor(count/9)
     console.log(pageCount )
     return res.render("user/productList", {products, categories, key, category, filter, pageCount, page})
 } 
@@ -92,6 +93,10 @@ export function getCheckout(req, res){
     let address= req.user.address
     res.render("user/checkout", {key:"", address})
 } 
+
+export function getPayment(req, res){
+    res.render("user/payment", {key:""})
+} 
 export function getAddAddress(req, res){
     res.render("user/addAddress", {key:""})
 }
@@ -108,8 +113,10 @@ export function getUserProfile(req, res){
 
     res.render("user/userProfile", {key:"", user:req.user})
 }
-export function getCoupons(req, res){
-    res.render("user/coupons", {key:""}) 
+export async function getCoupons(req, res){
+    const coupons=await couponModel.find({unlist:false, expiry:{$gt:new Date()}}).lean();
+    console.log(coupons)
+    res.render("user/coupons", {key:"", coupons}) 
 }
 
 export async function addToWishlist(req, res){
@@ -209,7 +216,7 @@ export async function minusQuantity(req, res){
 export async function checkout(req, res){
     const {payment, address:addressId}=req.body
     if(!payment==="cod"){
-        return res.send("online")
+        return res.redirect("/payment")
     }
     const cart=req?.user?.cart ?? [];
     const cartList=cart.map(item=>item.id)

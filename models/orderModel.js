@@ -33,6 +33,14 @@ const orderSchema= new mongoose.Schema({
         type:Date,
         default: new Date(new Date().setDate(new Date().getDate() + 7))
     },
+    payment:{
+        type:Object,
+        default:{}
+    },
+    paymentType:{
+        type:String,
+        default:'cod'
+    },
     total:{
         type:Number,
         required:true
