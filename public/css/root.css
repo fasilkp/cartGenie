@@ -4,3 +4,7 @@
     --white: rgb(255, 255, 255);
     --lightWhite: #F6F6F6;
 }
+body{
+    max-width: 100vw;
+    overflow-x: hidden;
+}

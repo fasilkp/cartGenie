@@ -6,6 +6,8 @@ import UserModel from '../models/userModel.js'
 import createId from '../actions/createId.js'
 import orderModel from '../models/orderModel.js'
 import couponModel from '../models/couponModel.js'
+import bcrypt from 'bcryptjs'
+var salt = bcrypt.genSaltSync(10);
 
 export async function getHome(req, res){
     const offers= await offerModel.find().lean()
@@ -119,8 +121,10 @@ export async function getOrderProduct(req, res){
     res.render("user/orderedProduct", {key:"", order})
 }
 export function getUserProfile(req, res){
-
     res.render("user/userProfile", {key:"", user:req.user})
+}
+export function getEditProfile(req, res){
+    res.render("user/editProfile", {key:"", user:req.user, error:false})
 }
 export async function getCoupons(req, res){
     const coupons=await couponModel.find({unlist:false, expiry:{$gt:new Date()}}).lean();
@@ -274,6 +278,7 @@ export async function applyCoupon(req, res){
     if(coupon.expiry < new Date()){
         return res.render("user/payment", {key:"", totalPrice, error:true, message:"Coupon Expired", couponPrice:0})
     }
+
     let discountAmount=(totalPrice*coupon.discount)/100
 
     if(discountAmount>coupon.maxDiscountAmount){
@@ -281,4 +286,20 @@ export async function applyCoupon(req, res){
     }
     return res.render("user/payment", {key:"", totalPrice, error:false, couponPrice:discountAmount})
 
+}
+
+export async function editProfile(req, res){
+    const {name, email, password}=req.body;
+    if(name=='' || email==''){
+        return res.render("user/editProfile", {error:true,key:"", message:"fill every fields", user:req.user})
+
+    }
+    const user=await userModel.findOne({email})
+    if(bcrypt.compareSync(password, user.password)){
+        await userModel.updateOne({email}, {
+            $set:{email, name}
+        })
+        return res.redirect("/profile")
+    }
+    return res.render("user/editProfile", {error:true,key:"", message:"Invalid Password", user:req.user})
 }

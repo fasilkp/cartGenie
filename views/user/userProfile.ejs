@@ -7,10 +7,10 @@
                 <div class="profile-container">
                     <h4>General</h4>
                     <div class="profil-row">
-                        <b>Name : </b><span>Mohamed Fasil KP</span>
+                        <b>Name : </b><span><%= user.name %></span>
                     </div>
                     <div class="profil-row">
-                        <b>Email : </b><span>fasil@gmail.com</span>
+                        <b>Email : </b><span><%= user.email  %> </span>
                     </div>
                     <div class="profil-row">
                         <b>Password : </b><span>
@@ -23,7 +23,7 @@
                         </span>
                     </div>
                     <div class="profil-row">
-                        <button>Edit</button>
+                        <button onclick="window.location.href='/edit-profile'">Edit</button>
                         <a href="/logout">
                             <button>Logout</button>
 

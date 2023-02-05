@@ -4,6 +4,9 @@
 .filter-sec{
     background-color: var(--white);
     height: 90vh;
+    position: sticky;
+    top: 70px;
+    /* height: 100%; */
     padding: 50px 20px;
 }
 .filter-options{

@@ -1,5 +1,5 @@
 import express from "express"
-import { changePassword, forgotPasswordEmail, forgotPasswordVerify, forgotResendOTP, getChanegPassword, getEditProfile, getForgotPassVerify, getForgotPassword, getUserLogin, getUserSignup, getVerifyEmail, userLogin, userLogout, userSignup, verifyEmail } from "../controllers/userAuthController.js"
+import { changePassword, forgotPasswordEmail, forgotPasswordVerify, forgotResendOTP,  getForgotPassVerify, getForgotPassword, getUserLogin, getUserSignup, getVerifyEmail, userLogin, userLogout, userSignup, verifyEmail } from "../controllers/userAuthController.js"
 const router = express.Router()
 
 router.get("/login", getUserLogin)
@@ -7,7 +7,6 @@ router.get("/signup", getUserSignup)
 router.get("/verify-email", getVerifyEmail)
 router.get("/forgot-password", getForgotPassword)
 router.get("/forgot-pass-verify", getForgotPassVerify)
-router.get("/edit-profile", getEditProfile)
 
 
 router.post("/signup", userSignup)

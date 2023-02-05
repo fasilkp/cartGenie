@@ -21,9 +21,7 @@ export function getForgotPassVerify(req, res) {
 export function getChanegPassword(req, res) {
     res.render("user/changePassword");
 }
-export function getEditProfile(req, res) {
-    res.render("user/editProfile");
-}
+
 
 export async function userSignup(req, res) {
     const { name, email, password } = req.body;

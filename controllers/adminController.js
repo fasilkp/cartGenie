@@ -145,6 +145,8 @@ export async function addProduct(req, res){
 
 export async function editProduct(req, res){
     const {name, category, quantity, brand, MRP, price, description, _id, deletedImages}=req.body;
+    const categoryId= category.split(" ")[0]
+    const categoryName= category.split(" ")[1]
     if(deletedImages){
         if(Array.isArray(deletedImages)){
             await productModel.updateOne({_id}, {$pull:{
@@ -172,7 +174,7 @@ export async function editProduct(req, res){
         }
         if(!req.files.image && req.files.images){
             await productModel.findByIdAndUpdate(_id, {$set:{
-                name, category, quantity, brand, MRP, price, description
+                name, category:categoryName,categoryId, quantity, brand, MRP, price, description
             },
             $push:{
                 sideImages:{$each: req.files.images}
@@ -183,7 +185,7 @@ export async function editProduct(req, res){
         }
         if(req.files.image && !req.files.images){
             await productModel.findByIdAndUpdate(_id, {$set:{
-                name, category, quantity, brand, MRP, price, description,
+                name, category:categoryName,categoryId, quantity, brand, MRP, price, description,
                 mainImage:req.files.image[0]
             }})
         return res.redirect("/admin/product");
@@ -191,7 +193,7 @@ export async function editProduct(req, res){
         } 
         if(!req.files.image && !req.files.images){
             await productModel.findByIdAndUpdate(_id, {$set:{
-                name, category, quantity, brand, MRP, price, description
+                name, category:categoryName,categoryId, quantity, brand, MRP, price, description
             }})
         return res.redirect("/admin/product");
         } 
