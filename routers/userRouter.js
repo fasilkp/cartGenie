@@ -21,6 +21,9 @@ router.get("/profile", getUserProfile)
 router.get("/coupons", getCoupons)
 router.get("/payment", getPayment)
 router.get("/edit-profile", getEditProfile)
+router.get("/order-placed", (req, res)=>{
+    res.render("user/orderPlaced", {key:"", orderId:""})
+})
  
 
 router.get("/order/:id", getOrderProduct)

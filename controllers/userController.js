@@ -93,7 +93,7 @@ export async function getOrderHistory(req, res){
 }
 export function getCheckout(req, res){
     let address= req.user.address
-    res.render("user/checkout", {key:"", address})
+    res.render("user/checkout", {key:"", address, error:false})
 } 
 
 export async function getPayment(req, res){
@@ -228,7 +228,12 @@ export async function minusQuantity(req, res){
 
 export async function checkout(req, res){
     const {payment, address:addressId}=req.body
-    if(payment=="online"){
+    console.log(req.body)
+    if(!req.body?.address){
+        let address= req.user.address
+        return res.render("user/checkout", {key:"", address, error:true, message:"please choose address"})
+    }
+    if(payment!="cod"){
         return res.redirect("/payment")
     }
     const cart=req?.user?.cart ?? [];
@@ -253,11 +258,11 @@ export async function checkout(req, res){
         i++;
     }
 
-    await orderModel.create(orders)
+    const order=await orderModel.create(orders)
     await userModel.findByIdAndUpdate(req.session.user.id,{
         $set:{cart:[]}
     })
-    res.redirect("/orders")
+    return res.render("user/orderPlaced", {orderId:order._id, key:""})
 } 
 
 export async function applyCoupon(req, res){

@@ -4,7 +4,7 @@
     <div class="container">
         <form action="/checkout" method="post" class="row">
             <div class="col-12 col-md-7">
-                <h3 class="mt-5">Choose Address</h3>
+                <h3 class="mt-5">Choose Address <a href="/add-address" class="btn btn-dark">Add Address</a></h3>
                 <% address.forEach(item=>{ %>
                     <label class="address-box mt-3" for="<%= item.id  %>">
                         <div class="address-detail">
@@ -18,6 +18,9 @@
                         </div>
                     </label>
                 <% }) %> 
+                <% if(error){ %> 
+                    <b class="text-danger"><%= message  %> </b>
+                  <% } %> 
                 <!-- <div class="pay-option mt-4">
                     <a href="/add-address">
                         <button>Add New Address</button>
@@ -37,6 +40,7 @@
                         <input type="radio" id="online" name="payment" value="online" required>
                         <label for="online">Online Payment</label>
                     </div>
+                    
                     <div class="pay-option mt-4">
                         <a href="/ordered-product">
                             <button type="submit">Place Order</button>
