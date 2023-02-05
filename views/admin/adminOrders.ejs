@@ -33,6 +33,7 @@
             <table class="table table-striped">
                 <thead>
                     <tr>
+                      <th scope="col">No</th>
                       <th scope="col">Name</th>
                       <th scope="col">User</th>
                       <th scope="col">Payment Status</th>
@@ -42,31 +43,39 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <% orders.forEach(item=>{ %>
+                    <% orders.forEach((item,index)=>{ %>
 
                     <tr>
-                      <th scope="row"><%=item.product.name  %> </th>
+                      <th scope="row">
+                        <%= index+1 %> 
+                       </th>
+                      <th scope="row">
+                        <a href="/admin/order-details/<%=item._id%>">
+                          <%=item.product.name  %>
+                        </a>
+                       </th>
                       <td><%=item.address.name  %> </td>
                       <td>
                         <% if(item.paid){ %> Paid
                         <% }else{ %> Not Paid <% } %> 
                         </td>
                       <td class="d-flex justify-content-center">
-                        <div class="del-status pending">
+                        <div class="del-status <%= item.orderStatus  %> ">
                             <%= item.orderStatus  %> 
                         </div>
                     </td>
                       <td><%=item.product.price  * item.quantity  %> </td>
-                      <td><div class="dropdown">
+                      <td>
+                        <a class="btn btn-outline-dark" href="/admin/edit-order/<%=item._id%>">Edit</a>
+                        <!-- <div class="dropdown">
                         <button class="btn btn-white dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="ri-more-2-fill"></i>
                         </button>
                         <ul class="dropdown-menu">
-                          <li><a class="dropdown-item" href="#">Action</a></li>
-                          <li><a class="dropdown-item" href="#">Another action</a></li>
-                          <li><a class="dropdown-item" href="#">Something else here</a></li>
+                          <li><a class="dropdown-item" href="/admin/edit-order/<%=item._id%>">Edit</a></li>
                         </ul>
-                      </div></td>
+                      </div> -->
+                    </td>
                     </tr>
                     <%}) %> 
 

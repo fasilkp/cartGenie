@@ -102,7 +102,7 @@
     background-color: #ff99002f;
     color: #FF9900;
 }
-.del-status.rejected{
+.del-status.rejected, .del-status.cancelled{
     background-color: #ca01012d;
     color: #CA0101;
 }

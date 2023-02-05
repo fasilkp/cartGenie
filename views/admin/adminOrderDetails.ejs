@@ -1,0 +1,66 @@
+<%- include('../partials/adminHeader') %>
+<div class="product-main">
+  <div class="container">
+    <div class="row">
+      <div class="col-12 col-md-6">
+        <div class="car-container">
+          <div id="carouselExampleIndicators" class="carousel slide w-100">
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <img
+                  src="/product-images/<%=order.product.mainImage.filename%>"
+                  class="d-block w-100"
+                  alt="..."
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="btns">
+          <% if(order.orderStatus=='pending'){ %> 
+            <button class="btn-ad-cart w-75" >Cancel</button>
+          <%} else {  %> 
+          <button class="btn-ad-cart w-75" disabled>Cancel</button>
+          <% } %> 
+        </div>
+      </div>
+      <div class="col-12 col-md-6">
+        <div class="product-container">
+          <div class="product-head mt-5">
+            <h3><%=order.product.name  %> </h3>
+          </div>
+          <div class="product-price mt-3">
+            <h3 class="me-2">₹ <%=order.product.price  %> </h3>
+            <strike>₹ <%=order.product.MRP  %> </strike>
+          </div>
+          <h4 class="mt-4">Address</h4>
+          <div class="mt-3 d-flex flex-column">
+            <span><%=order.address.name  %> </span>
+            <span><%=order.address.mobile  %> </span>
+            <span><%=order.address.address  %> </span>
+            <span>PIN: <%=order.address.pincode  %> </span>
+        </div>
+          <h4 class="mt-4">Status</h4>
+          <div class="status-box mt-3">
+            <div class="order-status justify-content-start">
+                <div class="<%= order.orderStatus  %> "><%= order.orderStatus  %> </div>
+            </div>
+          </div>
+          <h4 class="mt-4">Quantity</h4>
+          <div class="quantity-box mt-3">
+            <span>Quantity: </span>
+            <input type="number" value="<%-order.quantity%>" id="quantity" disabled />
+          </div>
+          <h4 class="mt-4">Payment Status</h4>
+          <div class="quantity-box mt-3">
+            <%= order.paymentType %> 
+          </div>
+          <h4 class="mt-4">Expected delivery date</h4>
+          <div class="quantity-box mt-3">
+            <%= order.dispatch.toLocaleString() %> 
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

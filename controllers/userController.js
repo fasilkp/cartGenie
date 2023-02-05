@@ -277,8 +277,11 @@ export async function applyCoupon(req, res){
         totalPrice=(totalPrice+item.price)* cart[index].quantity;
     })
     const coupon = await couponModel.findOne({code:couponCode});
-    if(!coupon || totalPrice<coupon.minAmount){
+    if(!coupon){
         return res.render("user/payment", {key:"", totalPrice, error:true, message:"No Coupon Available", couponPrice:0})
+    }
+    if(totalPrice<coupon.minAmount){
+        return res.render("user/payment", {key:"", totalPrice, error:true, message:"Coupon not applicaple (minimum amount must be above"+coupon.minAmount+")", couponPrice:0})
     }
     if(coupon.expiry < new Date()){
         return res.render("user/payment", {key:"", totalPrice, error:true, message:"Coupon Expired", couponPrice:0})

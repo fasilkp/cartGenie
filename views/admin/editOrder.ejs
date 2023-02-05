@@ -1,0 +1,37 @@
+<%- include('../partials/adminHeader') %>
+<div class="add-product-main">
+    <h3>Add Category</h3>
+    <form action="/admin/edit-order" method="post" class="add-product-container mt-3">
+        <input type="text" name="_id" value="<%=order._id%>" style="height: 0px; visibility: hidden;">
+        <div class="a-p-form-row">
+            <div class="a-p-form-col">
+                <label for="Name">User</label>
+                <input type="text" placeholder="category" value="<%=order.address.name%>" disabled>
+
+            </div>
+        </div>
+        <div class="a-p-form-row">
+            <div class="a-p-form-col">
+                <label for="Name">Product</label>
+                <input type="text" placeholder="category" disabled value="<%=order.product.name%>">
+            </div>
+        </div>
+        <div class="a-p-form-row">
+            <div class="a-p-form-col">
+                <label for="Name">Order Status</label>
+                <select name="status" value="<%=order.orderStatus%>" >
+                    <option value="pending">Pending</option>
+                    <option value="delivered">Delivered</option>
+                    <option value="cancelled">Cancel</option>
+                    <option value="rejected">Reject</option>
+                </select>
+                <% if(error){ %> 
+                    <b class="text-danger"><%= message  %> </b>
+                  <% } %> 
+            </div>
+        </div>
+        <div class="a-p-form-row">
+            <button type="submit">Edit Order</button>
+        </div>
+    </form>
+</div>

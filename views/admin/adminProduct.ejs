@@ -42,6 +42,7 @@
             <table class="table table-striped">
                 <thead>
                     <tr>
+                      <th scope="col">No</th>
                       <th scope="col">Name</th>
                       <th scope="col">Image</th>
                       <th scope="col">Category</th>
@@ -54,10 +55,14 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <% products.forEach(item=>{ %>
-
+                    <% products.forEach((item, index)=>{ %>
                       <tr>
-                        <th scope="row"><%= item.name  %> </th>
+                        <th scope="row">
+                          <%= index+1 %> 
+                        </th>
+                        <th scope="row">
+                          <a href="/product/<%=item._id%>" target="_blank"><%= item.name  %> </a>
+                        </th>
                         <td><img src="http://localhost:4001/product-images/<%= item.mainImage.filename  %>" style="height: 50px;" alt=""></td>
                         <td><%=item.category %> </td>
                         <td><%= item.MRP  %></td>

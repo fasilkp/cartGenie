@@ -54,6 +54,16 @@ export async function getEditCategory(req,res){
     res.render("admin/editCategory", {error:false, id:req.params.id, category:category.category})
 } 
 
+export async function getOrderDetails(req, res){
+    const order= await orderModel.findOne({_id:req.params.id})
+    res.render("admin/adminOrderDetails", { order})
+}
+
+export async function getEditOrder(req, res){
+    const order= await orderModel.findOne({_id:req.params.id})
+    res.render("admin/editOrder", {order, error:false})
+}
+
 export async function addCategory(req, res){
     const categoryExist = await categoryModel.findOne({category:req.body.category})
     if(categoryExist){
@@ -359,4 +369,24 @@ export async function unListCoupon(req, res){
         console.log(err)
         res.redirect("/admin/coupons")
     }
+}
+
+export async function editOrder(req, res){
+    const {status, _id}=req.body;
+    console.log(req.body)
+    if(status=='delivered'){
+        await orderModel.updateOne({_id},{
+            $set:{
+                paid:true,
+                orderStatus:status
+            }
+        })
+        return res.redirect("/admin/orders")
+    }
+    await orderModel.updateOne({_id},{
+        $set:{
+            orderStatus:status
+        }
+    })
+    return res.redirect("/admin/orders")
 }
