@@ -49,14 +49,18 @@
                       <tr>
                         <th scope="row"><%=item.name  %> </th>
                         <td><%= item.email  %> </td>
-                        <td><div class="dropdown">
+                        <td>
+                          <a class="btn btn-outline-dark" onclick="unBanThis('<%=item._id%>')">unban</a>
+
+                          <!-- <div class="dropdown">
                           <button class="btn btn-white dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                               <i class="ri-more-2-fill"></i>
                           </button>
                           <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="/admin/unban-user/<%= item._id  %> ">Unban</a></li>
                           </ul>
-                        </div></td>
+                        </div> -->
+                      </td>
                       </tr>
                     <% }) %> 
                   </tbody>
@@ -66,3 +70,10 @@
   </div>
 </div>
 
+<script>
+  function unBanThis(id){
+    if(confirm("Are You Sure unBan this user")){
+        window.location.href=`/admin/unban-user/${id}`
+    }
+  }
+</script>
