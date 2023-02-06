@@ -22,27 +22,19 @@ export async function getProductList(req, res){
     let count=0;
     let products=[]
     if(filter==0){
-        count=products= await productModel.find({
-            name: new RegExp(key, 'i'),
-            categoryId: new RegExp(category,'i'),
-            unlist:false
-        }).count()
         products= await productModel.find({
             name: new RegExp(key, 'i'),
             categoryId: new RegExp(category,'i'),
             unlist:false
         }).sort({uploadedAt:-1}).skip(page*9).limit(9).lean();
+        count=products.length
     }else{
-        count= await productModel.find({
-            name: new RegExp(key, 'i'),
-            categoryId: new RegExp(category,'i'),
-            unlist:false
-        }).count()
         products= await productModel.find({
             name: new RegExp(key, 'i'),
             categoryId: new RegExp(category,'i'),
             unlist:false
         }).sort({price:filter}).skip(page*9).limit(9).lean(); 
+        count=products.length
     }
     const categories= await categoryModel.find().lean(); 
     let pageCount=Math.floor(count/9)

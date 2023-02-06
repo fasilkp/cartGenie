@@ -89,14 +89,13 @@
                   <% offers.forEach(item=>{ %>
                     <div class="carousel-item active" onclick="window.location.href='<%=item.url%>'">
                       <img src="http://localhost:4001/product-images/<%= item.image  %> " class="d-block w-100 carousal-img" alt="...">
+                      <div style="position:relative; top:-150px; left: 200px; color: white;  max-width: 250px; display: flex; flex-direction: column; justify-content: center; padding: 10px;">
+
+                        <h3 class="text-center" style="-webkit-text-stroke-width: 1px; -webkit-text-stroke-color: black;"><%=item.name  %> </h3>
+                        <a class="btn btn-dark p-2" style="background-color: black;">Shop Now</a>
+                      </div>
                     </div>
                   <% }) %> 
-                  <!-- <div class="carousel-item">
-                    <img src="https://i03.appmifile.com/609_operator_in/13/01/2023/a5c8f0be1ff691f51c520d8fa0fb9481.jpg?f=webp"  class="d-block w-100 carousal-img" alt="...">
-                  </div>
-                  <div class="carousel-item">
-                    <img src="https://image01.realme.net/general/20221124/1669271312450.jpg.webp"  class="d-block w-100 carousal-img" alt="...">
-                  </div> -->
                 </div>
                 <button class="carousel-control-prev carousal-btn" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
                   <span class="carousel-control-prev-icon" aria-hidden="true"></span>

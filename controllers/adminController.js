@@ -10,45 +10,68 @@ export async function getAdminOrders(req,res){
     const orders=await orderModel.find().lean()
     res.render("admin/adminOrders",{orders})
 }
-export function getDashboard(req,res){
-    res.render("admin/adminDashboard")
+
+export async function getDashboard(req,res){
+    const orders=await orderModel.find().lean();
+    let totalOrders= orders.length;
+    let totalRevenue=0;
+    let totalPending=0;
+    let deliveredOrders=orders.filter(item=>{
+        if(item.orderStatus=="pending"){
+            totalPending++;
+        }
+        totalRevenue=totalRevenue+ item.product.price;
+        return item.paid
+    });
+    let totalDispatch=deliveredOrders.length;
+    res.render("admin/adminDashboard", {totalOrders, totalRevenue, totalDispatch, totalPending})
 } 
+
 export async function getAdminProduct(req,res){
     const products = await productModel.find().lean()
     res.render("admin/adminProduct", {products})
 } 
+
 export async function getAdminUsers(req,res){
     const users= await UserModel.find({ban:false}).lean();
     res.render("admin/adminUsers", {users})
 } 
+
 export async function getBannedUsers(req,res){
     const users= await UserModel.find({ban:true}).lean();
     res.render("admin/bannedUsers", {users})
 } 
+
 export async function getAdminCategory(req,res){
     const categories= await categoryModel.find().lean();
     res.render("admin/adminCategory", {categories})
 }
+
 export async function getAddProduct(req,res){
     const categories= await categoryModel.find().lean();
     res.render("admin/addProduct", {error:false, categories})
 } 
+
 export async function getEditProduct(req,res){
     const _id=req.params.id;
     const product=await productModel.findOne({_id});
     const categories= await categoryModel.find().lean();
     res.render("admin/editProduct", {product, error:false, categories})
 } 
+
 export async function getAdminOffers(req,res){
     const offers= await offerModel.find().lean();
     res.render("admin/adminOffers", {offers})
 } 
+
 export function getAddOffers(req,res){
     res.render("admin/addOffers", {error:false})
 } 
+
 export function getAddCategory(req,res){
     res.render("admin/addCategory", {error:false})
 } 
+
 export async function getEditCategory(req,res){
     const category=await categoryModel.findOne({_id:req.params.id})
     res.render("admin/editCategory", {error:false, id:req.params.id, category:category.category})

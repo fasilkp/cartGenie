@@ -38,6 +38,7 @@
                       <th scope="col">User</th>
                       <th scope="col">Payment Status</th>
                       <th scope="col">Status</th>
+                      <th scope="col">Quantity</th>
                       <th scope="col">Total</th>
                       <th scope="col">Action</th>
                     </tr>
@@ -64,6 +65,8 @@
                             <%= item.orderStatus  %> 
                         </div>
                     </td>
+                      
+                    <td><%=item.quantity  %> </td>
                       <td><%=item.product.price  * item.quantity  %> </td>
                       <td>
                         <a class="btn btn-outline-dark" href="/admin/edit-order/<%=item._id%>">Edit</a>

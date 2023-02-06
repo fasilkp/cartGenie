@@ -16,16 +16,13 @@ router.get("/cart", getCart)
 router.get("/orders", getOrderHistory)
 router.get("/checkout", getCheckout)
 router.get("/add-address", getAddAddress)
-router.get("/edit-address/:id", getEditAddress)
 router.get("/profile", getUserProfile)
 router.get("/coupons", getCoupons)
 router.get("/payment", getPayment)
 router.get("/edit-profile", getEditProfile)
-router.get("/order-placed", (req, res)=>{
-    res.render("user/orderPlaced", {key:"", orderId:""})
-})
- 
 
+
+router.get("/edit-address/:id", getEditAddress)
 router.get("/order/:id", getOrderProduct)
 router.get("/add-to-wishlist/:id", addToWishlist);
 router.get("/remove-from-wishlist/:id", removeFromWishlist);

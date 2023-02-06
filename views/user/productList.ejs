@@ -4,14 +4,24 @@
     <div class="row">
       <div class="col-3">
         <form class="filter-sec" method="get">
+          <input type="text" value="<%=key%>" name="key" style="height: 0px; visibility: hidden;"
+          >
           <div class="row">
             <h6>Cartegory</h6>
           </div>
           <div class="filter-options mt-3">
+            <div class="ft-option">
+              <input type="radio" value="" name="category" id="d" onchange="this.form.submit()"
+                  <% if(category==""){ %> checked <% } %> onchange="this.form.submit()"
+              />
+              <label for="d">All</label>
+            </div>
             <% categories.forEach(item=>{ %> 
               <div class="ft-option">
-                <input type="radio" value="<%=item._id%>" name="category" id="Smartphone" />
-                <label for="Smartphone"><%=item.category%></label>
+                <input type="radio" value="<%=item._id%>" name="category" id="<%=item._id%>"
+                <% if(category==item._id){ %> checked <% } %> onchange="this.form.submit()"
+                />
+                <label for="<%=item._id%>"><%=item.category%></label>
             </div>
             <% }) %> 
           </div>
@@ -20,19 +30,26 @@
           </div>
           <div class="filter-options mt-3">
             <div class="ft-option">
-                <input type="radio" value="1" name="filter" id="lowToHigh" />
+                <input type="radio" value="1" name="filter" id="lowToHigh"
+                <% if(filter==1){ %> checked <% } %> onchange="this.form.submit()"
+                />
                 <label for="lowToHigh">Price - Low to High</label>
             </div>
             <div class="ft-option">
-                <input type="radio" value="-1" name="filter" id="highToLow" />
+                <input type="radio" value="-1" name="filter" id="highToLow"
+                <% if(filter==-1){ %> checked <% } %> onchange="this.form.submit()"
+                
+                />
                 <label for="highToLow">Price - High to Low</label>
             </div>
             <div class="ft-option">
-                <input type="radio" value="0" name="filter" id="newLaunches" />
+                <input type="radio" value="0" name="filter" id="newLaunches"
+                <% if(filter==0){ %> checked <% } %> onchange="this.form.submit()"
+                />
                 <label for="newLaunches">New Launches</label>
             </div>
             </div>
-            <button class="mt-5" type="submit">Save</button>
+            <!-- <button class="mt-5" type="submit">Save</button> -->
 
         </form>
       </div>
