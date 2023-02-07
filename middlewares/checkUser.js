@@ -5,6 +5,7 @@ export default async function(req, res, next){
         const user= await UserModel.findOne({_id:req.session.user.id}, {password:0});
         req.user=user;
         if(user?.ban){
+            req.session.user=null;
             return res.redirect("/login")
         }
     }

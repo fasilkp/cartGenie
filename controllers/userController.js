@@ -81,6 +81,9 @@ export async function getCart(req, res){
 }
 export async function getOrderHistory(req, res){
     const orders= await orderModel.find({userId:req.session.user.id}).lean()
+    const sortOrders=orders.sort(function(a,b){
+        return new Date(b.uploadedAt) - new Date(a.uploadedAt);
+      });
     res.render("user/orderHistory", {key:"", orders})
 }
 export function getCheckout(req, res){
