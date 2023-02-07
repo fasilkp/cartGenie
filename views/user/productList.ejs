@@ -2,8 +2,13 @@
 <div class="product-list">
   <div class="container">
     <div class="row">
-      <div class="col-3">
+      <div class="col-1 col-md-3">
         <form class="filter-sec" method="get">
+          <div class="row bg-white d-md-none d-flex p-2">
+            <div class="col d-flex flex-row-reverse align-items-center" onclick="hideFilter()">
+              <i class="ri-close-fill" style="margin-top: -10px; font-size: 1.8rem;"></i>
+            </div>
+          </div>
           <input type="text" value="<%=key%>" name="key" style="height: 0px; visibility: hidden;"
           >
           <div class="row">
@@ -53,8 +58,14 @@
 
         </form>
       </div>
-      <div class="col-9">
-        <div class="row mt-5">
+      <div class="col-12 col-md-9">
+        <div class="row bg-white d-md-none d-flex p-2">
+          <div class="col d-flex flex-row-reverse align-items-center" onclick="showFilter()">
+            <i class="ri-filter-2-line" style="margin-top: -10px;"></i>
+            <h6>Filter</h6>
+          </div>
+        </div>
+        <div class="row mt-3">
           <h5>Products</h5>
         </div>
         <div class="row">
@@ -83,14 +94,14 @@
             </div>
           </div>
           <% }) %> 
+          <% if(!products[0]){ %> 
+          <div class="empty-container w-100 h-50 d-flex flex-column justify-content-center align-items-center" style="gap:10px">
+            <img src="/images/no-search-data.png" height="" alt="">
+            <h3>Sorry, no results found!</h3>
+             <p class="text-center">Please check the spelling or try searching for something else</p> 
+          </div>
+          <% } %> 
         </div>
-        <% if(!products[0]){ %> 
-        <div class="empty-container w-100 h-50 d-flex flex-column justify-content-center align-items-center" style="gap:10px">
-          <img src="/images/no-search-data.png" alt="">
-          <h3>Sorry, no results found!</h3>
-           <p>Please check the spelling or try searching for something else</p> 
-        </div>
-        <% } %> 
         <div class="row d-flex justify-content-center mt-5">
           <% if(pageCount>0) {%> 
           <nav aria-label="Page navigation example text-dark pl-pagination">
@@ -128,5 +139,14 @@
     var new_url = url.toString();
     console.log(new_url);
     window.location.href=new_url
+  }
+
+  function showFilter(){
+    var filterSec=document.querySelector('.filter-sec');
+    filterSec.style.top="50px"
+  }
+  function hideFilter(){
+    var filterSec=document.querySelector('.filter-sec');
+    filterSec.style.top="-1000px"
   }
 </script>

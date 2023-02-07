@@ -28,3 +28,11 @@
 .page-link{
     cursor: pointer;
 }
+@media(max-width:600px){
+    .filter-sec{
+        width: 100vw;
+        position: fixed;
+        top: -1000px;
+        transition: .3s;
+    }
+}
