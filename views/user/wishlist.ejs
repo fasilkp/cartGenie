@@ -26,5 +26,14 @@
                 </div>
             <% }) %> 
         </div>
+        <div class="row">
+            <% if(!products[0]){ %> 
+                <div class="empty-container w-100 h-50 d-flex flex-column justify-content-center align-items-center" style="gap:10px">
+                  <img src="/images/empty-wishlist.png" height="250px" alt="">
+                  <h3>Your wishlist is empty!</h3>
+                   <p>Tap Heart button to start saving your favourites</p> 
+                </div>
+            <% } %> 
+        </div>
     </div>
 </div>
