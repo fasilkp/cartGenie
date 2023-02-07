@@ -84,6 +84,13 @@
           </div>
           <% }) %> 
         </div>
+        <% if(!products[0]){ %> 
+        <div class="empty-container w-100 h-50 d-flex flex-column justify-content-center align-items-center" style="gap:10px">
+          <img src="/images/no-search-data.png" alt="">
+          <h3>Sorry, no results found!</h3>
+           <p>Please check the spelling or try searching for something else</p> 
+        </div>
+        <% } %> 
         <div class="row d-flex justify-content-center mt-5">
           <% if(pageCount>0) {%> 
           <nav aria-label="Page navigation example text-dark pl-pagination">
