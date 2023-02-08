@@ -9,6 +9,7 @@ import ejsLayout from 'express-ejs-layouts'
 import dbConnect from "./config/dbConnect.js"
 import session from 'express-session'
 import verifyAdmin from './middlewares/verifyAdmin.js'
+import pageNotFound from './middlewares/pageNotFound.js'
 
 const app = express();
 app.set("view engine", "ejs");
@@ -32,6 +33,7 @@ app.use("/admin/", adminAuth)
 app.use("/admin/",verifyAdmin, adminRouter)
 app.use("/", userRouter)
 
+app.use(pageNotFound)
 
 
 

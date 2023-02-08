@@ -47,23 +47,24 @@ export async function getProduct(req, res){
         const product= await productModel.findOne({_id:proId, unlist:false});
 
         let reviewUserIds= product.reviews.map(item=>item.userId)
-        let ratingUserIds= product.ratings.map(item=>item.userId)
 
-        const ratingUsers=await userModel.find({_id:{$in:ratingUserIds}}).lean()
         const reviewUsers=await userModel.find({_id:{$in:reviewUserIds}}).lean()
 
         product.reviews.forEach((item, index)=>{
             product.reviews[index].userName=reviewUsers[index].name
         })
-        product.ratings.forEach((item, index)=>{
-            product.ratings[index].userName=ratingUsers[index].name
+        let rating=0;
+        let ratings={}
+        product.ratings.forEach((item)=>{
+            ratings={...ratings, [item.userId]:item.rating}
+            rating=rating+parseInt(item.rating);
         })
-       
+        rating=rating/product.ratings.length
         if(req?.user?.wishlist?.includes(proId)){
-            return res.render("user/product", {product, key:"", wish:true})
+            return res.render("user/product", {product, key:"", wish:true, rating:Math.floor(rating), ratings})
         }else{
 
-            return res.render("user/product", {product, key:"", wish:false})
+            return res.render("user/product", {product, key:"", wish:false, rating:Math.floor(rating), ratings})
         }
 
     }catch(err){ 
@@ -122,13 +123,18 @@ export async function getEditAddress(req, res){
     res.render("user/editAddress", {key:"", address:address[0]})
 }
 export async function getOrderProduct(req, res){
-    const order= await orderModel.findOne({_id:req.params.id, userId:req.session.user.id})
-    let ratingData= await productModel.findOne({"ratings.userId":req.session.user.id, _id:order.product._id},{_id:0,ratings:{$elemMatch:{userId:req.session.user.id}} })
-    let reviewData= await productModel.findOne({"reviews.userId":req.session.user.id, _id:order.product._id},{_id:0,reviews:{$elemMatch:{userId:req.session.user.id}} })
-    let rating= ratingData?.ratings[0].rating ?? ""
-    let review= reviewData?.reviews[0].review ?? ""
+    try{
 
-    res.render("user/orderedProduct", {key:"", order, rating, review})
+        const order= await orderModel.findOne({_id:req.params.id, userId:req.session.user.id})
+        let ratingData= await productModel.findOne({"ratings.userId":req.session.user.id, _id:order.product._id},{_id:0,ratings:{$elemMatch:{userId:req.session.user.id}} })
+        let reviewData= await productModel.findOne({"reviews.userId":req.session.user.id, _id:order.product._id},{_id:0,reviews:{$elemMatch:{userId:req.session.user.id}} })
+        let rating= ratingData?.ratings[0].rating ?? ""
+        let review= reviewData?.reviews[0].review ?? ""
+        
+        return res.render("user/orderedProduct", {key:"", order, rating, review})
+    }catch(err){
+        return res.redirect("back")
+    }
 }
 export function getUserProfile(req, res){
     res.render("user/userProfile", {key:"", user:req.user})
