@@ -62,15 +62,20 @@
           <form action="/add-rating" method="post" class="ratings d-flex flex-column align-items-start">
             <input type="text" name="proId" value="<%=order.product._id%>" style="height: 0px; visibility: hidden;" >
             <div class="rate">
-              <input type="radio" id="star5" name="rating" value="5" required />
+              <input type="radio" id="star5" name="rating" value="5"
+              <% if(rating==5){ %> checked <% } %> required />
               <label for="star5" title="text">5 stars</label>
-              <input type="radio" id="star4" name="rating" value="4" required />
+              <input type="radio" id="star4" name="rating" value="4"
+              <% if(rating==4){ %> checked <% } %> required />
               <label for="star4" title="text">4 stars</label>
-              <input type="radio" id="star3" name="rating" value="3" required />
+              <input type="radio" id="star3" name="rating" value="3"
+              <% if(rating==3){ %> checked <% } %> required />
               <label for="star3" title="text">3 stars</label>
-              <input type="radio" id="star2" name="rating" value="2" required />
+              <input type="radio" id="star2" name="rating" value="2"
+              <% if(rating==2){ %> checked <% } %> required />
               <label for="star2" title="text">2 stars</label>
-              <input type="radio" id="star1" name="rating" value="1" required />
+              <input type="radio" id="star1" name="rating" value="1"
+              <% if(rating==1){ %> checked <% } %> required />
               <label for="star1" title="text">1 star</label>
             </div>
             <button type="submit">Save</button>

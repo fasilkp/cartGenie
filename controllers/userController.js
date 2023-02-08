@@ -80,9 +80,6 @@ export async function getCart(req, res){
 }
 export async function getOrderHistory(req, res){
     const orders= await orderModel.find({userId:req.session.user.id}).sort({createdAt:-1}).lean()
-    // const sortOrders=orders.sort(function(a,b){
-    //     return new Date(b.uploadedAt) - new Date(a.uploadedAt);
-    //   });
     res.render("user/orderHistory", {key:"", orders})
 }
 export function getCheckout(req, res){
@@ -112,7 +109,10 @@ export async function getEditAddress(req, res){
 }
 export async function getOrderProduct(req, res){
     const order= await orderModel.findOne({_id:req.params.id, userId:req.session.user.id})
-    res.render("user/orderedProduct", {key:"", order})
+    let ratings= await productModel.findOne({"ratings.userId":req.session.user.id, _id:order.product._id},{_id:0,ratings:{$elemMatch:{userId:req.session.user.id}} })
+    let rating= ratings?.ratings[0].rating ?? ""
+    console.log(ratings)
+    res.render("user/orderedProduct", {key:"", order, rating})
 }
 export function getUserProfile(req, res){
     res.render("user/userProfile", {key:"", user:req.user})

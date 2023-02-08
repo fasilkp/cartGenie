@@ -1,8 +1,14 @@
 .order-img{
     flex: 5%;
 }  
-.order-img img{
+.order-img{
     height: 100px;
+    display: flex;
+    align-items: center;
+    padding-left: 10px;
+}
+.order-img img{
+    max-width: 80px;
 } 
 .order-detail{
     flex: 40%;
