@@ -7,7 +7,7 @@ import orderModel from "../models/orderModel.js";
 import moment from "moment";
 
 export async function getAdminOrders(req,res){
-    const orders=await orderModel.find().lean()
+    const orders=await orderModel.find().sort({createdAt:-1}).lean()
     res.render("admin/adminOrders",{orders})
 }
 

@@ -306,3 +306,37 @@ export async function editProfile(req, res){
     }
     return res.render("user/editProfile", {error:true,key:"", message:"Invalid Password", user:req.user})
 }
+
+export async function addRating(req, res){
+    const {proId, rating}=req.body;
+    console.log(req.body)
+    // await productModel.updateOne({_id:proId},{
+    //     $addToSet:{
+    //         ratings:{
+    //             userId:req.session.user.id,
+    //             rating
+    //         }
+    //     }
+    // });
+    const ratingExist=await productModel.findOne({_id:proId,ratings:{$elemMatch:{userId:req.session.user.id}} })
+    console.log(ratingExist)
+    if(ratingExist){
+        await productModel.updateOne({_id:proId,ratings:{$elemMatch:{userId:req.session.user.id}} },{
+            $set:{
+                "ratings.$.userId":req.session.user.id,
+                "ratings.$.rating":rating
+            }
+        })
+    }else{
+        await productModel.updateOne({_id:proId},{
+            $addToSet:{
+                ratings:{
+                    userId:req.session.user.id,
+                    rating
+                }
+            }
+        })
+    }
+    res.redirect("back")
+
+}

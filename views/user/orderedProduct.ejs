@@ -46,33 +46,41 @@
                 <div class="<%= order.orderStatus  %> "><%= order.orderStatus  %> </div>
             </div>
           </div>
+          <% if(order.orderStatus=="pending"){ %> 
+          <h4 class="mt-4">Expected Delivery Date</h4>
+          <div class="quantity-box mt-3">
+            <span><%=order.dispatch.toLocaleDateString() %> </span>
+          </div>
+          <% } %> 
           <h4 class="mt-4">Quantity</h4>
           <div class="quantity-box mt-3">
             <span>Quantity: </span>
             <input type="number" value="<%-order.quantity%>" id="quantity" disabled />
           </div>
-
+          <% if(order.orderStatus=="delivered"){ %> 
           <h4 class="mt-5">Add Ratings</h4>
-          <form class="ratings d-flex flex-column align-items-start">
+          <form action="/add-rating" method="post" class="ratings d-flex flex-column align-items-start">
+            <input type="text" name="proId" value="<%=order.product._id%>" style="height: 0px; visibility: hidden;" >
             <div class="rate">
-              <input type="radio" id="star5" name="rate" value="5" />
+              <input type="radio" id="star5" name="rating" value="5" required />
               <label for="star5" title="text">5 stars</label>
-              <input type="radio" id="star4" name="rate" value="4" />
+              <input type="radio" id="star4" name="rating" value="4" required />
               <label for="star4" title="text">4 stars</label>
-              <input type="radio" id="star3" name="rate" value="3" />
+              <input type="radio" id="star3" name="rating" value="3" required />
               <label for="star3" title="text">3 stars</label>
-              <input type="radio" id="star2" name="rate" value="2" />
+              <input type="radio" id="star2" name="rating" value="2" required />
               <label for="star2" title="text">2 stars</label>
-              <input type="radio" id="star1" name="rate" value="1" />
+              <input type="radio" id="star1" name="rating" value="1" required />
               <label for="star1" title="text">1 star</label>
             </div>
-            <button>Save</button>
+            <button type="submit">Save</button>
           </form>
           <h4 class="mt-5">Add Ratings</h4>
           <div class="add-review">
             <textarea name="" id="" rows="4" placeholder="add review..."></textarea>
             <button class="mt-3">Save</button>
           </div>
+          <% } %> 
         </div>
       </div>
     </div>
