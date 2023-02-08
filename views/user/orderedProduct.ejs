@@ -27,7 +27,9 @@
       <div class="col-12 col-md-6">
         <div class="product-container">
           <div class="product-head mt-5">
-            <h3><%=order.product.name  %> </h3>
+            <a href="/product/<%=order.product._id  %>">
+              <h3><%=order.product.name  %> </h3>
+            </a>
           </div>
           <div class="product-price mt-3">
             <h3 class="me-2">₹ <%=order.product.price  %> </h3>

@@ -45,6 +45,20 @@ export async function getProduct(req, res){
     try{
         const proId=req.params.id;
         const product= await productModel.findOne({_id:proId, unlist:false});
+
+        let reviewUserIds= product.reviews.map(item=>item.userId)
+        let ratingUserIds= product.ratings.map(item=>item.userId)
+
+        const ratingUsers=await userModel.find({_id:{$in:ratingUserIds}}).lean()
+        const reviewUsers=await userModel.find({_id:{$in:reviewUserIds}}).lean()
+
+        product.reviews.forEach((item, index)=>{
+            product.reviews[index].userName=reviewUsers[index].name
+        })
+        product.ratings.forEach((item, index)=>{
+            product.ratings[index].userName=ratingUsers[index].name
+        })
+       
         if(req?.user?.wishlist?.includes(proId)){
             return res.render("user/product", {product, key:"", wish:true})
         }else{
@@ -113,6 +127,7 @@ export async function getOrderProduct(req, res){
     let reviewData= await productModel.findOne({"reviews.userId":req.session.user.id, _id:order.product._id},{_id:0,reviews:{$elemMatch:{userId:req.session.user.id}} })
     let rating= ratingData?.ratings[0].rating ?? ""
     let review= reviewData?.reviews[0].review ?? ""
+
     res.render("user/orderedProduct", {key:"", order, rating, review})
 }
 export function getUserProfile(req, res){

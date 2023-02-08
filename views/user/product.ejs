@@ -135,84 +135,20 @@
             <b><%= product.ratings.length  %>  </b>Rating and <b> <%= product.reviews.length  %> </b>Reviews
           </div>
           <div class="review-sec mt-5">
-            <div class="review">
-              <div class="review-profile">
-                <img src="/images/tv.jpg" alt="" />
+            <% product.reviews.forEach((item)=>{ %>
+
+              <div class="review">
+                <div class="review-profile">
+                <img src="/images/man.png" style="border: 2px solid rgb(186, 186, 248);" alt="" />
                 <div class="review-name">
-                  <b>Fasil</b>
+                  <b><%= item.userName %> </b>
                   <span>4.5<i class="ri-star-fill"></i></span>
                 </div>
               </div>
-              <div class="review-desc">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Praesentium explicabo repudiandae eum. Nulla quibusdam 
-              </div>
+              <pre class="review-desc"><%=item.review  %></pre>
             </div>
-            <div class="review">
-              <div class="review-profile">
-                <img src="/images/tv.jpg" alt="" />
-                <div class="review-name">
-                  <b>Fasil</b>
-                  <span>4.5<i class="ri-star-fill"></i></span>
-                </div>
-              </div>
-              <div class="review-desc">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Praesentium explicabo repudiandae eum. Nulla quibusdam 
-              </div>
-            </div>
-            <div class="review">
-              <div class="review-profile">
-                <img src="/images/tv.jpg" alt="" />
-                <div class="review-name">
-                  <b>Fasil</b>
-                  <span>4.5<i class="ri-star-fill"></i></span>
-                </div>
-              </div>
-              <div class="review-desc">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Praesentium explicabo repudiandae eum. Nulla quibusdam 
-              </div>
-            </div>
-            <div class="review">
-              <div class="review-profile">
-                <img src="/images/tv.jpg" alt="" />
-                <div class="review-name">
-                  <b>Fasil</b>
-                  <span>4.5<i class="ri-star-fill"></i></span>
-                </div>
-              </div>
-              <div class="review-desc">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Praesentium explicabo repudiandae eum. Nulla quibusdam 
-              </div>
-            </div>
-            <div class="review">
-              <div class="review-profile">
-                <img src="/images/tv.jpg" alt="" />
-                <div class="review-name">
-                  <b>Fasil</b>
-                  <span>4.5<i class="ri-star-fill"></i></span>
-                </div>
-              </div>
-              <div class="review-desc">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Praesentium explicabo repudiandae eum. Nulla quibusdam 
-              </div>
-            </div>
-            <div class="review">
-              <div class="review-profile">
-                <img src="/images/tv.jpg" alt="" />
-                <div class="review-name">
-                  <b>Fasil</b>
-                  <span>4.5<i class="ri-star-fill"></i></span>
-                </div>
-              </div>
-              <div class="review-desc">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Praesentium explicabo repudiandae eum. Nulla quibusdam 
-              </div>
-            </div>
+  
+            <% }) %> 
           </div>
         </div>
       </div>
