@@ -109,10 +109,11 @@ export async function getEditAddress(req, res){
 }
 export async function getOrderProduct(req, res){
     const order= await orderModel.findOne({_id:req.params.id, userId:req.session.user.id})
-    let ratings= await productModel.findOne({"ratings.userId":req.session.user.id, _id:order.product._id},{_id:0,ratings:{$elemMatch:{userId:req.session.user.id}} })
-    let rating= ratings?.ratings[0].rating ?? ""
-    console.log(ratings)
-    res.render("user/orderedProduct", {key:"", order, rating})
+    let ratingData= await productModel.findOne({"ratings.userId":req.session.user.id, _id:order.product._id},{_id:0,ratings:{$elemMatch:{userId:req.session.user.id}} })
+    let reviewData= await productModel.findOne({"reviews.userId":req.session.user.id, _id:order.product._id},{_id:0,reviews:{$elemMatch:{userId:req.session.user.id}} })
+    let rating= ratingData?.ratings[0].rating ?? ""
+    let review= reviewData?.reviews[0].review ?? ""
+    res.render("user/orderedProduct", {key:"", order, rating, review})
 }
 export function getUserProfile(req, res){
     res.render("user/userProfile", {key:"", user:req.user})
@@ -310,14 +311,6 @@ export async function editProfile(req, res){
 export async function addRating(req, res){
     const {proId, rating}=req.body;
     console.log(req.body)
-    // await productModel.updateOne({_id:proId},{
-    //     $addToSet:{
-    //         ratings:{
-    //             userId:req.session.user.id,
-    //             rating
-    //         }
-    //     }
-    // });
     const ratingExist=await productModel.findOne({_id:proId,ratings:{$elemMatch:{userId:req.session.user.id}} })
     console.log(ratingExist)
     if(ratingExist){
@@ -333,6 +326,30 @@ export async function addRating(req, res){
                 ratings:{
                     userId:req.session.user.id,
                     rating
+                }
+            }
+        })
+    }
+    res.redirect("back")
+
+}
+export async function addReview(req, res){
+    const {proId, review}=req.body;
+    console.log(req.body)
+    const reviewExist=await productModel.findOne({_id:proId,reviews:{$elemMatch:{userId:req.session.user.id}} })
+    if(reviewExist){
+        await productModel.updateOne({_id:proId,reviews:{$elemMatch:{userId:req.session.user.id}} },{
+            $set:{
+                "reviews.$.userId":req.session.user.id,
+                "reviews.$.review":review
+            }
+        })
+    }else{
+        await productModel.updateOne({_id:proId},{
+            $addToSet:{
+                reviews:{
+                    userId:req.session.user.id,
+                    review
                 }
             }
         })

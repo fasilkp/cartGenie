@@ -58,7 +58,9 @@
             <input type="number" value="<%-order.quantity%>" id="quantity" disabled />
           </div>
           <% if(order.orderStatus=="delivered"){ %> 
-          <h4 class="mt-5">Add Ratings</h4>
+          <h4 class="mt-5">
+            <% if(rating==""){  %>Add <% }else{ %>Edit <% } %>   Ratings
+            </h4>
           <form action="/add-rating" method="post" class="ratings d-flex flex-column align-items-start">
             <input type="text" name="proId" value="<%=order.product._id%>" style="height: 0px; visibility: hidden;" >
             <div class="rate">
@@ -80,11 +82,14 @@
             </div>
             <button type="submit">Save</button>
           </form>
-          <h4 class="mt-5">Add Ratings</h4>
-          <div class="add-review">
-            <textarea name="" id="" rows="4" placeholder="add review..."></textarea>
-            <button class="mt-3">Save</button>
-          </div>
+          <h4 class="mt-5">
+            <% if(review==""){  %>Add <% }else{ %>Edit <% } %> Reviews
+          </h4>
+          <form action="/add-review" method="post" class="add-review" id="reviewForm">
+            <input type="text" name="proId" value="<%=order.product._id%>" style="height: 0px; visibility: hidden;" >
+            <textarea name="review" rows="4" placeholder="add review..." form="reviewForm" required><%=review  %></textarea>
+            <button class="mt-3" type="Submit">Save</button>
+          </form>
           <% } %> 
         </div>
       </div>

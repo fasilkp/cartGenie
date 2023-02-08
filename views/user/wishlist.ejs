@@ -15,6 +15,7 @@
                             <h5>₹<%= item.price  %> </h4>
                         </div>
                         <div class="wish-cancel">
+                            <a href="/add-to-cart/<%=item._id %>" class="btn btn-dark me-2" style="width: 110px;">Add to cart</a>
                                 <i class="ri-close-line"
                                 onclick="
                                 if(confirm('Are you Sure Remove this item from wishlist ?')) 
