@@ -38,7 +38,6 @@ export async function getProductList(req, res){
     }
     const categories= await categoryModel.find().lean(); 
     let pageCount=Math.floor(count/9)
-    console.log(pageCount )
     return res.render("user/productList", {products, categories, key, category, filter, pageCount, page})
 } 
 
@@ -80,10 +79,10 @@ export async function getCart(req, res){
     res.render("user/cart", {key:"", products, totalPrice,cart, totalMRP}) 
 }
 export async function getOrderHistory(req, res){
-    const orders= await orderModel.find({userId:req.session.user.id}).lean()
-    const sortOrders=orders.sort(function(a,b){
-        return new Date(b.uploadedAt) - new Date(a.uploadedAt);
-      });
+    const orders= await orderModel.find({userId:req.session.user.id}).sort({createdAt:-1}).lean()
+    // const sortOrders=orders.sort(function(a,b){
+    //     return new Date(b.uploadedAt) - new Date(a.uploadedAt);
+    //   });
     res.render("user/orderHistory", {key:"", orders})
 }
 export function getCheckout(req, res){
@@ -123,8 +122,10 @@ export function getEditProfile(req, res){
 }
 export async function getCoupons(req, res){
     const coupons=await couponModel.find({unlist:false, expiry:{$gt:new Date()}}).lean();
-    console.log(coupons)
     res.render("user/coupons", {key:"", coupons}) 
+}
+export async function getOrderPlaced(req, res){
+    res.render("user/orderPlaced", {key:""}) 
 }
 
 export async function addToWishlist(req, res){
@@ -223,7 +224,6 @@ export async function minusQuantity(req, res){
 
 export async function checkout(req, res){
     const {payment, address:addressId}=req.body
-    console.log(req.body)
     if(!req.body?.address){
         let address= req.user.address
         return res.render("user/checkout", {key:"", address, error:true, message:"please choose address"})
@@ -257,7 +257,7 @@ export async function checkout(req, res){
     await userModel.findByIdAndUpdate(req.session.user.id,{
         $set:{cart:[]}
     })
-    return res.render("user/orderPlaced", {orderId:order._id, key:""})
+    return res.redirect("order-placed")
 } 
 
 export async function applyCoupon(req, res){

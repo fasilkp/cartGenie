@@ -94,7 +94,6 @@
 <% var productImages= product.sideImages %> 
 <script>
   var productImages=JSON.parse('<%- JSON.stringify(productImages)%>')
-  console.log(productImages)
   function changeSingleImage() {
     const file = document.getElementById("sImg").files[0];
     var binaryData = [];

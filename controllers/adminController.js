@@ -396,7 +396,6 @@ export async function unListCoupon(req, res){
 
 export async function editOrder(req, res){
     const {status, _id}=req.body;
-    console.log(req.body)
     if(status=='delivered'){
         await orderModel.updateOne({_id},{
             $set:{
