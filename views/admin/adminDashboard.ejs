@@ -25,6 +25,9 @@
     <a href="/admin/coupons">
       <li><i class="ri-ticket-fill"></i> Coupons</li>
     </a>
+    <a href="/admin/sales-report">
+      <li><i class="ri-file-chart-fill"></i> Sales Report</li>
+    </a>
   </div>
   <div class="order-container">
     <div class="row mt-4">
@@ -87,10 +90,11 @@
 </div>
 
 <script>
+  var monthlyData= '<%= JSON.stringify(monthlyData)%>'
   var options = {
     series: [
       {
-        data: [21, 22, 10, 28, 16, 21, 13,15, 30, 26, 12, 28],
+        data: JSON.parse(monthlyData),
       },
     ],
     chart: {
