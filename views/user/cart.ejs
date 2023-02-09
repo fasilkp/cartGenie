@@ -23,9 +23,9 @@
               </div>
               <div class="cart-detail">
                 <b><%=item.name  %> </b>
-                <h5>₹<%=item.price  %>
+                <h5>₹<%=item.price*cart[index].quantity  %>
                 <strike style="font-size: .85rem; color: grey;">
-                  ₹<%=item.MRP  %>
+                  ₹<%=item.MRP*cart[index].quantity  %>
                 </strike>
                 </h4>
               </div>

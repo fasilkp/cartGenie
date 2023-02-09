@@ -1,5 +1,5 @@
 import express from "express"
-import { addCategory, addCoupon, addOffer, addProduct, adminSearchBanUser, adminSearchProduct, adminSearchUser, banUser,  deleteOffer, deleteUser, editCategory, editCoupon, editOffer, editOrder, editProduct, getAddCategory, getAddCoupon, getAddOffers, getAddProduct, getAdminCategory, getAdminOffers, getAdminOrders, getAdminProduct, getAdminUsers, getBannedUsers, getCouponsPage, getDashboard, getEditCategory, getEditCoupon, getEditOffer, getEditOrder, getEditProduct, getOrderDetails, listCategory, listCoupon, listProduct, unBanUser, unListCategory, unListCoupon, unListProduct } from "../controllers/adminController.js"
+import { addCategory, addCoupon, addOffer, addProduct, adminSearchBanUser, adminSearchProduct, adminSearchUser, banUser,  deleteOffer, deleteUser, editCategory, editCoupon, editOffer, editOrder, editProduct, getAddCategory, getAddCoupon, getAddOffers, getAddProduct, getAdminCategory, getAdminOffers, getAdminOrders, getAdminProduct, getAdminUsers, getBannedUsers, getCouponsPage, getDashboard, getEditCategory, getEditCoupon, getEditOffer, getEditOrder, getEditProduct, getOrderDetails, getSalesReport, listCategory, listCoupon, listProduct, unBanUser, unListCategory, unListCoupon, unListProduct } from "../controllers/adminController.js"
 import upload from "../middlewares/multer.js"
 const router = express.Router()
 
@@ -18,6 +18,7 @@ router.get("/add-offer", getAddOffers)
 router.get("/add-category", getAddCategory)
 router.get("/coupons", getCouponsPage)
 router.get("/add-coupon", getAddCoupon)
+router.get("/sales-report", getSalesReport)
 
 
 router.get("/list-category/:id", listCategory)

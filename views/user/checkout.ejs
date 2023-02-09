@@ -4,7 +4,7 @@
     <div class="container">
         <form action="/checkout" method="post" class="row">
             <div class="col-12 col-md-7">
-                <h3 class="mt-5">Choose Address <a href="/add-address" class="btn btn-dark">Add Address</a></h3>
+                <h3 class="mt-5 d-flex justify-content-between"><div>Choose Address</div> <a href="/add-address?redirect=checkout" class="btn btn-dark rounded-0">Add Address</a></h3>
                 <% address.forEach(item=>{ %>
                     <label class="address-box mt-3" for="<%= item.id  %>">
                         <div class="address-detail">

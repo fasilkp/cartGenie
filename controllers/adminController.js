@@ -87,6 +87,22 @@ export async function getEditOrder(req, res){
     res.render("admin/editOrder", {order, error:false})
 }
 
+export async function getSalesReport(req,res){
+    const orders=await orderModel.find().sort({createdAt:-1}).lean()
+    let totalOrders= orders.length;
+    let totalRevenue=0;
+    let totalPending=0;
+    let deliveredOrders=orders.filter(item=>{
+        if(item.orderStatus=="pending"){
+            totalPending++;
+        }
+        totalRevenue=totalRevenue+ item.product.price;
+        return item.paid
+    });
+    let totalDispatch=deliveredOrders.length;
+    res.render("admin/salesReport",{orders, totalDispatch, totalOrders, totalPending, totalRevenue})
+}
+
 export async function addCategory(req, res){
     const categoryExist = await categoryModel.findOne({category:req.body.category})
     if(categoryExist){

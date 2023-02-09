@@ -69,7 +69,7 @@ export async function getProduct(req, res){
 
     }catch(err){ 
         console.log(err)
-        res.redirect("back")
+        return res.status(404).render("partials/error404")
     }
 }
 export async function getWishlist(req, res){
@@ -115,7 +115,7 @@ export async function getPayment(req, res){
     res.render("user/payment", {key:"", totalPrice, couponPrice:0, error:false})
 } 
 export function getAddAddress(req, res){
-    res.render("user/addAddress", {key:""})
+    res.render("user/addAddress", {key:"", redirect:req.query.redirect})
 }
 export async function getEditAddress(req, res){
     let {address}= await userModel.findOne({"address.id":req.params.id},{_id:0,address:{$elemMatch:{id:req.params.id}} })
@@ -133,7 +133,7 @@ export async function getOrderProduct(req, res){
         
         return res.render("user/orderedProduct", {key:"", order, rating, review})
     }catch(err){
-        return res.redirect("back")
+        return res.status(404).render("partials/error404")
     }
 }
 export function getUserProfile(req, res){
@@ -190,15 +190,16 @@ export async function removeFromCart(req, res){
 }
 
 export async function addAddress(req, res){
+    const {name, mobile,pincode, locality,address, city, state, redirect }=req.body;
     await userModel.updateOne({_id:req.session.user.id},{
         $addToSet:{
             address:{
-                ...req.body,
+                name, mobile,pincode, locality,address, city, state,
                 id: createId(),
             }
         }
     })
-    res.redirect("/profile")
+    res.redirect("/"+redirect)
 }
 export async function deleteAddress(req, res){
     await userModel.updateOne({_id:req.session.user.id,address:{$elemMatch:{id:req.params.id}} },{

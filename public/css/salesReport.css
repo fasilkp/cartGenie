@@ -1,0 +1,15 @@
+.order-table th, .order-table td{
+    padding: 5px;
+    text-align: left;
+    padding-left: 20px;
+}
+
+table input{
+    outline: none;
+    background: none !important;
+    padding: 5px;
+    border: none;
+}
+.thead{
+    padding: 20px;
+}
