@@ -38,12 +38,15 @@ export async function getDashboard(req, res) {
     }
     console.log(monthlyData)
 
+ 
+
   res.render("admin/adminDashboard", {
     totalOrders,
     totalRevenue,
     totalDispatch,
     totalPending,
-    monthlyData
+    monthlyData,
+    
   });
 }
 
@@ -145,6 +148,12 @@ export async function getSalesReport(req, res) {
     return item.paid;
   });
   let totalDispatch = deliveredOrders.length;
+
+  let orderTable=[]
+  orders.map(item=>{
+    orderTable.push([item.product.name, item.total, item.orderStatus, item.quantity, item.createdAt.toLocaleDateString() ])
+  })
+
   res.render("admin/salesReport", {
     orders,
     totalDispatch,
@@ -152,7 +161,8 @@ export async function getSalesReport(req, res) {
     totalPending,
     totalRevenue,
     startDate:moment(new Date(startDate).setDate(new Date(startDate).getDate() + 1)).utc().format('YYYY-MM-DD'),
-    endDate:moment(endDate).utc().format('YYYY-MM-DD')
+    endDate:moment(endDate).utc().format('YYYY-MM-DD'),
+    orderTable
   });
 }
 

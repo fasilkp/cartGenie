@@ -13,3 +13,16 @@ table input{
 .thead{
     padding: 20px;
 }
+.report-btns{
+    display: flex;
+    justify-content: flex-end;
+    padding-bottom: 50px;
+}
+.report-btns button{
+    width: 150px;
+    height: 40px;
+    border: none;
+    outline: none;
+    background-color: var(--black);
+    color: white;
+}

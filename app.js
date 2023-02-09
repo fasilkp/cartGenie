@@ -10,6 +10,24 @@ import dbConnect from "./config/dbConnect.js"
 import session from 'express-session'
 import verifyAdmin from './middlewares/verifyAdmin.js'
 import pageNotFound from './middlewares/pageNotFound.js'
+// import jsPDF from "jspdf";
+// import "jspdf-autotable";
+
+// const doc = new jsPDF.jsPDF()
+
+
+// doc.autoTable({ html: '#my-table' })
+
+// doc.autoTable({
+//   head: [['Name', 'Email', 'Country']],
+//   body: [
+//     ['David', 'david@example.com', 'Sweden'],
+//     ['Castille', 'castille@example.com', 'Spain'],
+//   ],
+// })
+
+// doc.save('table.pdf')
+// console.log(jsPDF.jsPDF())
 
 const app = express();
 app.set("view engine", "ejs");
