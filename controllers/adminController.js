@@ -153,6 +153,20 @@ export async function getSalesReport(req, res) {
   orders.map(item=>{
     orderTable.push([item.product.name, item.total, item.orderStatus, item.quantity, item.createdAt.toLocaleDateString() ])
   })
+  let byCategory= await orderModel.aggregate([{$group:{_id:"$product.categoryId", count:{$sum:1}}}])
+  let byBrand= await orderModel.aggregate([{$group:{_id:"$product.brand", count:{$sum:1}}}])
+  console.log(byBrand)
+  let category={}
+  let categoryIds= byCategory.map(item=>{
+    category[item._id]=item.count
+    return item._id
+  });
+  let categories= await categoryModel.find({_id:{$in:categoryIds}}, {category:1}).lean()
+  categories.forEach((item, index)=>{
+    categories[index].count= category[item._id]
+  })
+  console.log(categories)
+  
 
   res.render("admin/salesReport", {
     orders,
@@ -162,7 +176,9 @@ export async function getSalesReport(req, res) {
     totalRevenue,
     startDate:moment(new Date(startDate).setDate(new Date(startDate).getDate() + 1)).utc().format('YYYY-MM-DD'),
     endDate:moment(endDate).utc().format('YYYY-MM-DD'),
-    orderTable
+    orderTable,
+    categories,
+    byBrand
   });
 }
 

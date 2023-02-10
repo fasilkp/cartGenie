@@ -28,6 +28,6 @@ const couponSchema= new mongoose.Schema({
         type:Boolean,
         default:false
     }
-})
+},{timestamps:true})
 const couponModel= mongoose.model("coupon", couponSchema);
 export default couponModel;

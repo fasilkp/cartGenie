@@ -15,8 +15,8 @@ table input{
 }
 .report-btns{
     display: flex;
-    justify-content: flex-end;
-    padding-bottom: 50px;
+    justify-content: space-between;
+    margin-top: 20px;
 }
 .report-btns button{
     width: 150px;
@@ -25,4 +25,17 @@ table input{
     outline: none;
     background-color: var(--black);
     color: white;
+}
+.filter-head{
+    display: flex;
+    justify-content: space-between;
+}
+.filter-head input{
+    border: none;
+    outline: none;
+    background-color: #fff;
+    height: 50px;
+    padding: 20px;
+    border: 1px solid rgb(222, 222, 222);
+    margin: 5px;
 }

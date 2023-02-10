@@ -30,42 +30,24 @@
     </a>
   </div>
   <div class="order-container">
-    <h3 class="mt-3">Filter</h3>
-    <div class="row mt-2 p-3">
-        <form action="/admin/sales-report" method="get" class="orders-table">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                      <th scope="col">Start Date</th>
-                      <th scope="col"></th>
-                      <th scope="col">End date </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-
-                    <tr>
-                      <th scope="row">
-                        <input type="date" name="startDate" value="<%= startDate %>" onchange="this.form.submit()">
-                       </th>
-                      <th scope="row">
-                        -
-                       </th>
-                      <td scope="row">
-                        <input type="date" name="endDate" value="<%= endDate %>" onchange="this.form.submit()">
-                       </td>
-                    </tr>
-                    
-                  </tbody>
-              </table>
-        </form>
+    <div class="container-fluid filter-head pt-4">
+      <h3>Filter by date</h3>
+      <form action="/admin/sales-report" method="get">
+        <input type="date" name="startDate" value="<%= startDate %>" onchange="this.form.submit()">
+        to
+        <input type="date" name="endDate" value="<%= endDate %>" onchange="this.form.submit()">
+      </form>
     </div>
-    <h3 class="mt-3">Sales Report</h3>
+    <div class="report-btns container-fluid">
+      <h3 >Sales Report</h3>
+      <button onclick="downloadPdf()">Download in PDF</button>
+    </div>
     <div class="row mt-2 p-3">
         <div class="orders-table">
             <table class="table table-striped">
                 <thead>
                     <tr>
-                      <td colspan="3" class="thead">Sales report (<%= startDate %> - <%= endDate %>)</td>
+                      <th colspan="3" class="thead">Sales report (<%= startDate %> - <%= endDate %>)</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -89,6 +71,48 @@
                         <td>:</td>
                         <td scope="col"><%= totalDispatch %> </td>
                       </tr>
+                </tbody>
+              </table>
+        </div>
+    </div>
+    <h3 class="mt-3">Sales By Category</h3>
+    <div class="row mt-2 p-3">
+        <div class="orders-table">
+            <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th scope="col">Category</th>
+                    <th scope="col">Sales</th>
+                </tr>
+                  </thead>
+                  <tbody>
+                    <% categories.forEach(item=>{ %>
+                      <tr>
+                          <th scope="col"><%= item.category %></th>
+                          <td scope="col"><%= item.count %> </td>
+                      </tr>
+                    <% }) %>
+                </tbody>
+              </table>
+        </div>
+    </div>
+    <h3 class="mt-3">Sales By Brand</h3>
+    <div class="row mt-2 p-3">
+        <div class="orders-table">
+            <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th scope="col">Brand</th>
+                    <th scope="col">Sales</th>
+                </tr>
+                  </thead>
+                  <tbody>
+                    <% byBrand.forEach(item=>{ %>
+                      <tr>
+                          <th scope="col"><%= item._id %></th>
+                          <td scope="col"><%= item.count %> </td>
+                      </tr>
+                    <% }) %>
                 </tbody>
               </table>
         </div>
@@ -142,9 +166,7 @@
               </table>
         </div>
     </div>
-    <div class="row report-btns container">
-      <button onclick="downloadPdf()">Download in PDF</button>
-    </div>
+    
   </div>
 </div>
 
@@ -154,17 +176,60 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
   <script>
     let orders= '<%- JSON.stringify(orderTable)%>'
+    let totalDispatch= '<%= totalDispatch%>'
+    let totalOrders= '<%= totalOrders%>'
+    let totalRevenue= '<%= totalRevenue%>'
+    let totalPending= '<%= totalPending%>'
+    let startDate= '<%= startDate%>'
+    let endDate= '<%= endDate%>'
+    let categories= '<%- JSON.stringify(categories)%>'
+    let brands= '<%- JSON.stringify(byBrand)%>'
+    
     orders=JSON.parse(orders);
-    // orders=JSON.parse(orders)
+    categories=JSON.parse(categories);
+    brands=JSON.parse(brands);
     console.log(orders)
+    categoryBody= categories.map(item=>{
+      return [item.category, item.count]
+    })
+    brandBody= brands.map(item=>{
+      return [item._id, item.count]
+    })
 
     const { jsPDF } = window.jspdf;
     function downloadPdf() {
       const doc= new jsPDF();
+      // doc.autoTable({
+      //   head: [['Name', 'total', 'status', 'Quantity', 'order date']],
+      //   body: orders,
+      // })
+      let salesReportHead='('+startDate+" - "+endDate+")"
+      doc.text(15, 20, "Cart Genie Sales Report ");
+      doc.text(15, 30, salesReportHead);
       doc.autoTable({
-        head: [['Name', 'total', 'status', 'Quantity', 'order date']],
-        body: orders,
+        head: [['Type', 'Details']],
+        body: [
+              ['Total Orders', totalOrders],
+              ['Total Revenue', totalRevenue],
+              ['Total Pending', totalPending],
+              ['Total Dispatch', totalDispatch],
+              ],
+        startY: 40
       })
-      doc.save("demo.pdf");
+      doc.text(15, doc.lastAutoTable.finalY+20, "sales By Category");
+      doc.autoTable({
+        head: [['Category', 'Sales Count']],
+        body: categoryBody,
+        startY: doc.lastAutoTable.finalY + 30
+      })
+
+      doc.text(15, doc.lastAutoTable.finalY+20, "sales By Brand");
+      doc.autoTable({
+        head: [['Brand', 'Sales Count']],
+        body: brandBody,
+        startY: doc.lastAutoTable.finalY + 30
+      })
+
+      doc.save('sales-report('+startDate+' - '+endDate+').pdf');
     }
   </script>
