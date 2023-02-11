@@ -23,16 +23,16 @@
               </div>
               <div class="cart-detail">
                 <b><%=item.name  %> </b>
-                <h5>₹<%=item.price*cart[index].quantity  %>
+                <h5>₹<%=item.price*item.cartQuantity  %>
                 <strike style="font-size: .85rem; color: grey;">
-                  ₹<%=item.MRP*cart[index].quantity  %>
+                  ₹<%=item.MRP*item.cartQuantity  %>
                 </strike>
                 </h4>
               </div>
               <div class="cart-quantity">
                 <div class="cartquantiy-box">
                   <button onclick="window.location.href='/minus-quantity/<%=cart[index].id%>'">-</button>
-                  <input type="text" value="<%=cart[index].quantity%>">
+                  <input type="text" value="<%=item.cartQuantity%>">
                   <button onclick="window.location.href='/add-quantity/<%=cart[index].id%>'">+</button>
                 </div>
               </div>

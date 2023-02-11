@@ -116,7 +116,7 @@ export async function getEditOrder(req, res) {
 
 export async function getSalesReport(req, res) {
 
-    let startDate = new Date().setDate(new Date().getDate() - 7)
+    let startDate = new Date().setDate(new Date().getDate() - 8)
     let endDate = new Date()
     
     if(req.query.startDate){
@@ -153,17 +153,18 @@ export async function getSalesReport(req, res) {
   orders.map(item=>{
     orderTable.push([item.product.name, item.total, item.orderStatus, item.quantity, item.createdAt.toLocaleDateString() ])
   })
-  let byCategory= await orderModel.aggregate([{$group:{_id:"$product.categoryId", count:{$sum:1}}}])
-  let byBrand= await orderModel.aggregate([{$group:{_id:"$product.brand", count:{$sum:1}}}])
+  let byCategory= await orderModel.aggregate([{$group:{_id:"$product.categoryId", count:{$sum:1}, price:{$sum:"$product.price"}}}])
+  let byBrand= await orderModel.aggregate([{$group:{_id:"$product.brand", count:{$sum:1}, profit:{$sum:"$product.price"}}}])
   console.log(byBrand)
   let category={}
   let categoryIds= byCategory.map(item=>{
-    category[item._id]=item.count
+    category[item._id]={count:item.count, total:item.price}
     return item._id
   });
   let categories= await categoryModel.find({_id:{$in:categoryIds}}, {category:1}).lean()
   categories.forEach((item, index)=>{
-    categories[index].count= category[item._id]
+    categories[index].count= category[item._id].count
+    categories[index].profit= category[item._id].total
   })
   console.log(categories)
   

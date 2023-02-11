@@ -18,14 +18,14 @@ table input{
     justify-content: space-between;
     margin-top: 20px;
 }
-.report-btns button{
+/* .report-btns button{
     width: 150px;
     height: 40px;
     border: none;
     outline: none;
     background-color: var(--black);
     color: white;
-}
+} */
 .filter-head{
     display: flex;
     justify-content: space-between;

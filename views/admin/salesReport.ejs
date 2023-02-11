@@ -40,7 +40,10 @@
     </div>
     <div class="report-btns container-fluid">
       <h3 >Sales Report</h3>
-      <button onclick="downloadPdf()">Download in PDF</button>
+      <div>
+        <button onclick="downloadExcel()" class="btn btn-outline-dark rounded-0">Download in Excel</button>
+        <button onclick="downloadPdf()" class="btn btn-dark rounded-0">Download in PDF</button>
+      </div>
     </div>
     <div class="row mt-2 p-3">
         <div class="orders-table">
@@ -53,22 +56,18 @@
                   <tbody>
                     <tr>
                         <th scope="col">Total Revenue</th>
-                        <td>:</td>
                         <td scope="col"><%= totalRevenue %> </td>
                       </tr>
                     <tr>
                         <th scope="col">Total Orders</th>
-                        <td>:</td>
                         <td scope="col"><%= totalOrders %> </td>
                       </tr>
                     <tr>
                         <th scope="col">Total Pending</th>
-                        <td>:</td>
                         <td scope="col"><%= totalPending %> </td>
                       </tr>
                     <tr>
                         <th scope="col">Total Dispatch</th>
-                        <td>:</td>
                         <td scope="col"><%= totalDispatch %> </td>
                       </tr>
                 </tbody>
@@ -83,6 +82,7 @@
                   <tr>
                     <th scope="col">Category</th>
                     <th scope="col">Sales</th>
+                    <th scope="col">Sales Profit</th>
                 </tr>
                   </thead>
                   <tbody>
@@ -90,6 +90,7 @@
                       <tr>
                           <th scope="col"><%= item.category %></th>
                           <td scope="col"><%= item.count %> </td>
+                          <td scope="col"><%= item.profit %> </td>
                       </tr>
                     <% }) %>
                 </tbody>
@@ -104,6 +105,7 @@
                   <tr>
                     <th scope="col">Brand</th>
                     <th scope="col">Sales</th>
+                    <th scope="col">Sales Profit</th>
                 </tr>
                   </thead>
                   <tbody>
@@ -111,6 +113,7 @@
                       <tr>
                           <th scope="col"><%= item._id %></th>
                           <td scope="col"><%= item.count %> </td>
+                          <td scope="col"><%= item.profit %> </td>
                       </tr>
                     <% }) %>
                 </tbody>
@@ -174,6 +177,7 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.13.1/xlsx.full.min.js"></script>
   <script>
     let orders= '<%- JSON.stringify(orderTable)%>'
     let totalDispatch= '<%= totalDispatch%>'
@@ -190,19 +194,17 @@
     brands=JSON.parse(brands);
     console.log(orders)
     categoryBody= categories.map(item=>{
-      return [item.category, item.count]
+      return [item.category, item.count, item.profit]
     })
+    brandXLSX=[]
     brandBody= brands.map(item=>{
-      return [item._id, item.count]
+      brandXLSX.push({brand:item._id, sales:item.count, profit:item.profit})
+      return [item._id, item.count, item.profit]
     })
 
     const { jsPDF } = window.jspdf;
     function downloadPdf() {
       const doc= new jsPDF();
-      // doc.autoTable({
-      //   head: [['Name', 'total', 'status', 'Quantity', 'order date']],
-      //   body: orders,
-      // })
       let salesReportHead='('+startDate+" - "+endDate+")"
       doc.text(15, 20, "Cart Genie Sales Report ");
       doc.text(15, 30, salesReportHead);
@@ -218,18 +220,40 @@
       })
       doc.text(15, doc.lastAutoTable.finalY+20, "sales By Category");
       doc.autoTable({
-        head: [['Category', 'Sales Count']],
+        head: [['Category', 'Sales Count', "sales profit"]],
         body: categoryBody,
         startY: doc.lastAutoTable.finalY + 30
       })
 
       doc.text(15, doc.lastAutoTable.finalY+20, "sales By Brand");
       doc.autoTable({
-        head: [['Brand', 'Sales Count']],
+        head: [['Brand', 'Sales Count', 'sales profit']],
         body: brandBody,
         startY: doc.lastAutoTable.finalY + 30
       })
 
       doc.save('sales-report('+startDate+' - '+endDate+').pdf');
+    }
+    console.log(categories)
+    console.log(brandXLSX)
+    function downloadExcel(){
+      let report=[
+        {type:"Total Revenue", value:totalRevenue},
+        {type:"Total Orders", value:totalOrders},
+        {type:"Total Pending", value:totalPending},
+        {type:"Total Dispatch", value:totalDispatch},
+      ]
+
+        var sheet1 = XLSX.utils.json_to_sheet(report);
+        var wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, sheet1, "Sales Report");
+
+        var sheet2 = XLSX.utils.json_to_sheet(brandXLSX);
+        XLSX.utils.book_append_sheet(wb, sheet2, "Brands");
+        
+        var sheet3 = XLSX.utils.json_to_sheet(categories);
+        XLSX.utils.book_append_sheet(wb, sheet3, "Categories");
+
+        XLSX.writeFile(wb,'sales-report.xlsx');
     }
   </script>

@@ -79,17 +79,20 @@ export async function getWishlist(req, res){
 }
 export async function getCart(req, res){
     const cart=req?.user?.cart ?? [];
+    const cartQuantities={}
     const cartList=cart.map(item=>{
+        cartQuantities[item.id]=item.quantity;
         return item.id;
     })
     const products= await productModel.find({_id:{$in:cartList} , unlist:false}).lean()
     let totalPrice=0;
     products.forEach((item, index)=>{
-        totalPrice=(totalPrice+item.price)* cart[index].quantity;
+        products[index].cartQuantity=cartQuantities[item._id]
+        totalPrice=(totalPrice+item.price)* cartQuantities[item._id];
     })
     let totalMRP=0
     products.forEach((item, index)=>{
-        totalMRP=(totalMRP+item.MRP)* cart[index].quantity;
+        totalMRP=(totalMRP+item.MRP)* cartQuantities[item._id];
     })
     res.render("user/cart", {key:"", products, totalPrice,cart, totalMRP}) 
 }
@@ -234,7 +237,11 @@ export async function addQuantity(req, res){
 
 export async function minusQuantity(req, res){
     let {cart}= await userModel.findOne({"cart.id":req.params.id},{_id:0,cart:{$elemMatch:{id:req.params.id}} })
+    console.log(req.params.id)
     if(cart[0].quantity<=1){
+        await UserModel.updateOne({_id:req.session.user.id}, {$pull:{
+            cart:{id:req.params.id}
+        }})
         return res.redirect("/cart") 
     }
     await userModel.updateOne({_id:req.session.user.id,cart:{$elemMatch:{id:req.params.id}} },{
