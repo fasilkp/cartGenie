@@ -20,13 +20,17 @@ const userSchema= new mongoose.Schema({
         type:Array,
         default:[]
     },
-    cart:{
+    cart:{ 
         type:Array,
         default:[]
     },
     wishlist:{
         type:Array,
         default:[]
+    },
+    wallet:{
+        type:Number, 
+        default:0
     }
 },{timestamps:true})
 const UserModel= mongoose.model("users", userSchema);

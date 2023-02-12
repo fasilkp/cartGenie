@@ -18,7 +18,9 @@
         </div>
         <div class="btns">
           <% if(order.orderStatus=='pending'){ %> 
-            <button class="btn-ad-cart w-75" >Cancel</button>
+            <button class="btn-ad-cart w-75" onclick="cancelOrder()">Cancel</button>
+          <% } else if(order.orderStatus=='delivered'){ %> 
+            <button class="btn-ad-cart w-75" onclick="returnOrder()">Return product</button>
           <%} else {  %> 
           <button class="btn-ad-cart w-75" disabled>Cancel</button>
           <% } %> 
@@ -42,22 +44,30 @@
             <span><%=order.address.address  %> </span>
             <span>PIN: <%=order.address.pincode  %> </span>
         </div>
-          <h4 class="mt-4">Status</h4>
+          <h5 class="mt-4">Order Status</h5>
           <div class="status-box mt-3">
             <div class="order-status justify-content-start">
                 <div class="<%= order.orderStatus  %> "><%= order.orderStatus  %> </div>
             </div>
           </div>
           <% if(order.orderStatus=="pending"){ %> 
-          <h4 class="mt-4">Expected Delivery Date</h4>
+          <h5 class="mt-4">Expected Delivery Date</h5>
           <div class="quantity-box mt-3">
             <span><%=order.dispatch.toLocaleDateString() %> </span>
           </div>
           <% } %> 
-          <h4 class="mt-4">Quantity</h4>
+          <h5 class="mt-4">Quantity</h5>
           <div class="quantity-box mt-3">
             <span>Quantity: </span>
             <input type="number" value="<%-order.quantity%>" id="quantity" disabled />
+          </div>
+          <h5 class="mt-4">Payment Type</h5>
+          <div class="quantity-box mt-3">
+            <span><%= order.paymentType %></span>
+          </div>
+          <h5 class="mt-4">Payment Status</h5>
+          <div class="quantity-box mt-3">
+            <span><% if(order.paid){ %>Paid <%}else{%>Not Paid <% } %></span>
           </div>
           <% if(order.orderStatus=="delivered"){ %> 
           <h4 class="mt-5">
@@ -98,3 +108,17 @@
     </div>
   </div>
 </div>
+
+
+<script>
+  function cancelOrder(){
+    if(window.confirm("Are you sure ? cancel this order")){
+      window.location.href="/cancel-order/<%=order._id%>"
+    }
+  }
+  function returnOrder(){
+    if(window.confirm("Are you sure ? return this product")){
+      window.location.href="/return-order/<%=order._id%>"
+    }
+  }
+</script>

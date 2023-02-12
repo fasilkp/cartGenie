@@ -63,24 +63,16 @@
                         <% if(item.paid){ %> Paid
                         <% }else{ %> Not Paid <% } %> 
                         </td>
-                      <td class="d-flex justify-content-center">
-                        <div class="del-status <%= item.orderStatus  %> ">
-                            <%= item.orderStatus  %> 
-                        </div>
-                    </td>
-                      
-                    <td><%=item.quantity  %> </td>
-                      <td><%=item.product.price  * item.quantity  %> </td>
-                      <td>
+                        
+                        <td >
+                          <div class="del-status <%= item.orderStatus  %> ">
+                              <%= item.orderStatus  %> 
+                          </div>
+                      </td>
+                        <td><%=item.quantity  %> </td>
+                        <td><%=item.product.price  * item.quantity  %> </td>
+                        <td>
                         <a class="btn btn-outline-dark" href="/admin/edit-order/<%=item._id%>">Edit</a>
-                        <!-- <div class="dropdown">
-                        <button class="btn btn-white dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="ri-more-2-fill"></i>
-                        </button>
-                        <ul class="dropdown-menu">
-                          <li><a class="dropdown-item" href="/admin/edit-order/<%=item._id%>">Edit</a></li>
-                        </ul>
-                      </div> -->
                     </td>
                     </tr>
                     <%}) %> 

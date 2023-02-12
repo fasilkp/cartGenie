@@ -244,7 +244,7 @@ export async function getCoupons(req, res) {
   res.render("user/coupons", { key: "", coupons });
 }
 export async function getOrderPlaced(req, res) {
-  res.render("user/orderPlaced", { key: "", failed:true });
+  res.render("user/orderPlaced", { key: "", failed:false });
 }
 
 export async function addToWishlist(req, res) {
@@ -520,30 +520,35 @@ export async function payNow(req, res) {
   );
   console.log(address);
   const cart = req?.user?.cart ?? [];
-  const cartList = cart.map((item) => item.id);
+  const cartQuantities={}
+  const cartList = cart.map((item) => {
+    cartQuantities[item.id]=item.quantity
+    return item.id
+  });
   let products = await productModel
     .find({ _id: { $in: cartList }, unlist: false })
     .lean();
   let totalPrice = 0;
   products.map((item, index) => {
-    totalPrice = totalPrice + item.price;
+    totalPrice = totalPrice + (item.price* cartQuantities[item._id]);
   });
   const coupon = await couponModel.findOne({ code: couponCode });
   if (coupon) {
-    if (totalPrice > coupon.minAmount || coupon.expiry > new Date()) {
+    if (totalPrice > coupon.minAmount && coupon.expiry > new Date()) {
       let discountAmount = (totalPrice * coupon.discount) / 100;
       if (discountAmount > coupon.maxDiscountAmount) {
         discountAmount = coupon.maxDiscountAmount;
       }
       totalPrice = totalPrice - discountAmount;
-      req.session.tempOrder = {
-        ...req.session.tempOrder,
-        coupon,
-        totalPrice,
-        products,
-      };
+      
     }
   }
+
+  req.session.tempOrder = {
+    ...req.session.tempOrder,
+    coupon,
+    totalPrice
+  };
 
   let orderId = "order_" + createId();
   const options = {
@@ -588,12 +593,8 @@ export async function payNow(req, res) {
 export async function returnURL(req, res) {
     try{
 
-    const cart = req?.user?.cart ?? [];
-    const cartQuantities={}
-    const cartList = cart.map((item) => {
-    cartQuantities[item.id]=item.quantity;
-    return item.id;
-  });
+   
+  
   const order_id = req.query.order_id;
   const options = {
     method: "GET",
@@ -611,15 +612,22 @@ export async function returnURL(req, res) {
 
   console.log(response.data);
   if (response.data.order_status == "PAID") {
+    const cart = req?.user?.cart ?? [];
+    const cartQuantities={}
+    const cartList = cart.map((item) => {
+    cartQuantities[item.id]=item.quantity;
+    return item.id;
+  });
     let addressId = req.session.tempOrder.addressId;
     let { address } = await userModel.findOne(
       { "address.id": addressId },
       { _id: 0, address: { $elemMatch: { id: addressId } } }
     );
-    let products = req.session.tempOrder.products;
+    let products = await productModel
+    .find({ _id: { $in: cartList }, unlist: false })
+    .lean();
     console.log(products)
     let orders = [];
-    let i = 0;
     for (let item of products) {
       await productModel.updateOne(
         { _id: item._id },
@@ -639,7 +647,6 @@ export async function returnURL(req, res) {
             payment:response.data,
             total: cartQuantities[item._id] * item.price,
         });
-        i++;
     }
     
     const order = await orderModel.create(orders);
@@ -739,7 +746,7 @@ export async function addReview(req, res) {
       {
         $addToSet: {
           reviews: {
-            userId: req.session.user.id,
+            userId: req.session.user.id, 
             review,
           },
         },
@@ -747,4 +754,32 @@ export async function addReview(req, res) {
     );
   }
   res.redirect("back");
+}
+
+
+export async function cancelOrder(req, res){
+  const _id = req.params.id;
+  const order= await orderModel.findOne({_id})
+  console.log(order)
+  if(order.paid){
+    await userModel.updateOne({_id:req.session.user.id}, {$inc:{wallet:order.total}})
+  }
+  await orderModel.updateOne({_id}, {
+    $set:{
+      orderStatus:"cancelled"
+    }
+  })
+  res.redirect("back")
+}
+
+export async function returnOrder(req, res){
+  const _id = req.params.id;
+  const order= await orderModel.findOne({_id})
+  console.log(order)
+  await orderModel.updateOne({_id}, {
+    $set:{
+      orderStatus:"returnProcessing"
+    }
+  })
+  res.redirect("back")
 }

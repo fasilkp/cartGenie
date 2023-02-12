@@ -20,10 +20,17 @@
             <div class="a-p-form-col">
                 <label for="Name">Order Status</label>
                 <select name="status" value="<%=order.orderStatus%>" >
-                    <option value="pending">Pending</option>
-                    <option value="delivered">Delivered</option>
-                    <option value="cancelled">Cancel</option>
-                    <option value="rejected">Reject</option>
+                    <% if(order.orderStatus=="returned"){ %>
+                    <% }else if(order.orderStatus=="returnProcessing"){ %>
+                        <option value="returnProcessing">Return Processing</option>
+                        <option value="returned">Returned</option>
+                    <% }else{ %>
+                        <option value="pending">Pending</option>
+                        <option value="delivered">Delivered</option>
+                        <option value="outForDelivery">Out For Delivery</option>
+                    <% } %>
+                    
+                    
                 </select>
                 <% if(error){ %> 
                     <b class="text-danger"><%= message  %> </b>

@@ -93,16 +93,16 @@
     padding: 20px 15px;
 }
 .del-status{
-    padding: 10px;
-    width: 100px;
     border-radius: 5px;
     font-weight: 500;
+    color: rgb(0, 0, 207);
+    background-color:rgba(0, 0, 255, 0.181);
 }
-.del-status.pending{
+.del-status.pending, .del-status.returnProcessing{
     background-color: #ff99002f;
     color: #FF9900;
 }
-.del-status.rejected, .del-status.cancelled{
+.del-status.returned, .del-status.cancelled{
     background-color: #ca01012d;
     color: #CA0101;
 }

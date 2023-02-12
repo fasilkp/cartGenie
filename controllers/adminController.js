@@ -687,6 +687,21 @@ export async function unListCoupon(req, res) {
 
 export async function editOrder(req, res) {
   const { status, _id } = req.body;
+  if(!status){
+    return res.redirect("/admin/orders")
+  }
+  if(status=='returned'){
+    const order=await orderModel.findOne({_id});
+    await orderModel.updateOne(
+      { _id },
+      {
+        $set: {
+          orderStatus: status,
+        },
+      }
+    );
+    await UserModel.updateOne({_id:order.userId}, {$inc:{wallet:order.total}})
+  }
   if (status == "delivered") {
     await orderModel.updateOne(
       { _id },

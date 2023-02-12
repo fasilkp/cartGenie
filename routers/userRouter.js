@@ -1,5 +1,5 @@
 import express from "express"
-import { addAddress, addQuantity, addRating, addReview, addToCart, addToWishlist, applyCoupon, checkout, checkQuantity, deleteAddress, editAddress, editProfile, getAddAddress, getCart, getCheckout, getCoupons, getEditAddress, getEditProfile, getHome, getOrderHistory, getOrderPlaced, getOrderProduct, getPayment, getProduct, getProductList, getUserProfile, getWishlist, minusQuantity, payNow, removeFromCart, removeFromWishlist, returnURL } from "../controllers/userController.js"
+import { addAddress, addQuantity, addRating, addReview, addToCart, addToWishlist, applyCoupon, cancelOrder, checkout, checkQuantity, deleteAddress, editAddress, editProfile, getAddAddress, getCart, getCheckout, getCoupons, getEditAddress, getEditProfile, getHome, getOrderHistory, getOrderPlaced, getOrderProduct, getPayment, getProduct, getProductList, getUserProfile, getWishlist, minusQuantity, payNow, removeFromCart, removeFromWishlist, returnOrder, returnURL } from "../controllers/userController.js"
 import checkUser from "../middlewares/checkUser.js"
 const router = express.Router()
 import verifyUser from "../middlewares/verifyUser.js"
@@ -21,6 +21,8 @@ router.get("/coupons", getCoupons)
 router.get("/payment/:id", getPayment)
 router.get("/edit-profile", getEditProfile)
 router.get("/order-placed", getOrderPlaced)
+router.get("/cancel-order/:id", cancelOrder)
+router.get("/return-order/:id", returnOrder)
 
 
 router.get("/edit-address/:id", getEditAddress)

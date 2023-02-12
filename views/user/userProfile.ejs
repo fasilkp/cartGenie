@@ -31,6 +31,12 @@
                     </div>
                 </div>
                 <div class="porfile-items">
+                    <a href="#" class="profile-item">
+                        <b class="d-flex align-items-center"><i class="ri-wallet-2-line me-2"></i> Wallet</b>
+                        <b>₹ <% if(user.wallet) { %><%= user.wallet%><% } else{ %>0 <% } %> </b>
+                    </a>
+                </div>
+                <div class="porfile-items">
                     <a href="/cart" class="profile-item">
                         <b>Cart</b>
                         <i class="ri-shopping-cart-line"></i>
