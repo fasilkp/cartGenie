@@ -1,43 +1,68 @@
 <%- include('../partials/header') %>
 
 <div class="checkout-main">
-    <div class="container">
-        <div class="row d-flex justify-content-center">
-            <h3 class="text-center mt-5">Payment Gateway</h3>
-            <div class="cart-price-details w-50">
-                  <div class="price-item">
-                    <label for="">Total Amount</label>
-      
-                    <b>₹<%= totalPrice  %>  </b>
-                  </div>
-                  <div class="price-item">
-                    <label for="">Coupons Applied</label>
-      
-                    <b>-₹<%= couponPrice  %>  </b>
-                  </div>
-                  <div class="price-item">
-                    <label for="">Amount Payablet</label>
-      
-                    <b>₹<%= totalPrice-couponPrice  %>  </b>
-                  </div>
-                <div class="coupon-item">
-                  <label for="coupon">Apply Coupon</label>
-                    <form action="/apply-coupon" method="post" class="d-flex">  
-                      <input type="text" id="coupon" placeholder="Enter Coupon Code" name="coupon">
-                      <button type="submit">Apply</button>
-                    </form>
-                    <% if(error){ %> 
-                        <b class="text-danger"><%= message  %> </b>
-                      <% } %> 
-                    <% if(couponPrice!=0){ %> 
-                        <b class="text-success">Coupon Applied </b>
-                      <% } %> 
-                </div>
-                <div class="coupon-item">
-                  <button>Pay Now</button>
-                </div>
-        
-              </div>  
+  <div class="container">
+    <div class="row d-flex justify-content-center">
+      <h3 class="text-center mt-5">Payment Gateway</h3>
+      <form action="/pay-now" method="post" class="cart-price-details w-50">
+        <input type="text" name="addressId" value="<%=addressId%>" style="height: 0px; visibility: hidden;" />
+        <div class="price-item">
+          <label for="">Total Amount</label>
+
+          <b>₹<%= totalPrice %> </b>
         </div>
+        <div class="price-item">
+          <label for="">Coupons Applied</label>
+
+          <b id="couponPrice">-₹<%= couponPrice %> </b>
+        </div>
+        <div class="price-item">
+          <label for="">Amount Payablet</label>
+
+          <b id="amountPayable">₹<%= totalPrice-couponPrice %> </b>
+        </div>
+        <div class="coupon-item">
+          <label for="coupon">Apply Coupon</label>
+          <div class="d-flex">
+            <input
+              type="text"
+              id="coupon"
+              placeholder="Enter Coupon Code"
+              name="coupon"
+            />
+            <div class="button" onclick="applyCoupon()">Apply</div>
+          </div>
+          <b class="text-danger" id="message"> </b>
+          <b class="text-success" id="couponApplied"></b>
+
+        </div>
+        <div class="coupon-item">
+          <button type="submit">Pay Now</button>
+        </div>
+      </form>
     </div>
+  </div>
 </div>
+<script src="https://unpkg.com/axios@1.1.2/dist/axios.min.js"></script>
+<script>
+  function applyCoupon() {
+    var coupon = document.getElementById("coupon").value;
+    var message = document.getElementById("message");
+    var couponPrice = document.getElementById("couponPrice");
+    var couponApplied = document.getElementById("couponApplied");
+    var amountPayable = document.getElementById("amountPayable");
+    var totalPrice='<%=totalPrice%>'
+    axios.post("/apply-coupon", {coupon}).then(function (response) {
+      console.log(response.data)
+      if(response.data.error){
+        message.innerHTML= response.data.message
+      }
+      else{
+        couponApplied.innerHTML="Coupon Applied"
+        couponPrice.innerHTML=response.data.couponPrice;
+        amountPayable.innerHTML=Number(totalPrice)-response.data.couponPrice
+        
+      }
+    });
+  }
+</script>

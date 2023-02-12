@@ -1,5 +1,7 @@
 <%- include('../partials/header') %>
 
+<% if(!failed){ %>
+
 <div class="wishlist-main h-100 d-flex justify-content-center align-items-center">
     <div class="container d-flex flex-column justify-content-center align-items-center" style="margin-top: -200px;">
         <h1 class="text-center" style="max-width:400px; text-align: center;">Your Order Has been Recieved</h1>
@@ -9,3 +11,17 @@
         
     </div>
 </div>
+
+<% }else{ %>
+
+<div class="wishlist-main h-100 d-flex justify-content-center align-items-center">
+    <div class="container d-flex flex-column justify-content-center align-items-center" style="margin-top: -200px;">
+        <h1 class="text-center" style="max-width:400px; text-align: center;">OOPS! Your Order Has been Failed</h1>
+        <i class="ri-close-circle-fill text-danger" style="font-size: 7rem;"></i>
+        <span style="font-size: 1.5rem;">Please Try Again</span>
+        <a href="/orders" class="btn btn-dark mt-5 p-3">Continue Shopping</a>
+        
+    </div>
+</div>
+
+<% }%>

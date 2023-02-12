@@ -21,15 +21,14 @@ app.use(session({
     saveUninitialized:true,
     resave:false
 }))
+
 app.use(express.urlencoded({extended:true}))
 app.use(express.json())
 app.use(express.static(__dirname+"/public"))
 app.use(ejsLayout)
+
 dbConnect();
 
-app.get("/check", (req, res)=>{
-    res.render('check')
-})
 
 
 //Routers

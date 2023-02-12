@@ -1,0 +1,15 @@
+<div class="add-product-main">
+    <h1>Don't Refresh page redirecting to payment page...</h1>
+</div>
+<script src="https://sdk.cashfree.com/js/ui/2.0.0/cashfree.sandbox.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+    window.onload= function(){
+        console.log("hai")
+      var paymentSessionId = "<%= sessionId%>";
+      const cashfree = new Cashfree(paymentSessionId);
+      console.log(cashfree)
+      cashfree.redirect();
+
+}
+</script>

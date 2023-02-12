@@ -1,5 +1,5 @@
 import express from "express"
-import { addAddress, addQuantity, addRating, addReview, addToCart, addToWishlist, applyCoupon, checkout, deleteAddress, editAddress, editProfile, getAddAddress, getCart, getCheckout, getCoupons, getEditAddress, getEditProfile, getHome, getOrderHistory, getOrderPlaced, getOrderProduct, getPayment, getProduct, getProductList, getUserProfile, getWishlist, minusQuantity, removeFromCart, removeFromWishlist } from "../controllers/userController.js"
+import { addAddress, addQuantity, addRating, addReview, addToCart, addToWishlist, applyCoupon, checkout, deleteAddress, editAddress, editProfile, getAddAddress, getCart, getCheckout, getCoupons, getEditAddress, getEditProfile, getHome, getOrderHistory, getOrderPlaced, getOrderProduct, getPayment, getProduct, getProductList, getUserProfile, getWishlist, minusQuantity, payNow, removeFromCart, removeFromWishlist, returnURL } from "../controllers/userController.js"
 import checkUser from "../middlewares/checkUser.js"
 const router = express.Router()
 import verifyUser from "../middlewares/verifyUser.js"
@@ -18,7 +18,7 @@ router.get("/checkout", getCheckout)
 router.get("/add-address", getAddAddress)
 router.get("/profile", getUserProfile)
 router.get("/coupons", getCoupons)
-router.get("/payment", getPayment)
+router.get("/payment/:id", getPayment)
 router.get("/edit-profile", getEditProfile)
 router.get("/order-placed", getOrderPlaced)
 
@@ -32,6 +32,7 @@ router.get("/remove-from-cart/:id", removeFromCart);
 router.get("/delete-address/:id", deleteAddress);
 router.get("/add-quantity/:id", addQuantity);
 router.get("/minus-quantity/:id", minusQuantity);
+router.get("/return", returnURL)
 
 router.post("/add-address",addAddress)
 router.post("/edit-address",editAddress)
@@ -40,6 +41,7 @@ router.post("/apply-coupon",applyCoupon)
 router.post("/edit-profile",editProfile)
 router.post("/add-rating",addRating)
 router.post("/add-review",addReview)
+router.post("/pay-now",payNow)
 
 
 

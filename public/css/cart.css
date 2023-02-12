@@ -99,13 +99,14 @@
     background-color: var(--lightGrey);
     padding-left: 10px;
 }
-.coupon-item button{
+.coupon-item button, .coupon-item .button{
     background-color: var(--black);
     color: white;
     border: none;
     outline: none;
     padding: 10px;
     font-size: .9rem;
+    cursor: pointer;
 }
 .price-item label{
     font-size: 1.1rem;
