@@ -142,8 +142,15 @@
     font-size: 1.3rem;
 }
 @media only screen and (max-width: 600px) {
-  .car-container,
-  .car-container img {
-    max-height: 30vh;
+  .car-container{
+    margin-top: 0px;
+    height: 50vh;
+  }
+  .btns{
+    margin-top: -10px;
+    gap: 10px;
+  }
+  .btns button{
+    width: 100%;
   }
 }
