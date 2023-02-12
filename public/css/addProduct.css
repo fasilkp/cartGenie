@@ -72,31 +72,33 @@
 }
 .a-p-form-img i{
     position: relative;
-    left: -60px;
+    left: -70px;
     z-index: 100;
-    font-size: 3rem;
-    font-weight: 200;
+    font-size: 2rem;
+    font-weight: 600;
     top: 40px;
-    color: white;
-    color: rgb(42, 42, 42);
+    /* color: white; */
+    color: rgb(255, 0, 0);
     height: 20px;
     width: 20px;
     display: flex;
     justify-content: center;
     align-items: center;
     border-radius: 20px;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: rgb(255, 255, 255);
 }
 .a-p-form-img input{
     transform: scale(1.7);
     position: relative;
-    left: -60px;
+    left: -70px;
     transform: scale(3.5);
     opacity: 0%;
 }
 
 .a-p-form-img input:checked{
     accent-color: red;
-    opacity:50%;
+    opacity:60%;
 }
 .a-p-form-img input:checked:after{
     display: none;

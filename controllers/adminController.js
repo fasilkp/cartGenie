@@ -4,7 +4,11 @@ import productModel from "../models/productModel.js";
 import offerModel from "../models/offerModel.js";
 import couponModel from "../models/couponModel.js";
 import orderModel from "../models/orderModel.js";
+import sharp from "sharp";
 import moment from "moment";
+import fs from 'fs'
+import { promisify } from 'util'
+const unlinkAsync = promisify(fs.unlink)
 
 export async function getAdminOrders(req, res) {
   const orders = await orderModel.find().sort({ createdAt: -1 }).lean();
@@ -258,6 +262,39 @@ export async function addProduct(req, res) {
       req.body;
     const categoryId = category.split(" ")[0];
     const categoryName = category.split(" ")[1];
+    let mainImage=req.files.image[0], sideImages=req.files.images
+      await sharp(mainImage.path)
+      .png()
+      .resize(540, 540, {
+        kernel: sharp.kernel.nearest,
+        fit: 'contain',
+        position: 'center',
+        background: { r: 255, g: 255, b: 255, alpha: 0 }
+      })
+      .toFile(mainImage.path+".png")
+      .then(async () => {
+        await unlinkAsync(mainImage.path)
+        mainImage.path=mainImage.path+".png"
+        mainImage.filename=mainImage.filename+".png"
+      });
+    for (let i in sideImages) {
+      await sharp(sideImages[i].path)
+      .png()
+      .resize(540, 540, {
+        kernel: sharp.kernel.nearest,
+        fit: 'contain',
+        position: 'center',
+        background: { r: 255, g: 255, b: 255, alpha: 0 }
+      })
+      .toFile(sideImages[i].path+".png")
+      .then(async() => {
+        await unlinkAsync(sideImages[i].path)
+        sideImages[i].filename=sideImages[i].filename+".png"
+        sideImages[i].path=sideImages[i].path+".png"
+      });
+    }
+    console.log(mainImage)
+    console.log(sideImages)
 
     const product = new productModel({
       name,
@@ -268,8 +305,8 @@ export async function addProduct(req, res) {
       MRP,
       price,
       description,
-      mainImage: req.files.image[0],
-      sideImages: req.files.images,
+      mainImage,
+      sideImages
     });
 
     product.save(async (err, data) => {
@@ -298,6 +335,7 @@ export async function addProduct(req, res) {
 }
 
 export async function editProduct(req, res) {
+  try {
   const {
     name,
     category,
@@ -309,8 +347,6 @@ export async function editProduct(req, res) {
     _id,
     deletedImages,
   } = req.body;
-  const categoryId = category.split(" ")[0];
-  const categoryName = category.split(" ")[1];
   if (deletedImages) {
     if (Array.isArray(deletedImages)) {
       await productModel.updateOne(
@@ -321,6 +357,9 @@ export async function editProduct(req, res) {
           },
         }
       );
+      for(let item of deletedImages){
+        await unlinkAsync('public/product-images/'+item)
+      }
     } else {
       await productModel.updateOne(
         { _id },
@@ -330,12 +369,49 @@ export async function editProduct(req, res) {
           },
         }
       );
+      await unlinkAsync('public/product-images/'+deletedImages)
     }
   }
-  try {
+  
     const categoryId = category.split(" ")[0];
     const categoryName = category.split(" ")[1];
-    if (req.files.image && req.files.images) {
+    const mainImage=req.files?.image?.[0]
+    const sideImages=req.files?.images
+    if(req.files?.image){
+      await sharp(mainImage.path)
+      .png()
+      .resize(540, 540, {
+        kernel: sharp.kernel.nearest,
+        fit: 'contain',
+        position: 'center',
+        background: { r: 255, g: 255, b: 255, alpha: 0 }
+      })
+      .toFile(mainImage.path+".png")
+      .then(async () => {
+        await unlinkAsync(mainImage.path)
+        mainImage.path=mainImage.path+".png"
+        mainImage.filename=mainImage.filename+".png"
+      });
+    }
+    if(req.files?.images){
+      for (let i in sideImages) {
+        await sharp(sideImages[i].path)
+        .png()
+        .resize(540, 540, {
+          kernel: sharp.kernel.nearest,
+          fit: 'contain',
+          position: 'center',
+          background: { r: 255, g: 255, b: 255, alpha: 0 }
+        })
+        .toFile(sideImages[i].path+".png")
+        .then(async() => {
+          await unlinkAsync(sideImages[i].path)
+          sideImages[i].filename=sideImages[i].filename+".png"
+          sideImages[i].path=sideImages[i].path+".png"
+        });
+      }
+    }
+    if (req.files?.image && req.files?.images) {
       await productModel.findByIdAndUpdate(_id, {
         $set: {
           name,
@@ -346,10 +422,10 @@ export async function editProduct(req, res) {
           MRP,
           price,
           description,
-          mainImage: req.files.image[0],
+          mainImage: mainImage,
         },
         $push: {
-          sideImages: { $each: req.files.images },
+          sideImages: { $each: sideImages },
         },
       });
       return res.redirect("/admin/product");
@@ -367,7 +443,7 @@ export async function editProduct(req, res) {
           description,
         },
         $push: {
-          sideImages: { $each: req.files.images },
+          sideImages: { $each: sideImages },
         },
       });
       return res.redirect("/admin/product");
@@ -383,7 +459,7 @@ export async function editProduct(req, res) {
           MRP,
           price,
           description,
-          mainImage: req.files.image[0],
+          mainImage: mainImage,
         },
       });
       return res.redirect("/admin/product");
