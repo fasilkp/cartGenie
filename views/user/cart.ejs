@@ -1,8 +1,14 @@
 <%- include('../partials/header') %>
 
 <div class="cartlist-main">
-  <div class="container">
+  <div class="container pt-3">
     <h3 class="cart-head">Cart <i class="ri-shopping-cart-line"></i></h3>
+    <div class="alert alert-dark alert-dismissible fade show" role="alert" style="display: none;" id="cartAlert">
+      <div>
+        <strong>Out Of Stock!</strong>
+      </div>
+
+    </div> 
     <% if(!products[0]){ %> 
     <div class="row">
           <div class="empty-container w-100 h-50 d-flex flex-column justify-content-center align-items-center" style="gap:10px">
@@ -27,7 +33,14 @@
                 <strike style="font-size: .85rem; color: grey;">
                   ₹<%=item.MRP*item.cartQuantity  %>
                 </strike>
-                </h4>
+                </h5>
+                <b id="<%=item._id%>" class="text-danger">
+                <% if(item.quantity == 0){ %>
+                    Out Of Stock
+                <% }else if(item.quantity < item.cartQuantity){%>
+                    only <%= item.quantity %> stocks left
+                <% } %>
+                </b>
               </div>
               <div class="cart-quantity">
                 <div class="cartquantiy-box">
@@ -68,9 +81,7 @@
               <b>₹ <%=totalPrice  %> </b>
             </div>
             <div class="price-item">
-              <a href="/checkout" class="w-100">
-                <button class="w-100">Checkout</button>
-              </a>
+                <button class="w-100" onclick="checkQuantity()">Checkout</button>
             </div>
           </div>
         </div>
@@ -80,3 +91,24 @@
     </div>
   </div>
 </div>
+<script src="https://unpkg.com/axios@1.1.2/dist/axios.min.js"></script>
+<script>
+  function checkQuantity(){
+    axios.post("/check-quantity").then(response=>{
+      if(response?.data?.error){
+        document.getElementById('cartAlert').style.display="flex"
+        response.data.outOfQuantity.forEach(item=>{
+          console.log(item)
+          if(item.balanceQuantity==0){
+            document.getElementById(item.id).innerHTML="Out Of Stock"
+          }else{
+            document.getElementById(item.id).innerHTML="Only "+item.balanceQuantity+" stocks left"
+
+          }
+        })
+      }else{
+        window.location.href="/checkout"
+      }
+    })
+  }
+</script>

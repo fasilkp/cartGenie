@@ -143,6 +143,34 @@ export function getCheckout(req, res) {
   res.render("user/checkout", { key: "", address, error: false });
 }
 
+export async function checkQuantity(req, res){
+  let address = req.user.address;
+  const cart = req?.user?.cart ?? [];
+  let cartQuantities={}
+  const cartList = cart.map((item) =>{
+    cartQuantities[item.id]=item.quantity
+    return  item.id
+  });
+  let products = await productModel
+    .find({ _id: { $in: cartList }, unlist: false })
+    .lean();
+    let quantityError=false;
+    let outOfQuantity=[]
+    console.log(cartQuantities)
+  for(let item of products){
+    console.log(item.quantity, cartQuantities[item._id])
+    if(item.quantity<cartQuantities[item._id]){
+      quantityError=true
+      outOfQuantity.push({id:item._id, balanceQuantity:item.quantity})
+    }else{
+    }
+  }
+  if(quantityError){
+    return res.json({error:true, outOfQuantity})
+  }
+  return res.json({error:false})
+}
+
 export async function getPayment(req, res) {
   const addressId = req.params.id;
   console.log(addressId);
