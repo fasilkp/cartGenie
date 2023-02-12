@@ -1,71 +1,29 @@
+<script src="https://unpkg.com/js-image-zoom@0.4.1/js-image-zoom.js" type="application/javascript"></script>
 <%- include('../partials/header') %>
 <div class="product-main">
   <div class="container">
     <div class="row">
       <div class="col-12 col-md-6">
         <div class="car-container">
-          <div id="carouselExampleIndicators" class="carousel slide w-100">
-            <div class="carousel-indicators">
-              <button
-                type="button"
-                data-bs-target="#carouselExampleIndicators"
-                data-bs-slide-to="0"
-                class="active"
-                aria-current="true"
-                aria-label="Slide 1"
-              ></button>
-              <% product.sideImages.forEach((item, index)=>{ %>
-                <button
-                type="button"
-                data-bs-target="#carouselExampleIndicators"
-                data-bs-slide-to="<%= index+1 %>"
-                aria-label="Slide <%= index+2 %>"
-                ></button>
-              <% }) %> 
+          <div>
+          <div class="show" href="/product-images/<%=product.mainImage.filename%>">
+            <img src="/product-images/<%=product.mainImage.filename%>" id="show-img">
+          </div>
+        
+          <!-- Secondary carousel image thumbnail gallery -->
+        
+              <div class="small-img">
+              <img src="/images/next-icon.png" class="icon-left" alt="" id="prev-img">
+                <div class="small-container">
+                <div id="small-img-roll">
+                  <% product.sideImages.forEach((item, index)=>{ %>
+                    <img src="/product-images/<%=item.filename%>" class="show-small-img" alt="">
+                    <% }) %>
+                </div>
+                </div>
+              <img src="/images/next-icon.png" class="icon-right" alt="" id="next-img">
             </div>
-            <div class="carousel-inner">
-              <div class="carousel-item active">
-                <img
-                  src="http://localhost:4001/product-images/<%= product.mainImage.filename %>"
-                  class="d-block w-100"
-                  alt="..."
-                />
-               
-              </div>
-              <% product.sideImages.forEach(item=>{ %>
-                <div class="carousel-item">
-                <img
-                src="http://localhost:4001/product-images/<%= item.filename %>"
-                class="d-block w-100"
-                alt="..."
-              />
-            </div>
-              <% })  %> 
-            </div>
-            <button
-              class="carousel-control-prev"
-              type="button"
-              data-bs-target="#carouselExampleIndicators"
-              data-bs-slide="prev"
-            >
-              <span
-                class="carousel-control-prev-icon car-btn"
-                aria-hidden="true"
-              ></span>
-              <span class="visually-hidden">Previous</span>
-            </button>
-            <button
-              class="carousel-control-next"
-              type="button"
-              data-bs-target="#carouselExampleIndicators"
-              data-bs-slide="next"
-            >
-              <span
-                class="carousel-control-next-icon car-btn"
-                aria-hidden="true"
-              ></span>
-              <span class="visually-hidden">Next</span>
-            </button>
+
           </div>
         </div>
         <div class="btns">
@@ -114,13 +72,6 @@
 <%= product.description  %> 
         </pre>
 
-          <!-- <h4 class="mt-4">Quantity</h4>
-          <div class="quantity-box mt-3">
-            <button class="quantity minus" onclick="quantityDec()">-</button>
-            <input type="number" value="1" id="quantity" disabled />
-            <button class="quantity plus" onclick="quantityInc()">+</button>
-          </div> -->
-
           <h4 class="mt-5">Ratings and Reviews</h4>
           <div class="ratings">
             <% for(let i=0; i<rating; i++) {%> 
@@ -156,6 +107,7 @@
   </div>
 </div>
 
+  </div>
 <script>
   function quantityInc(){
     var quantity= document.getElementById("quantity")
@@ -166,3 +118,9 @@
     quantity.value--;
   }
 </script>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT"
+        crossorigin="anonymous"></script>
+     <script src="/javascript/slider/zoom-image.js"></script>
+     <script src="/javascript/slider/main.js"></script>
