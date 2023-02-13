@@ -45,8 +45,8 @@
               <div class="cart-quantity">
                 <div class="cartquantiy-box">
                   <button onclick="window.location.href='/minus-quantity/<%=item._id%>'">-</button>
-                  <input type="text" value="<%=item.cartQuantity%>">
-                  <button onclick="window.location.href='/add-quantity/<%=item._id%>'">+</button>
+                  <input type="number" value="<%=item.cartQuantity%>" id="incQuantity">
+                  <button onclick="addQuantity('<%=item._id%>')">+</button>
                 </div>
               </div>
               <div class="cart-cancel">
@@ -110,5 +110,15 @@
         window.location.href="/checkout"
       }
     })
+  }
+  async function addQuantity(id){
+    const response=await axios.get("/add-quantity/"+id)
+    console.log(response.data)
+    if(response.data.user.acknowledged){
+      console.log("hai")
+      var incQuantity= Number( document.getElementById('incQuantity').value);
+      console.log(incQuantity)
+      document.getElementById('incQuantity').value=incQuantity+1;
+    }
   }
 </script>

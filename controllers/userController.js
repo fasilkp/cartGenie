@@ -361,7 +361,7 @@ export async function editAddress(req, res) {
 }
 
 export async function addQuantity(req, res) {
-  await userModel.updateOne(
+  const user=await userModel.updateOne(
     { _id: req.session.user.id, cart: { $elemMatch: { id: req.params.id } } },
     {
       $inc: {
@@ -369,7 +369,7 @@ export async function addQuantity(req, res) {
       },
     }
   );
-  res.redirect("/cart");
+  res.json({user})
 }
 
 export async function minusQuantity(req, res) {
