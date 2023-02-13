@@ -12,7 +12,7 @@
         <label for="Category">Category</label>
         <select name="category" placeholder="category" required name="category" value="<%=product.category %>" >
           <% categories.forEach(item=>{ %> 
-              <option value="<%=item._id+' '+item.category  %>"><%= item.category  %></option>
+              <option value="<%=item._id+' '+item.category  %>" <% if(product.categoryId==item._id){ %> selected <% } %>><%= item.category  %></option>
           <% }) %> 
       </select>
       </div>
@@ -122,35 +122,7 @@
       multiImage.appendChild(img)
     });
   }
-// function deleteOldImage(id){
-//   console.log(id)
-//   var filterImg=productImages.filter(item=>{
-//     return item.filename!=id
-//   })
-//   productImages=filterImg
-//   console.log(productImages)
-//   const oldImage=document.getElementById("oldImage");
-//   oldImage.innerHTML=''
-//   productImages.forEach((item) => {
-//       var img=document.createElement('img')
-//       var label=document.createElement('label')
-//       var i=document.createElement('i')
-//       var input=document.createElement('input')
-//       input.setAttribute('type', 'checkbox')
-//       input.setAttribute('value', item.filename)
-//       input.setAttribute('id', item.filename)
-//       input.setAttribute('name', 'deletedImages')
-//       input.setAttribute('onchange', `deleteOldImage('${item.filename}')`)
-//       label.setAttribute('for', item.filename)
-//       i.setAttribute('class', 'ri-close-fill')
-//       label.appendChild(i);
-//       img.src='/product-images/'+item.filename;
-//       oldImage.appendChild(img)
-//       oldImage.appendChild(label)
-//       oldImage.appendChild(input)
-//   });
 
-// }
 
  
 </script>
