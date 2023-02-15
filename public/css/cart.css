@@ -122,6 +122,11 @@
     color: white;
     font-weight: 550;
 }
+.stroke-input{
+    border: none;
+    outline: none;
+    background: none;
+}
 @media(max-width:600px){
     .cart-img img{
         height: 70px;
