@@ -11,8 +11,12 @@ import { promisify } from 'util'
 const unlinkAsync = promisify(fs.unlink)
 
 export async function getAdminOrders(req, res) {
-  const orders = await orderModel.find().sort({ createdAt: -1 }).lean();
-  res.render("admin/adminOrders", { orders });
+  let page= req.query.page ?? 0;
+  let pageCount=await orderModel.find().count()
+  const orders = await orderModel.find().sort({ createdAt: -1 }).skip(page*10).limit(10)
+  .lean();
+  pageCount=Math.floor(pageCount/10);
+  res.render("admin/adminOrders", { orders, page, pageCount });
 }
 
 export async function getDashboard(req, res) {

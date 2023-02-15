@@ -82,6 +82,29 @@
               </table>
         </div>
     </div>
+    <div class="row d-flex justify-content-center mt-5">
+      <% if(pageCount>0) {%> 
+      <nav aria-label="Page navigation example text-dark pl-pagination">
+        <ul class="pagination d-flex justify-content-center text-dark">
+          <li class="page-item ">
+            <span class="page-link text-dark" aria-label="Previous">
+              <a href="/admin/orders?page=<%= pageCount-1 %>"  >&laquo;</a>
+            </span>
+          </li>
+          <% for(let i=0; i<=pageCount; i++) {%> 
+          <li class="page-item"><a href="/admin/orders?page=<%= i %>" class="page-link text-dark"
+            <% if(page==i){ %> style="font-weight:1000;" <% } %> 
+            ><%= i+1  %> </a></li>
+          <% } %>
+          <li class="page-item">
+            <span class="page-link text-dark" aria-label="Next">
+              <a href="/admin/orders?page=<%= pageCount %>">&raquo;</a>
+            </span>
+          </li>
+        </ul>
+      </nav>
+      <% } %> 
+    </div>
   </div>
 </div>
 
