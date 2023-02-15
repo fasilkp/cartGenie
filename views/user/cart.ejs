@@ -44,8 +44,8 @@
               </div>
               <div class="cart-quantity">
                 <div class="cartquantiy-box">
-                  <button onclick="window.location.href='/minus-quantity/<%=item._id%>'">-</button>
-                  <input type="number" value="<%=item.cartQuantity%>" id="incQuantity">
+                  <button onclick="decQuantity('<%=item._id%>')">-</button>
+                  <input type="number" value="<%=item.cartQuantity%>" id="<%='q'+item._id%>">
                   <button onclick="addQuantity('<%=item._id%>')">+</button>
                 </div>
               </div>
@@ -111,14 +111,26 @@
       }
     })
   }
+
   async function addQuantity(id){
     const response=await axios.get("/add-quantity/"+id)
-    console.log(response.data)
-    if(response.data.user.acknowledged){
-      console.log("hai")
-      var incQuantity= Number( document.getElementById('incQuantity').value);
-      console.log(incQuantity)
-      document.getElementById('incQuantity').value=incQuantity+1;
+    if(response.data.user?.acknowledged){
+      var quantity= document.getElementById('q'+id).value;
+      quantity++;
+      document.getElementById('q'+id).value=quantity;
+    }else{
+      window.location.reload()
+    }
+  }
+  
+  async function decQuantity(id){
+    const response=await axios.get("/minus-quantity/"+id)
+    if(response.data.user?.acknowledged){
+      var quantity= Number( document.getElementById('q'+id).value);
+      quantity--;
+      document.getElementById('q'+id).value=quantity;
+    }else{
+      window.location.reload()
     }
   }
 </script>

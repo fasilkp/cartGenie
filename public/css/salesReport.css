@@ -28,14 +28,15 @@ table input{
 } */
 .filter-head{
     display: flex;
-    justify-content: space-between;
+    align-items: center;
 }
 .filter-head input{
     border: none;
     outline: none;
     background-color: #fff;
-    height: 50px;
-    padding: 20px;
+    height: 40px;
+    padding: 10px;
     border: 1px solid rgb(222, 222, 222);
     margin: 5px;
+    margin-top: -10px;
 }

@@ -379,7 +379,7 @@ export async function minusQuantity(req, res) {
   );
   console.log(req.params.id);
   if (cart[0].quantity <= 1) {
-    await UserModel.updateOne(
+    let user=await UserModel.updateOne(
       { _id: req.session.user.id },
       {
         $pull: {
@@ -387,9 +387,10 @@ export async function minusQuantity(req, res) {
         },
       }
     );
-    return res.redirect("/cart");
+
+    return res.json({user:{acknowledged:false}})
   }
-  await userModel.updateOne(
+  let user=await userModel.updateOne(
     { _id: req.session.user.id, cart: { $elemMatch: { id: req.params.id } } },
     {
       $inc: {
@@ -397,7 +398,7 @@ export async function minusQuantity(req, res) {
       },
     }
   );
-  return res.redirect("/cart");
+  return res.json({user})
 }
 
 export async function checkout(req, res) {

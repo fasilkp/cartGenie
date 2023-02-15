@@ -55,7 +55,7 @@ export async function getDashboard(req, res) {
 }
 
 export async function getAdminProduct(req, res) {
-  const products = await productModel.find().lean();
+  const products = await productModel.find().sort({createdAt:-1}).lean();
   res.render("admin/adminProduct", { products });
 }
 
@@ -130,6 +130,20 @@ export async function getSalesReport(req, res) {
     if(req.query.endDate){
         endDate = new Date(req.query.endDate)
         endDate.setHours(24, 0, 0, 0);
+    }
+    if(req.query.filter=='thisYear'){
+      let currentDate= new Date()
+      startDate= new Date(currentDate.getFullYear(), 0, 1);
+      startDate.setHours(0, 0, 0, 0);
+      endDate= new Date(new Date().setDate(new Date().getDate() +1 ))
+      endDate.setHours(0, 0, 0, 0);
+    }
+    if(req.query.filter=='lastYear'){
+      let currentDate= new Date()
+      startDate= new Date(currentDate.getFullYear()-1, 0, 1);
+      startDate.setHours(0, 0, 0, 0);
+      endDate= new Date(currentDate.getFullYear()-1, 11, 31);
+      endDate.setHours(0, 0, 0, 0);
     }
 
   const orders = await orderModel

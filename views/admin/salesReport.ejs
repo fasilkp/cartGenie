@@ -30,8 +30,17 @@
     </a>
   </div>
   <div class="order-container">
+    <h3>Filter</h3>
+    <div class="container-fluid d-flex align-items-end">
+      <h6 style="margin-right: 36px;">Filter by : </h6>
+      <a href="/admin/sales-report?filter=lastWeek" class="btn btn-dark rounded-0 ms-2">Last week</a>
+      <a href="/admin/sales-report?filter=lastMonth" class="btn btn-outline-dark rounded-0 ms-2">Last month</a>
+      <a href="/admin/sales-report?filter=thisMonth" class="btn btn-outline-dark rounded-0 ms-2">This Month</a>
+      <a href="/admin/sales-report?filter=lastYear" class="btn btn-outline-dark rounded-0 ms-2">Last Year</a>
+      <a href="/admin/sales-report?filter=thisYear" class="btn btn-outline-dark rounded-0 ms-2">This year</a>
+    </div>
     <div class="container-fluid filter-head pt-4">
-      <h3>Filter by date</h3>
+       <h6>Filter by date : </h6>
       <form action="/admin/sales-report" method="get">
         <input type="date" name="startDate" value="<%= startDate %>" onchange="this.form.submit()">
         to
@@ -123,6 +132,7 @@
     <h3 class="mt-3">Orders</h3>
     <div class="row mt-2 p-3">
         <div class="orders-table" id="content">
+          <div class="table-responsive">
             <table class="table table-striped" id="table">
                 <thead>
                     <tr>
@@ -167,6 +177,7 @@
                     
                   </tbody>
               </table>
+              </div>
         </div>
     </div>
     
