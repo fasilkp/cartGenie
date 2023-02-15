@@ -33,11 +33,11 @@
     <h3>Filter</h3>
     <div class="container-fluid d-flex align-items-end">
       <h6 style="margin-right: 36px;">Filter by : </h6>
-      <a href="/admin/sales-report?filter=lastWeek" class="btn btn-dark rounded-0 ms-2">Last week</a>
-      <a href="/admin/sales-report?filter=lastMonth" class="btn btn-outline-dark rounded-0 ms-2">Last month</a>
-      <a href="/admin/sales-report?filter=thisMonth" class="btn btn-outline-dark rounded-0 ms-2">This Month</a>
-      <a href="/admin/sales-report?filter=lastYear" class="btn btn-outline-dark rounded-0 ms-2">Last Year</a>
-      <a href="/admin/sales-report?filter=thisYear" class="btn btn-outline-dark rounded-0 ms-2">This year</a>
+      <a href="/admin/sales-report?filter=lastWeek" class="btn btn-<% if(filter!='lastWeek'){ %>outline-<% } %>dark rounded-0 ms-2">Last week</a>
+      <a href="/admin/sales-report?filter=lastMonth" class="btn btn-<% if(filter!='lastMonth'){ %>outline-<% } %>dark rounded-0 ms-2">Last month</a>
+      <a href="/admin/sales-report?filter=thisMonth" class="btn btn-<% if(filter!='thisMonth'){ %>outline-<% } %>dark rounded-0 ms-2">This Month</a>
+      <a href="/admin/sales-report?filter=lastYear" class="btn btn-<% if(filter!='lastYear'){ %>outline-<% } %>dark rounded-0 ms-2">Last Year</a>
+      <a href="/admin/sales-report?filter=thisYear" class="btn btn-<% if(filter!='thisYear'){ %>outline-<% } %>dark rounded-0 ms-2">This year</a>
     </div>
     <div class="container-fluid filter-head pt-4">
        <h6>Filter by date : </h6>

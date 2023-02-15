@@ -145,6 +145,20 @@ export async function getSalesReport(req, res) {
       endDate= new Date(currentDate.getFullYear()-1, 11, 31);
       endDate.setHours(0, 0, 0, 0);
     }
+    if(req.query.filter=='thisMonth'){
+      let currentDate= new Date()
+      startDate= new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+      startDate.setHours(0, 0, 0, 0);
+      endDate= new Date(currentDate.getFullYear(), currentDate.getMonth()+1, 1);
+      endDate.setHours(0, 0, 0, 0);
+    }
+    if(req.query.filter=='lastMonth'){
+      let currentDate= new Date()
+      startDate= new Date(currentDate.getFullYear(), currentDate.getMonth()-1, 1);
+      startDate.setHours(0, 0, 0, 0);
+      endDate= new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+      endDate.setHours(0, 0, 0, 0);
+    }
 
   const orders = await orderModel
     .find({
@@ -185,8 +199,10 @@ export async function getSalesReport(req, res) {
     categories[index].profit= category[item._id].total
   })
   console.log(categories)
-  
-
+  let filter=req.query.filter ?? "";
+  if(!req.query.filter && !req.query.startDate){
+    filter="lastWeek"
+  }
   res.render("admin/salesReport", {
     orders,
     totalDispatch,
@@ -197,7 +213,8 @@ export async function getSalesReport(req, res) {
     endDate:moment(endDate).utc().format('YYYY-MM-DD'),
     orderTable,
     categories,
-    byBrand
+    byBrand,
+    filter
   });
 }
 
