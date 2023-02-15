@@ -88,17 +88,17 @@
         <ul class="pagination d-flex justify-content-center text-dark">
           <li class="page-item ">
             <span class="page-link text-dark" aria-label="Previous">
-              <a href="/admin/orders?page=<%= pageCount-1 %>"  >&laquo;</a>
+              <span aria-hidden="true" onclick="gotoPage('<%=pageCount-1%>')">&laquo;</span>
             </span>
           </li>
           <% for(let i=0; i<=pageCount; i++) {%> 
-          <li class="page-item"><a href="/admin/orders?page=<%= i %>" class="page-link text-dark"
+          <li class="page-item"><span onclick="gotoPage('<%=i%>')" class="page-link text-dark"
             <% if(page==i){ %> style="font-weight:1000;" <% } %> 
-            ><%= i+1  %> </a></li>
+            ><%= i+1  %> </span></li>
           <% } %>
           <li class="page-item">
             <span class="page-link text-dark" aria-label="Next">
-              <a href="/admin/orders?page=<%= pageCount %>">&raquo;</a>
+              <span aria-hidden="true" onclick="gotoPage('<%=pageCount%>')">&raquo;</span>
             </span>
           </li>
         </ul>
@@ -109,3 +109,23 @@
 </div>
 
 
+<script>
+  function gotoPage(page){
+    var url = new URL(window.location.href);
+    var search_params = url.searchParams;
+    search_params.set('page', page);
+    url.search = search_params.toString();
+    var new_url = url.toString();
+    console.log(new_url);
+    window.location.href=new_url
+  }
+
+  function showFilter(){
+    var filterSec=document.querySelector('.filter-sec');
+    filterSec.style.top="50px"
+  }
+  function hideFilter(){
+    var filterSec=document.querySelector('.filter-sec');
+    filterSec.style.top="-1000px"
+  }
+</script>

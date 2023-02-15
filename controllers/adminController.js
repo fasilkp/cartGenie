@@ -59,13 +59,26 @@ export async function getDashboard(req, res) {
 }
 
 export async function getAdminProduct(req, res) {
-  const products = await productModel.find().sort({createdAt:-1}).lean();
-  res.render("admin/adminProduct", { products });
+  const name=req.query.name ?? "";
+  let page= req.query.page ?? 0;
+  let pageCount=await productModel.find().count()
+  const products = await productModel.find({$or:[{name: new RegExp(name, 'i')}, {category: new RegExp(name, 'i')}]})
+  .sort({createdAt:-1}).skip(page*10).limit(10).lean();
+  pageCount=Math.floor(pageCount/10);
+  res.render("admin/adminProduct", { products, name, pageCount, page });
 }
 
 export async function getAdminUsers(req, res) {
-  const users = await UserModel.find({ ban: false }).lean();
-  res.render("admin/adminUsers", { users });
+  const name=req.query.name ?? "";
+  console.log(name)
+  let page= req.query.page ?? 0;
+  let pageCount=await UserModel.find().count()
+  const users = await UserModel.find(
+      {$or:[{name: new RegExp(name, 'i'), ban:false}, {email: new RegExp(name, 'i'), ban:false}]}
+    )
+  .skip(page*10).limit(10).lean();
+  pageCount=Math.floor(pageCount/10);
+  res.render("admin/adminUsers", { users, pageCount, page, name });
 }
 
 export async function getBannedUsers(req, res) {

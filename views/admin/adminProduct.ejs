@@ -33,8 +33,8 @@
   <div class="order-container">
     <div class="mt-2 p-3 d-flex align-items-center">
         <h3>Products</h3>
-        <form class="product-search" action="/admin/search-product" method="post">
-            <input type="text" placeholder="search for product" name="name">
+        <form class="product-search" action="/admin/product" method="get">
+            <input type="text" placeholder="search for product" name="name" value="<%= name %>">
             <button class="ri-search-line"></button>
         </form>
         <a href="/admin/add-product">
@@ -97,6 +97,50 @@
               </table>
         </div>
     </div>
+    <div class="row d-flex justify-content-center mt-5">
+      <% if(pageCount>0) {%> 
+      <nav aria-label="Page navigation example text-dark pl-pagination">
+        <ul class="pagination d-flex justify-content-center text-dark">
+          <li class="page-item ">
+            <span class="page-link text-dark" aria-label="Previous">
+              <span aria-hidden="true" onclick="gotoPage('<%=pageCount-1%>')">&laquo;</span>
+            </span>
+          </li>
+          <% for(let i=0; i<=pageCount; i++) {%> 
+          <li class="page-item"><span onclick="gotoPage('<%=i%>')" class="page-link text-dark"
+            <% if(page==i){ %> style="font-weight:1000;" <% } %> 
+            ><%= i+1  %> </span></li>
+          <% } %>
+          <li class="page-item">
+            <span class="page-link text-dark" aria-label="Next">
+              <span aria-hidden="true" onclick="gotoPage('<%=pageCount%>')">&raquo;</span>
+            </span>
+          </li>
+        </ul>
+      </nav>
+      <% } %> 
+    </div>
+
   </div>
 </div>
+<script>
+  function gotoPage(page){
+    var url = new URL(window.location.href);
+    var search_params = url.searchParams;
+    search_params.set('page', page);
+    url.search = search_params.toString();
+    var new_url = url.toString();
+    console.log(new_url);
+    window.location.href=new_url
+  }
+
+  function showFilter(){
+    var filterSec=document.querySelector('.filter-sec');
+    filterSec.style.top="50px"
+  }
+  function hideFilter(){
+    var filterSec=document.querySelector('.filter-sec');
+    filterSec.style.top="-1000px"
+  }
+</script>
 
