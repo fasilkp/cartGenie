@@ -22,7 +22,7 @@ export async function getDashboard(req, res) {
   let totalRevenue = 0;
   let totalPending = 0;
   let deliveredOrders = orders.filter((item) => {
-    if (item.orderStatus == "pending") {
+    if (item.orderStatus == "pending" || item.orderStatus == 'outForDelivery') {
       totalPending++;
     }
     if(item.orderStatus == "delivered"){
@@ -120,7 +120,7 @@ export async function getEditOrder(req, res) {
 
 export async function getSalesReport(req, res) {
 
-    let startDate = new Date().setDate(new Date().getDate() - 8)
+    let startDate = new Date(new Date().setDate(new Date().getDate() - 8))
     let endDate = new Date()
     
     if(req.query.startDate){
@@ -161,9 +161,7 @@ export async function getSalesReport(req, res) {
     }
 
   const orders = await orderModel
-    .find({
-      createdAt: { $gt: startDate, $lt: endDate },
-    })
+    .find({createdAt: { $gt: startDate, $lt: endDate }})
     .sort({ createdAt: -1 })
     .lean();
   // console.log(orders)
@@ -172,7 +170,7 @@ export async function getSalesReport(req, res) {
   let totalPending = 0;
   let deliveredOrders = orders.filter((item) => {
 
-    if (item.orderStatus == "pending") {
+    if (item.orderStatus == "pending" || item.orderStatus == 'outForDelivery') {
       totalPending++;
     }
 
@@ -185,9 +183,10 @@ export async function getSalesReport(req, res) {
   orders.map(item=>{
     orderTable.push([item.product.name, item.total, item.orderStatus, item.quantity, item.createdAt.toLocaleDateString() ])
   })
-  let byCategory= await orderModel.aggregate([{$group:{_id:"$product.categoryId", count:{$sum:1}, price:{$sum:"$product.price"}}}])
-  let byBrand= await orderModel.aggregate([{$group:{_id:"$product.brand", count:{$sum:1}, profit:{$sum:"$product.price"}}}])
-  console.log(byBrand)
+  console.log(startDate, endDate)
+  let byCategory= await orderModel.aggregate([{$match:{createdAt: { $gt: startDate, $lt: endDate }}},{$group:{_id:"$product.categoryId", count:{$sum:1}, price:{$sum:"$product.price"}}}])
+  let byBrand= await orderModel.aggregate([{$match:{createdAt: { $gt: startDate, $lt: endDate}}},{$group:{_id:"$product.brand", count:{$sum:1}, profit:{$sum:"$product.price"}}}])
+
   let category={}
   let categoryIds= byCategory.map(item=>{
     category[item._id]={count:item.count, total:item.price}
@@ -198,7 +197,6 @@ export async function getSalesReport(req, res) {
     categories[index].count= category[item._id].count
     categories[index].profit= category[item._id].total
   })
-  console.log(categories)
   let filter=req.query.filter ?? "";
   if(!req.query.filter && !req.query.startDate){
     filter="lastWeek"

@@ -29,9 +29,11 @@
               </div>
               <div class="cart-detail">
                 <b><%=item.name  %> </b>
-                <h5>₹<%=item.price*item.cartQuantity  %>
+                <h5 id="<%= 'price'+item._id%>">₹<%=item.price*item.cartQuantity  %>
                 <strike style="font-size: .85rem; color: grey;">
-                  ₹<%=item.MRP*item.cartQuantity  %>
+                  ₹<span id="<%='mrp'+item._id%>">
+                    <%=item.MRP*item.cartQuantity  %>
+                  </span>
                 </strike>
                 </h5>
                 <b id="<%=item._id%>" class="text-danger">
@@ -44,9 +46,9 @@
               </div>
               <div class="cart-quantity">
                 <div class="cartquantiy-box">
-                  <button onclick="decQuantity('<%=item._id%>')">-</button>
+                  <button onclick="decQuantity('<%=item._id%>', '<%=item.price%>')">-</button>
                   <input type="number" value="<%=item.cartQuantity%>" id="<%='q'+item._id%>">
-                  <button onclick="addQuantity('<%=item._id%>')">+</button>
+                  <button onclick="addQuantity('<%=item._id%>', '<%=item.price%>', '<%=item.MRP%>')">+</button>
                 </div>
               </div>
               <div class="cart-cancel">
@@ -112,22 +114,28 @@
     })
   }
 
-  async function addQuantity(id){
+  async function addQuantity(id, price, MRP){
     const response=await axios.get("/add-quantity/"+id)
     if(response.data.user?.acknowledged){
+      var priceTag=document.getElementById('price'+id)
+      var MRPTag=document.getElementById('mrp'+id)
       var quantity= document.getElementById('q'+id).value;
       quantity++;
+      priceTag.innerHTML= quantity*price;
+      MRPTag.innerHTML= quantity*MRP;
       document.getElementById('q'+id).value=quantity;
     }else{
       window.location.reload()
     }
   }
   
-  async function decQuantity(id){
+  async function decQuantity(id, price){
     const response=await axios.get("/minus-quantity/"+id)
     if(response.data.user?.acknowledged){
       var quantity= Number( document.getElementById('q'+id).value);
+      var priceTag=document.getElementById('price'+id)
       quantity--;
+      priceTag.innerHTML= quantity*price;
       document.getElementById('q'+id).value=quantity;
     }else{
       window.location.reload()
