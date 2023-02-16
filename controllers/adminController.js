@@ -82,8 +82,11 @@ export async function getAdminUsers(req, res) {
 }
 
 export async function getBannedUsers(req, res) {
-  const users = await UserModel.find({ ban: true }).lean();
-  res.render("admin/bannedUsers", { users });
+  const name=req.query.name ?? "";
+  const users = await UserModel.find(
+    {$or:[{name: new RegExp(name, 'i'), ban:true}, {email: new RegExp(name, 'i'), ban:true}]}
+  )
+  res.render("admin/bannedUsers", { users, name });
 }
 
 export async function getAdminCategory(req, res) {
@@ -755,6 +758,7 @@ export async function editOrder(req, res) {
         $set: {
           paid: true,
           orderStatus: status,
+          dispatch:new Date()
         },
       }
     );

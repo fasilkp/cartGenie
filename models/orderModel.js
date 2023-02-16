@@ -44,6 +44,10 @@ const orderSchema= new mongoose.Schema({
     total:{
         type:Number,
         required:true
+    },
+    coupon:{
+        type:Object,
+        default:{applied:false, price:0, coupon:{}}
     }
 },{timestamps:true})
 const orderModel= mongoose.model("order", orderSchema);

@@ -8,6 +8,7 @@ import orderModel from "../models/orderModel.js";
 import couponModel from "../models/couponModel.js";
 import bcrypt from "bcryptjs";
 import axios from "axios";
+import checkCoupon from "../actions/checkCoupon.js";
 var salt = bcrypt.genSaltSync(10);
 
 export async function getHome(req, res) {
@@ -143,32 +144,32 @@ export function getCheckout(req, res) {
   res.render("user/checkout", { key: "", address, error: false });
 }
 
-export async function checkQuantity(req, res){
+export async function checkQuantity(req, res) {
   let address = req.user.address;
   const cart = req?.user?.cart ?? [];
-  let cartQuantities={}
-  const cartList = cart.map((item) =>{
-    cartQuantities[item.id]=item.quantity
-    return  item.id
+  let cartQuantities = {};
+  const cartList = cart.map((item) => {
+    cartQuantities[item.id] = item.quantity;
+    return item.id;
   });
   let products = await productModel
     .find({ _id: { $in: cartList }, unlist: false })
     .lean();
-    let quantityError=false;
-    let outOfQuantity=[]
-    console.log(cartQuantities)
-  for(let item of products){
-    console.log(item.quantity, cartQuantities[item._id])
-    if(item.quantity<cartQuantities[item._id]){
-      quantityError=true
-      outOfQuantity.push({id:item._id, balanceQuantity:item.quantity})
-    }else{
+  let quantityError = false;
+  let outOfQuantity = [];
+  console.log(cartQuantities);
+  for (let item of products) {
+    console.log(item.quantity, cartQuantities[item._id]);
+    if (item.quantity < cartQuantities[item._id]) {
+      quantityError = true;
+      outOfQuantity.push({ id: item._id, balanceQuantity: item.quantity });
+    } else {
     }
   }
-  if(quantityError){
-    return res.json({error:true, outOfQuantity})
+  if (quantityError) {
+    return res.json({ error: true, outOfQuantity });
   }
-  return res.json({error:false})
+  return res.json({ error: false });
 }
 
 export async function getPayment(req, res) {
@@ -244,7 +245,7 @@ export async function getCoupons(req, res) {
   res.render("user/coupons", { key: "", coupons });
 }
 export async function getOrderPlaced(req, res) {
-  res.render("user/orderPlaced", { key: "", failed:false });
+  res.render("user/orderPlaced", { key: "", failed: false });
 }
 
 export async function addToWishlist(req, res) {
@@ -361,7 +362,7 @@ export async function editAddress(req, res) {
 }
 
 export async function addQuantity(req, res) {
-  const user=await userModel.updateOne(
+  const user = await userModel.updateOne(
     { _id: req.session.user.id, cart: { $elemMatch: { id: req.params.id } } },
     {
       $inc: {
@@ -369,7 +370,7 @@ export async function addQuantity(req, res) {
       },
     }
   );
-  res.json({user})
+  res.json({ user });
 }
 
 export async function minusQuantity(req, res) {
@@ -379,7 +380,7 @@ export async function minusQuantity(req, res) {
   );
   console.log(req.params.id);
   if (cart[0].quantity <= 1) {
-    let user=await UserModel.updateOne(
+    let user = await UserModel.updateOne(
       { _id: req.session.user.id },
       {
         $pull: {
@@ -388,9 +389,9 @@ export async function minusQuantity(req, res) {
       }
     );
 
-    return res.json({user:{acknowledged:false}})
+    return res.json({ user: { acknowledged: false } });
   }
-  let user=await userModel.updateOne(
+  let user = await userModel.updateOne(
     { _id: req.session.user.id, cart: { $elemMatch: { id: req.params.id } } },
     {
       $inc: {
@@ -398,7 +399,7 @@ export async function minusQuantity(req, res) {
       },
     }
   );
-  return res.json({user})
+  return res.json({ user });
 }
 
 export async function checkout(req, res) {
@@ -414,7 +415,7 @@ export async function checkout(req, res) {
   }
 
   if (payment != "cod") {
-    req.session.tempOrder={...req.session.tempOrder,addressId}
+    req.session.tempOrder = { ...req.session.tempOrder, addressId };
     return res.redirect("/payment/" + addressId);
   }
 
@@ -458,35 +459,22 @@ export async function checkout(req, res) {
 export async function applyCoupon(req, res) {
   const { coupon: couponCode } = req.body;
   const cart = req?.user?.cart ?? [];
+  const cartQuantities = {};
   const cartList = cart.map((item) => {
+    cartQuantities[item.id] = item.quantity;
     return item.id;
   });
   const products = await productModel
     .find({ _id: { $in: cartList }, unlist: false }, { price: 1 })
     .lean();
   let totalPrice = 0;
-  products.forEach((item, index) => {
-    totalPrice = (totalPrice + item.price) * cart[index].quantity;
-  });
+  let totalCouponPrice = 0;
   const coupon = await couponModel.findOne({ code: couponCode });
   if (!coupon) {
     return res.json({
       key: "",
-      totalPrice,
       error: true,
       message: "No Coupon Available",
-      couponPrice: 0,
-    });
-  }
-  if (totalPrice < coupon.minAmount) {
-    return res.json({
-      key: "",
-      totalPrice,
-      error: true,
-      message:
-        "Coupon not applicaple (minimum amount must be above" +
-        coupon.minAmount +
-        ")",
       couponPrice: 0,
     });
   }
@@ -499,17 +487,40 @@ export async function applyCoupon(req, res) {
       couponPrice: 0,
     });
   }
-
-  let discountAmount = (totalPrice * coupon.discount) / 100;
-
-  if (discountAmount > coupon.maxDiscountAmount) {
-    discountAmount = coupon.maxDiscountAmount;
+  let couponApplied = false;
+  products.forEach((item, index) => {
+    let couponCheck;
+    if (coupon) {
+      couponCheck = checkCoupon(coupon, item.price);
+    }
+    if (!couponCheck.error) {
+      couponApplied = true;
+      totalPrice =
+        totalPrice +
+        item.price * cartQuantities[item._id] -
+        couponCheck.couponPrice;
+      totalCouponPrice = totalCouponPrice + couponCheck.couponPrice;
+    } else {
+      totalPrice = totalPrice + item.price * cartQuantities[item._id];
+    }
+  });
+  if (couponApplied) {
+    return res.json({
+      key: "",
+      totalPrice,
+      error: false,
+      couponPrice: totalCouponPrice,
+    });
   }
   return res.json({
     key: "",
     totalPrice,
-    error: false,
-    couponPrice: discountAmount,
+    error: true,
+    message:
+      "Coupon not applicaple (minimum amount must be above" +
+      coupon.minAmount +
+      ")",
+    couponPrice: totalCouponPrice,
   });
 }
 
@@ -521,34 +532,35 @@ export async function payNow(req, res) {
   );
   console.log(address);
   const cart = req?.user?.cart ?? [];
-  const cartQuantities={}
+  const cartQuantities = {};
   const cartList = cart.map((item) => {
-    cartQuantities[item.id]=item.quantity
-    return item.id
+    cartQuantities[item.id] = item.quantity;
+    return item.id;
   });
-  let products = await productModel
-    .find({ _id: { $in: cartList }, unlist: false })
+  const products = await productModel
+    .find({ _id: { $in: cartList }, unlist: false }, { price: 1 })
     .lean();
   let totalPrice = 0;
-  products.map((item, index) => {
-    totalPrice = totalPrice + (item.price* cartQuantities[item._id]);
-  });
   const coupon = await couponModel.findOne({ code: couponCode });
-  if (coupon) {
-    if (totalPrice > coupon.minAmount && coupon.expiry > new Date()) {
-      let discountAmount = (totalPrice * coupon.discount) / 100;
-      if (discountAmount > coupon.maxDiscountAmount) {
-        discountAmount = coupon.maxDiscountAmount;
-      }
-      totalPrice = totalPrice - discountAmount;
-      
+  products.forEach((item, index) => {
+    let couponCheck;
+    if (coupon) {
+      couponCheck = checkCoupon(coupon, item.price);
     }
-  }
+    if (!couponCheck.error) {
+      totalPrice =
+        totalPrice +
+        item.price * cartQuantities[item._id] -
+        couponCheck.couponPrice;
+    } else {
+      totalPrice = totalPrice + item.price * cartQuantities[item._id];
+    }
+  });
 
   req.session.tempOrder = {
     ...req.session.tempOrder,
     coupon,
-    totalPrice
+    totalPrice,
   };
 
   let orderId = "order_" + createId();
@@ -592,75 +604,86 @@ export async function payNow(req, res) {
 }
 
 export async function returnURL(req, res) {
-    try{
+  try {
+    const order_id = req.query.order_id;
+    const options = {
+      method: "GET",
+      url: "https://sandbox.cashfree.com/pg/orders/" + order_id,
+      headers: {
+        accept: "application/json",
+        "x-api-version": "2022-09-01",
+        "x-client-id": process.env.CASHFREE_API_KEY,
+        "x-client-secret": process.env.CASHFREE_SECRET_KEY,
+        "content-type": "application/json",
+      },
+    };
 
-   
-  
-  const order_id = req.query.order_id;
-  const options = {
-    method: "GET",
-    url: "https://sandbox.cashfree.com/pg/orders/" + order_id,
-    headers: {
-      accept: "application/json",
-      "x-api-version": "2022-09-01",
-      "x-client-id": process.env.CASHFREE_API_KEY,
-      "x-client-secret": process.env.CASHFREE_SECRET_KEY,
-      "content-type": "application/json",
-    },
-  };
+    const response = await axios.request(options);
 
-  const response = await axios.request(options);
-
-  console.log(response.data);
-  if (response.data.order_status == "PAID") {
-    const cart = req?.user?.cart ?? [];
-    const cartQuantities={}
-    const cartList = cart.map((item) => {
-    cartQuantities[item.id]=item.quantity;
-    return item.id;
-  });
-    let addressId = req.session.tempOrder.addressId;
-    let { address } = await userModel.findOne(
-      { "address.id": addressId },
-      { _id: 0, address: { $elemMatch: { id: addressId } } }
-    );
-    let products = await productModel
-    .find({ _id: { $in: cartList }, unlist: false })
-    .lean();
-    console.log(products)
-    let orders = [];
-    for (let item of products) {
-      await productModel.updateOne(
-        { _id: item._id },
-        {
-          $inc: {
+    console.log(response.data);
+    if (response.data.order_status == "PAID") {
+      const cart = req?.user?.cart ?? [];
+      const cartQuantities = {};
+      const cartList = cart.map((item) => {
+        cartQuantities[item.id] = item.quantity;
+        return item.id;
+      });
+      let addressId = req.session.tempOrder.addressId;
+      let { address } = await userModel.findOne(
+        { "address.id": addressId },
+        { _id: 0, address: { $elemMatch: { id: addressId } } }
+      );
+      let products = await productModel
+        .find({ _id: { $in: cartList }, unlist: false })
+        .lean();
+      console.log(products);
+      const coupon = req.session.tempOrder.coupon;
+      let orders = [];
+      for (let item of products) {
+        await productModel.updateOne(
+          { _id: item._id },
+          {
+            $inc: {
               quantity: -1 * cartQuantities[item._id],
             },
-        }
+          }
         );
+        let couponCheck;
+        let couponObj={applied:false, price:0, coupon:{}}
+        if (coupon) {
+          couponCheck = checkCoupon(coupon, item.price);
+        }
+        let totalPrice=0
+        if (!couponCheck.error) {
+          totalPrice = item.price * cartQuantities[item._id] -couponCheck.couponPrice;
+            couponObj={price:couponCheck.couponPrice, applied:true, coupon}
+        } else {
+          totalPrice = item.price * cartQuantities[item._id];
+        }
         orders.push({
-            address: address[0],
-            product: item,
-            userId: req.session.user.id,
-            quantity: cartQuantities[item._id],
-            paid:true,
-            paymentType:"online", 
-            payment:response.data,
-            total: cartQuantities[item._id] * item.price,
+          address: address[0],
+          product: item,
+          userId: req.session.user.id,
+          quantity: cartQuantities[item._id],
+          paid: true,
+          paymentType: "online",
+          payment: response.data,
+          total: totalPrice,
+          coupon: couponObj
         });
-    }
-    
-    const order = await orderModel.create(orders);
-    await userModel.findByIdAndUpdate(req.session.user.id, {
+      }
+
+      const order = await orderModel.create(orders);
+      await userModel.findByIdAndUpdate(req.session.user.id, {
         $set: { cart: [] },
-    });
-    return res.render("user/orderPlaced", {key: "",failed:false});
-}
-res.render("user/orderPlaced", {key: "",failed:true});
-}catch(err){
-    console.log(err)
-    res.render("user/orderPlaced", {key: "",failed:true});
-}
+      });
+      return res.render("user/orderPlaced", { key: "", failed: false });
+    }
+    res.render("user/orderPlaced", { key: "", failed: true });
+  } catch (err) {
+    console.log(err);
+    res.render("user/orderPlaced", { key: "", failed: true });
+  }
 }
 
 export async function editProfile(req, res) {
@@ -747,7 +770,7 @@ export async function addReview(req, res) {
       {
         $addToSet: {
           reviews: {
-            userId: req.session.user.id, 
+            userId: req.session.user.id,
             review,
           },
         },
@@ -757,30 +780,38 @@ export async function addReview(req, res) {
   res.redirect("back");
 }
 
-
-export async function cancelOrder(req, res){
+export async function cancelOrder(req, res) {
   const _id = req.params.id;
-  const order= await orderModel.findOne({_id})
-  console.log(order)
-  if(order.paid){
-    await userModel.updateOne({_id:req.session.user.id}, {$inc:{wallet:order.total}})
+  const order = await orderModel.findOne({ _id });
+  console.log(order);
+  if (order.paid) {
+    await userModel.updateOne(
+      { _id: req.session.user.id },
+      { $inc: { wallet: order.total } }
+    );
   }
-  await orderModel.updateOne({_id}, {
-    $set:{
-      orderStatus:"cancelled"
+  await orderModel.updateOne(
+    { _id },
+    {
+      $set: {
+        orderStatus: "cancelled",
+      },
     }
-  })
-  res.redirect("back")
+  );
+  res.redirect("back");
 }
 
-export async function returnOrder(req, res){
+export async function returnOrder(req, res) {
   const _id = req.params.id;
-  const order= await orderModel.findOne({_id})
-  console.log(order)
-  await orderModel.updateOne({_id}, {
-    $set:{
-      orderStatus:"returnProcessing"
+  const order = await orderModel.findOne({ _id });
+  console.log(order);
+  await orderModel.updateOne(
+    { _id },
+    {
+      $set: {
+        orderStatus: "returnProcessing",
+      },
     }
-  })
-  res.redirect("back")
+  );
+  res.redirect("back");
 }

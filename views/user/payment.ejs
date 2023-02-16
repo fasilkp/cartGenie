@@ -32,8 +32,10 @@
             />
             <div class="button" onclick="applyCoupon()">Apply</div>
           </div>
-          <b class="text-danger" id="message"> </b>
-          <b class="text-success" id="couponApplied"></b>
+          <div id="message">
+            <b class="text-danger" id="message"> </b>
+          </div>
+          <!-- <b class="text-success" id="couponApplied"></b> -->
 
         </div>
         <div class="coupon-item">
@@ -55,10 +57,12 @@
     axios.post("/apply-coupon", {coupon}).then(function (response) {
       console.log(response.data)
       if(response.data.error){
-        message.innerHTML= response.data.message
+        message.innerHTML= `<b class="text-danger" id="message">${response.data.message}</b>`
+        couponPrice.innerHTML=0;
+        amountPayable.innerHTML=Number(totalPrice)
       }
       else{
-        couponApplied.innerHTML="Coupon Applied"
+        message.innerHTML='<b class="text-success" id="message">Coupon Applied</b>'
         couponPrice.innerHTML=response.data.couponPrice;
         amountPayable.innerHTML=Number(totalPrice)-response.data.couponPrice
         
