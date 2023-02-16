@@ -31,6 +31,31 @@
                 <h3 class="mt-5">Payment Info</h3>
                
                 <div class="checkout-payment mt-3">
+                    
+                    <b>Use Wallet</b>
+                    <div class="pay-option mt-4 mb-4">
+                        <label for="wallet" class="checkout-wallet">
+                            <div class="cw-label">
+                                <i class="ri-wallet-2-line me-2"></i>
+                                <b>Wallet</b> 
+                            </div>
+                            <div class="cw-cash">
+                                <b>
+                                    ₹
+                                    <span id="walletAmount"><%= wallet %></span>
+                                </b>
+                                <input type="checkbox" id="wallet" name="wallet"  value=true>
+                            </div>
+                        </label>
+                        <div class="mt-3">
+                            <span class="me-2">Amount Payable</span>
+                            <b>
+                                ₹<span id="totalAmount">
+                                    <%= totalPrice %>
+                                </span>
+                            </b>
+                        </div>
+                    </div>
                     <b>Payment Method</b>
                     <div class="pay-option mt-4">
                         <input type="radio" id="cod" name="payment" value="cod" required>
@@ -49,6 +74,30 @@
 
                 </div>
             </div>
-        </div>
+        </form>
     </div>
 </div>
+<script>
+    let walletCash= '<%= wallet %>'
+    let totalCash= '<%= totalPrice %>'
+        let wallet= document.getElementById('wallet')
+        wallet.addEventListener('change', (e)=>{
+            let walletAmount= document.getElementById('walletAmount')
+            let totalAmount= document.getElementById('totalAmount')
+            if(e.target.checked){
+                if(walletCash-totalCash>=0){
+                    totalAmount.innerText=0
+                    walletAmount.innerText=walletCash-totalCash
+
+                }
+                else{
+                    totalAmount.innerText=-1*(walletCash-totalCash);
+                    walletAmount.innerText=0
+                }
+            }else{
+                totalAmount.innerText=totalCash
+                walletAmount.innerText=walletCash
+            }
+        })
+
+</script>

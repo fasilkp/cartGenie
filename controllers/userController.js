@@ -141,7 +141,16 @@ export async function getOrderHistory(req, res) {
 }
 export function getCheckout(req, res) {
   let address = req.user.address;
-  res.render("user/checkout", { key: "", address, error: false });
+  if (req.session.tempOrder?.totalPrice) {
+    return res.render("user/checkout", {
+      key: "",
+      address,
+      error: false,
+      totalPrice: req.session.tempOrder.totalPrice,
+      wallet: req.user.wallet,
+    });
+  }
+  res.redirect("/cart");
 }
 
 export async function checkQuantity(req, res) {
@@ -152,6 +161,7 @@ export async function checkQuantity(req, res) {
     cartQuantities[item.id] = item.quantity;
     return item.id;
   });
+  let totalPrice = 0;
   let products = await productModel
     .find({ _id: { $in: cartList }, unlist: false })
     .lean();
@@ -159,6 +169,7 @@ export async function checkQuantity(req, res) {
   let outOfQuantity = [];
   console.log(cartQuantities);
   for (let item of products) {
+    totalPrice = totalPrice + item.price * cartQuantities[item._id];
     console.log(item.quantity, cartQuantities[item._id]);
     if (item.quantity < cartQuantities[item._id]) {
       quantityError = true;
@@ -166,6 +177,9 @@ export async function checkQuantity(req, res) {
     } else {
     }
   }
+  req.session.tempOrder = {
+    totalPrice,
+  };
   if (quantityError) {
     return res.json({ error: true, outOfQuantity });
   }
@@ -413,14 +427,24 @@ export async function checkout(req, res) {
       message: "please choose address",
     });
   }
-
   if (payment != "cod") {
-    req.session.tempOrder = { ...req.session.tempOrder, addressId };
-    return res.redirect("/payment/" + addressId);
+    if (req.body.wallet) {
+      if (req.user.wallet < req.session.tempOrder?.totalPrice) {
+        req.session.tempOrder = { ...req.session.tempOrder, addressId };
+        return res.redirect("/payment/" + addressId);
+      }
+    } else {
+      req.session.tempOrder = { ...req.session.tempOrder, addressId };
+      return res.redirect("/payment/" + addressId);
+    }
   }
 
   const cart = req?.user?.cart ?? [];
-  const cartList = cart.map((item) => item.id);
+  let cartQuantities = {};
+  const cartList = cart.map((item) => {
+    cartQuantities[item.id] = item.quantity;
+    return item.id;
+  });
   let { address } = await userModel.findOne(
     { "address.id": addressId },
     { _id: 0, address: { $elemMatch: { id: addressId } } }
@@ -429,13 +453,12 @@ export async function checkout(req, res) {
     .find({ _id: { $in: cartList }, unlist: false })
     .lean();
   let orders = [];
-  let i = 0;
   for (let item of products) {
     await productModel.updateOne(
       { _id: item._id },
       {
         $inc: {
-          quantity: -1 * cart[i].quantity,
+          quantity: -1 * cartQuantities[item._id],
         },
       }
     );
@@ -443,10 +466,64 @@ export async function checkout(req, res) {
       address: address[0],
       product: item,
       userId: req.session.user.id,
-      quantity: cart[i].quantity,
-      total: cart[i].quantity * item.price,
+      quantity: cartQuantities[item._id],
+      total: cartQuantities[item._id] * item.price,
+      amountPayable: item.price,
     });
-    i++;
+  }
+  if (req.body.wallet) {
+    let wallet = req.user.wallet;
+    let totalCash = req.session.tempOrder?.totalPrice;
+    if (wallet >= totalCash) {
+      await userModel.findByIdAndUpdate(req.session.user.id, {
+        $set: {
+          wallet: wallet - totalCash,
+        },
+      });
+      orders = [];
+      for (let item of products) {
+        orders.push({
+          address: address[0],
+          product: item,
+          userId: req.session.user.id,
+          quantity: cartQuantities[item._id],
+          total: cartQuantities[item._id] * item.price,
+          amountPayable: 0,
+          paid:true
+        });
+      }
+    } else {
+      await userModel.findByIdAndUpdate(req.session.user.id, {
+        $set: {
+          wallet: 0,
+        },
+      });
+      totalCash = totalCash - wallet;
+      orders = [];
+      for (let item of products) {
+        let amountPayable=0;
+        let paid=false
+        if(totalCash>0){
+          if((cartQuantities[item._id] *item.price)<=totalCash){
+            amountPayable=(cartQuantities[item._id] *item.price)
+            totalCash=totalCash-amountPayable;
+          }else{
+            amountPayable=totalCash;
+            totalCash=0;
+          }
+        }
+        if(amountPayable==0){paid=true}
+        orders.push({
+          address: address[0],
+          product: item,
+          userId: req.session.user.id,
+          quantity: cartQuantities[item._id],
+          total: cartQuantities[item._id] * item.price,
+          amountPayable,
+          paid
+        });
+      }
+    }
   }
 
   const order = await orderModel.create(orders);
@@ -649,14 +726,15 @@ export async function returnURL(req, res) {
           }
         );
         let couponCheck;
-        let couponObj={applied:false, price:0, coupon:{}}
+        let couponObj = { applied: false, price: 0, coupon: {} };
         if (coupon) {
           couponCheck = checkCoupon(coupon, item.price);
         }
-        let totalPrice=0
+        let totalPrice = 0;
         if (!couponCheck.error) {
-          totalPrice = item.price * cartQuantities[item._id] -couponCheck.couponPrice;
-            couponObj={price:couponCheck.couponPrice, applied:true, coupon}
+          totalPrice =
+            item.price * cartQuantities[item._id] - couponCheck.couponPrice;
+          couponObj = { price: couponCheck.couponPrice, applied: true, coupon };
         } else {
           totalPrice = item.price * cartQuantities[item._id];
         }
@@ -669,7 +747,7 @@ export async function returnURL(req, res) {
           paymentType: "online",
           payment: response.data,
           total: totalPrice,
-          coupon: couponObj
+          coupon: couponObj,
         });
       }
 

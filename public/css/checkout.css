@@ -35,3 +35,28 @@
 .pay-option input{
     margin-right: 10px;
 }
+.checkout-wallet{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid rgba(128, 128, 128, 0.233);
+    height: 60px;
+    padding: 20px;
+    background-color: var(--lightWhite);
+    border-radius: 5px;
+    cursor: pointer;
+}
+.checkout-wallet i{
+    font-weight: 650;
+    position: relative;
+    top: 3px;
+    
+}
+.cw-cash{
+    display: flex;
+    gap: 10px;
+}
+.cw-cash input{
+    width: 20px;
+}

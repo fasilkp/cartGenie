@@ -133,6 +133,7 @@ a{
 @media(max-width:600px){
   .user-header{
     padding: 50px 0px;
+    height: 120px;
   }
   .header-right{
     display: none;

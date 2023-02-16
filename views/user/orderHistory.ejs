@@ -25,5 +25,12 @@
             <% }) %> 
            
         </div>
+        <% if(!orders[0]){ %> 
+            <div class="empty-container w-100 h-50 d-flex flex-column justify-content-center align-items-center" style="gap:10px">
+              <img src="/images/no-orders.png" style="width: 300px;" alt="">
+              <h3>No Orders found!</h3>
+               <p class="text-center">Looks like you haven't ordered anything yet</p> 
+            </div>
+            <% } %> 
     </div>
 </div>
