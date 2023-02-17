@@ -30,13 +30,21 @@
     </a>
   </div>
   <div class="order-container">
-    <h3 class="mt-3">Orders</h3>
+    <div class="mt-2 p-3 d-flex align-items-center">
+      <h3>Orders</h3>
+      <form class="product-search" action="/admin/orders" method="get">
+          <input type="text" placeholder="search for orders" name="name" value="<%= name %>">
+          <button class="ri-search-line"></button>
+      </form>
+
+  </div>
+
     <div class="row mt-2 p-3">
         <div class="orders-table">
             <table class="table table-striped">
                 <thead>
                     <tr>
-                      <th scope="col">No</th>
+                      <th scope="col">Order ID</th>
                       <th scope="col">Name</th>
                       <th scope="col">User</th>
                       <th scope="col">Payment Status</th>
@@ -51,7 +59,7 @@
 
                     <tr>
                       <th scope="row">
-                        <%= index+1 %> 
+                        <%= item.orderId %> 
                        </th>
                       <th scope="row">
                         <a href="/admin/order-details/<%=item._id%>">

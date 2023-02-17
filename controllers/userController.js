@@ -418,26 +418,73 @@ export async function minusQuantity(req, res) {
 
 export async function checkout(req, res) {
   const { payment, address: addressId } = req.body;
+  console.log(req.session.tempOrder)
   if (!req.body?.address) {
-    let address = req.user.address;
+    let Address = req.user.address;
     return res.render("user/checkout", {
       key: "",
-      address,
+      address:Address,
       error: true,
       message: "please choose address",
     });
   }
+  let { address } = await userModel.findOne(
+    { "address.id": addressId },
+    { _id: 0, address: { $elemMatch: { id: addressId } } }
+  );
   if (payment != "cod") {
     if (req.body.wallet) {
-      if (req.user.wallet < req.session.tempOrder?.totalPrice) {
-        req.session.tempOrder = { ...req.session.tempOrder, addressId };
-        return res.redirect("/payment/" + addressId);
+      console.log(req.user.wallet)
+      console.log(req.session.tempOrder.totalPrice)
+      console.log("inside wallet")
+      if (req.user.wallet < req.session.tempOrder.totalPrice) {
+        console.log("inside wallet-totalPrice")
+        req.session.tempOrder = { ...req.session.tempOrder, addressId, wallet:req.body.wallet };
+        let orderId = "order_" + createId();
+        const options = {
+          method: "POST",
+          url: "https://sandbox.cashfree.com/pg/orders",
+          headers: {
+            accept: "application/json",
+            "x-api-version": "2022-09-01",
+            "x-client-id": process.env.CASHFREE_API_KEY,
+            "x-client-secret": process.env.CASHFREE_SECRET_KEY,
+            "content-type": "application/json",
+          },
+          data: {
+            order_id: orderId,
+            order_amount: req.session.tempOrder.totalPrice-req.user.wallet,
+            order_currency: "INR",
+            customer_details: {
+              customer_id: req.user._id,
+              customer_email: req.user.email,
+              customer_phone: address[0].mobile,
+            },
+            order_meta: {
+              return_url: "http://localhost:4001/return?order_id={order_id}",
+            },
+          },
+        };
+      
+        await axios
+          .request(options)
+          .then(function (response) {
+            console.log(response.data);
+            return res.render("user/paymentScreen", {
+              orderId,
+              sessionId: response.data.payment_session_id,
+            });
+          })
+          .catch(function (error) {
+            console.error(error);
+          });
       }
     } else {
       req.session.tempOrder = { ...req.session.tempOrder, addressId };
       return res.redirect("/payment/" + addressId);
     }
   }
+  else{
 
   const cart = req?.user?.cart ?? [];
   let cartQuantities = {};
@@ -445,10 +492,6 @@ export async function checkout(req, res) {
     cartQuantities[item.id] = item.quantity;
     return item.id;
   });
-  let { address } = await userModel.findOne(
-    { "address.id": addressId },
-    { _id: 0, address: { $elemMatch: { id: addressId } } }
-  );
   let products = await productModel
     .find({ _id: { $in: cartList }, unlist: false })
     .lean();
@@ -462,6 +505,7 @@ export async function checkout(req, res) {
         },
       }
     );
+    let orderCount=await orderModel.find().count()
     orders.push({
       address: address[0],
       product: item,
@@ -469,6 +513,7 @@ export async function checkout(req, res) {
       quantity: cartQuantities[item._id],
       total: cartQuantities[item._id] * item.price,
       amountPayable: item.price,
+      orderId:orderCount+1000
     });
   }
   if (req.body.wallet) {
@@ -482,6 +527,7 @@ export async function checkout(req, res) {
       });
       orders = [];
       for (let item of products) {
+        let orderCount=await orderModel.find().count()
         orders.push({
           address: address[0],
           product: item,
@@ -489,7 +535,8 @@ export async function checkout(req, res) {
           quantity: cartQuantities[item._id],
           total: cartQuantities[item._id] * item.price,
           amountPayable: 0,
-          paid:true
+          paid:true,
+          orderId:1000+orderCount
         });
       }
     } else {
@@ -513,6 +560,7 @@ export async function checkout(req, res) {
           }
         }
         if(amountPayable==0){paid=true}
+        let orderCount=await orderModel.find().count()
         orders.push({
           address: address[0],
           product: item,
@@ -520,17 +568,20 @@ export async function checkout(req, res) {
           quantity: cartQuantities[item._id],
           total: cartQuantities[item._id] * item.price,
           amountPayable,
-          paid
+          paid,
+          orderId:orderCount+1000
         });
       }
     }
   }
 
   const order = await orderModel.create(orders);
+  req.session.tempOrder=null;
   await userModel.findByIdAndUpdate(req.session.user.id, {
     $set: { cart: [] },
   });
-  return res.redirect("order-placed");
+  res.redirect("order-placed");
+}
 }
 
 export async function applyCoupon(req, res) {
@@ -602,7 +653,8 @@ export async function applyCoupon(req, res) {
 }
 
 export async function payNow(req, res) {
-  const { addressId, coupon: couponCode } = req.body;
+  const { addressId} = req.body;
+  let couponCode=req.body.coupon ?? ""
   let { address } = await userModel.findOne(
     { "address.id": addressId },
     { _id: 0, address: { $elemMatch: { id: addressId } } }
@@ -623,13 +675,14 @@ export async function payNow(req, res) {
     let couponCheck;
     if (coupon) {
       couponCheck = checkCoupon(coupon, item.price);
+      if (!couponCheck.error) {
+        totalPrice =
+          totalPrice +
+          item.price * cartQuantities[item._id] -
+          couponCheck.couponPrice;
+      } 
     }
-    if (!couponCheck.error) {
-      totalPrice =
-        totalPrice +
-        item.price * cartQuantities[item._id] -
-        couponCheck.couponPrice;
-    } else {
+    else {
       totalPrice = totalPrice + item.price * cartQuantities[item._id];
     }
   });
@@ -716,6 +769,7 @@ export async function returnURL(req, res) {
       console.log(products);
       const coupon = req.session.tempOrder.coupon;
       let orders = [];
+      let totalCash=0
       for (let item of products) {
         await productModel.updateOne(
           { _id: item._id },
@@ -727,17 +781,20 @@ export async function returnURL(req, res) {
         );
         let couponCheck;
         let couponObj = { applied: false, price: 0, coupon: {} };
+        let totalPrice = 0;
         if (coupon) {
           couponCheck = checkCoupon(coupon, item.price);
+          if (!couponCheck?.error) {
+            totalPrice =
+              item.price * cartQuantities[item._id] - couponCheck.couponPrice;
+            couponObj = { price: couponCheck.couponPrice, applied: true, coupon };
+          } 
         }
-        let totalPrice = 0;
-        if (!couponCheck.error) {
-          totalPrice =
-            item.price * cartQuantities[item._id] - couponCheck.couponPrice;
-          couponObj = { price: couponCheck.couponPrice, applied: true, coupon };
-        } else {
+        else {
           totalPrice = item.price * cartQuantities[item._id];
         }
+        totalCash+=totalPrice;
+        let orderCount=await orderModel.find().count()
         orders.push({
           address: address[0],
           product: item,
@@ -746,21 +803,35 @@ export async function returnURL(req, res) {
           paid: true,
           paymentType: "online",
           payment: response.data,
+          amountPayable:0,
           total: totalPrice,
           coupon: couponObj,
+          orderId:orderCount+1000
         });
       }
 
       const order = await orderModel.create(orders);
+      let wallet=req.user.wallet
+      if(req.session.tempOrder.wallet){
+        if(req.user.wallet > totalCash){
+          wallet-=totalCash
+        }else{
+          wallet=0
+        }
+      }
       await userModel.findByIdAndUpdate(req.session.user.id, {
-        $set: { cart: [] },
+        $set: { cart: [], wallet },
       });
+      req.session.tempOrder=null;
       return res.render("user/orderPlaced", { key: "", failed: false });
     }
+    req.session.tempOrder=null;
     res.render("user/orderPlaced", { key: "", failed: true });
   } catch (err) {
     console.log(err);
     res.render("user/orderPlaced", { key: "", failed: true });
+    req.session.tempOrder=null;
+
   }
 }
 
@@ -861,11 +932,12 @@ export async function addReview(req, res) {
 export async function cancelOrder(req, res) {
   const _id = req.params.id;
   const order = await orderModel.findOne({ _id });
+  let walletInc=order.total-order.amountPayable;
   console.log(order);
-  if (order.paid) {
+  if (walletInc!=0) {
     await userModel.updateOne(
       { _id: req.session.user.id },
-      { $inc: { wallet: order.total } }
+      { $inc: { wallet: walletInc } }
     );
   }
   await orderModel.updateOne(

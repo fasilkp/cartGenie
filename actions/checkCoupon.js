@@ -1,4 +1,9 @@
 export default function(coupon, price){
+  if(!coupopn){
+    return {
+      error: true
+    }
+  }
       if (price < coupon.minAmount) {
         return {
           error: true

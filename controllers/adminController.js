@@ -12,11 +12,18 @@ const unlinkAsync = promisify(fs.unlink)
 
 export async function getAdminOrders(req, res) {
   let page= req.query.page ?? 0;
+  let name= req.query.name ?? "";
   let pageCount=await orderModel.find().count()
-  const orders = await orderModel.find().sort({ createdAt: -1 }).skip(page*10).limit(10)
-  .lean();
+  let orders
+  if(isNaN(name)){
+    orders = await orderModel.find({"address.name":new RegExp(name, 'i')}).sort({ createdAt: -1 }).skip(page*10).limit(10)
+    .lean();
+  }else{
+    orders = await orderModel.find({orderId:name}).sort({ createdAt: -1 }).skip(page*10).limit(10)
+    .lean();
+  }
   pageCount=Math.floor(pageCount/10);
-  res.render("admin/adminOrders", { orders, page, pageCount });
+  res.render("admin/adminOrders", { orders, page, pageCount, name });
 }
 
 export async function getDashboard(req, res) {
@@ -32,7 +39,7 @@ export async function getDashboard(req, res) {
     if(item.orderStatus == "delivered"){
         totalRevenue = totalRevenue + item.total;
     }
-    return item.paid;
+    return item.orderStatus=='delivered';
   });
   let totalDispatch = deliveredOrders.length;
   let 
@@ -342,8 +349,6 @@ export async function addProduct(req, res) {
         sideImages[i].path=sideImages[i].path+".png"
       });
     }
-    console.log(mainImage)
-    console.log(sideImages)
 
     const product = new productModel({
       name,

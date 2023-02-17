@@ -144,6 +144,18 @@
 .small-img{
   left: 75px !important;
 }
+.product-textarea{
+  border: none;
+  outline: none;
+  background: none;
+  line-height: 25px;
+  padding-top: 10px;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;
+}
+.product-textarea::-webkit-scrollbar {
+  display: none;
+}
 @media only screen and (max-width: 600px) {
   .car-container{
     margin-top: 0px;

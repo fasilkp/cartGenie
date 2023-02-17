@@ -34,15 +34,15 @@
             </a>
           </div>
           <div class="product-price mt-3">
-            <h3 class="me-2">₹ <%=order.product.price  %> </h3>
+            <h3 class="me-2">₹ <%=order.total  %> </h3>
             <strike>₹ <%=order.product.MRP  %> </strike>
           </div>
-          <h4 class="mt-4">Amount Payable </h4>
+          <h5 class="mt-4">Amount Payable </h5>
           <div class="quantity-box mt-3">
             <b>₹ <%= order.amountPayable %> </b>
            
           </div>
-          <h4 class="mt-4">Address</h4>
+          <h5 class="mt-4">Address</h5>
           <div class="mt-3 d-flex flex-column">
             <span><%=order.address.name  %> </span>
             <span><%=order.address.mobile  %> </span>

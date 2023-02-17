@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import createId from '../actions/createId.js';
 const orderSchema= new mongoose.Schema({
     orderStatus:{
         type:String,
@@ -52,6 +53,10 @@ const orderSchema= new mongoose.Schema({
     coupon:{
         type:Object,
         default:{applied:false, price:0, coupon:{}}
+    },
+    orderId:{
+        type:Number,
+        default:0,
     }
 },{timestamps:true})
 const orderModel= mongoose.model("order", orderSchema);
