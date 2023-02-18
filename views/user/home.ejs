@@ -88,7 +88,7 @@
                 <div class="carousel-inner">
                   <% offers.forEach(item=>{ %>
                     <div class="carousel-item active" onclick="window.location.href='<%=item.url%>'">
-                      <img src="/product-images/<%= item.image  %> " class="d-block w-100 carousal-img" alt="...">
+                      <img src="<%= item.image.url %> " class="d-block w-100 carousal-img" alt="...">
                     </div>
                   <% }) %> 
                 </div>
@@ -111,7 +111,7 @@
               <div class="recommendation">
                 <a href="/product/<%=item._id%>" class="product-card">
                   <div class="product-img">
-                    <img src="/product-images/<%= item.mainImage.filename  %>" alt="">
+                    <img src="<%= item.mainImage.filename  %>" alt="">
                   </div>
                   <div class="product-desc">
                     <div class="product-name"><%= item.name  %> </div>

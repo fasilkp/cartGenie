@@ -75,7 +75,7 @@
             <div class="recommendation">
               <a href="/product/<%=item._id  %>" class="product-card">
                 <div class="product-img">
-                  <img src="/product-images/<%= item.mainImage.filename  %>" alt="" />
+                  <img src="<%= item.mainImage.url  %>" alt="" />
                 </div>
                 <div class="product-desc">
                   <div class="product-name"><%= item.name  %></div>

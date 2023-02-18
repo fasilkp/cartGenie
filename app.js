@@ -11,6 +11,7 @@ import session from 'express-session'
 import verifyAdmin from './middlewares/verifyAdmin.js'
 import pageNotFound from './middlewares/pageNotFound.js'
 import morgan from 'morgan'
+import cloudinary from './config/cloudinary/cloudinary.js'
 
 
 const app = express();
@@ -32,13 +33,18 @@ app.use(ejsLayout)
 
 dbConnect();
 
-
+app.get("/check",async (req, res)=>{
+    const s=await cloudinary.uploader.upload('public/images/banner.jpg',{folder:'cartGenie'})
+    console.log(s)
+})
 
 //Routers
 app.use("/", userAuth)
 app.use("/admin/", adminAuth)
 app.use("/admin/",verifyAdmin, adminRouter)
 app.use("/", userRouter)
+
+
 
 app.use(pageNotFound)
 

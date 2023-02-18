@@ -8,6 +8,7 @@ import sharp from "sharp";
 import moment from "moment";
 import fs from 'fs'
 import { promisify } from 'util'
+import cloudinary from "../config/cloudinary/cloudinary.js";
 const unlinkAsync = promisify(fs.unlink)
 
 export async function getAdminOrders(req, res) {
@@ -337,8 +338,9 @@ export async function addProduct(req, res) {
       .toFile(mainImage.path+".png")
       .then(async () => {
         await unlinkAsync(mainImage.path)
-        mainImage.path=mainImage.path+".png"
-        mainImage.filename=mainImage.filename+".png"
+        let imageFile=await cloudinary.uploader.upload(mainImage.path+".png",{folder:'cartGenie'})
+        await unlinkAsync(mainImage.path+".png")
+        mainImage=imageFile;
       });
     for (let i in sideImages) {
       await sharp(sideImages[i].path)
@@ -352,8 +354,9 @@ export async function addProduct(req, res) {
       .toFile(sideImages[i].path+".png")
       .then(async() => {
         await unlinkAsync(sideImages[i].path)
-        sideImages[i].filename=sideImages[i].filename+".png"
-        sideImages[i].path=sideImages[i].path+".png"
+        let imageFile=await cloudinary.uploader.upload(sideImages[i].path+".png",{folder:'cartGenie'})
+        await unlinkAsync(sideImages[i].path+".png")
+        sideImages[i].imageFile
       });
     }
 
@@ -414,7 +417,7 @@ export async function editProduct(req, res) {
         { _id },
         {
           $pull: {
-            sideImages: { filename: { $in: deletedImages } },
+            sideImages: { url: { $in: deletedImages } },
           },
         }
       );
@@ -426,7 +429,7 @@ export async function editProduct(req, res) {
         { _id },
         {
           $pull: {
-            sideImages: { filename: deletedImages },
+            sideImages: { url: deletedImages },
           },
         }
       );
@@ -450,8 +453,9 @@ export async function editProduct(req, res) {
       .toFile(mainImage.path+".png")
       .then(async () => {
         await unlinkAsync(mainImage.path)
-        mainImage.path=mainImage.path+".png"
-        mainImage.filename=mainImage.filename+".png"
+        let imageFile=await cloudinary.uploader.upload(mainImage.path+".png",{folder:'cartGenie'})
+        await unlinkAsync(mainImage.path+".png")
+        mainImage=imageFile
       });
     }
     if(req.files?.images){
@@ -467,8 +471,9 @@ export async function editProduct(req, res) {
         .toFile(sideImages[i].path+".png")
         .then(async() => {
           await unlinkAsync(sideImages[i].path)
-          sideImages[i].filename=sideImages[i].filename+".png"
-          sideImages[i].path=sideImages[i].path+".png"
+          let imageFile=await cloudinary.uploader.upload(sideImages[i].path+".png",{folder:'cartGenie'})
+          await unlinkAsync(sideImages[i]+".png")
+          sideImages[i]=imageFile
         });
       }
     }
@@ -616,10 +621,11 @@ export async function getEditOffer(req, res) {
 export async function addOffer(req, res) {
   try {
     const { name, url } = req.body;
-    const offer = new offerModel({ name, url, image: req.file.filename });
+    const imageFile=await cloudinary.uploader.upload(req.file.path,{folder:'cartGenie'})
+    const offer = new offerModel({ name, url, image: imageFile});
     offer.save((err, data) => {
       if (err) {
-        return res.render("adminOffer", {
+        return res.render("admin/addOffers", {
           error: true,
           message: "Offer adding failed",
         });
@@ -627,7 +633,7 @@ export async function addOffer(req, res) {
       return res.redirect("/admin/offers");
     });
   } catch (err) {
-    return res.render("admin/addOffer", {
+    return res.render("admin/addOffers", {
       error: true,
       message: "Offer adding failed",
     });

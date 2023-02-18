@@ -10,7 +10,7 @@
                 <div class="col-12">
                     <div class="wish-item">
                         <a href="/order/<%=item._id%>" class="order-img text-dark ps-2">
-                            <img src="/product-images/<%=item.product.mainImage.filename%>" alt="">
+                            <img src=<%=item.product.mainImage.url%>" alt="">
                         </a>
                             <a href="/order/<%=item._id%>" class="order-detail text-dark">
                                 <b><%= item.product.name %> </b>

@@ -47,7 +47,7 @@
     </div>
     <div class="a-p-form-row">
       <div class="a-p-form-img" id="singleImage">
-        <img src="/product-images/<%=product.mainImage.filename %>" alt="" />
+        <img src="<%=product.mainImage.url %>" alt="" />
       </div>
     </div>
     <div class="a-p-form-row">
@@ -63,10 +63,10 @@
     <div class="a-p-form-row">
       <div class="a-p-form-img" id="oldImage" >
         <% product.sideImages.forEach((item, index)=>{ %>
-          <img src="/product-images/<%=item.filename %>" alt="">
-          <label for="<%=item.filename %>" >
+          <img src="<%=item.url %>" alt="">
+          <label for="<%=item.url %>" >
             <i class="ri-close-fill"></i>
-            <input type="checkbox" id="<%=item.filename %>" value="<%=item.filename %>"  name="deletedImages">
+            <input type="checkbox" id="<%=item.url %>" value="<%=item.url %>"  name="deletedImages">
           </label>
         <% })  %> 
       </div>

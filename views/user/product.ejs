@@ -7,8 +7,8 @@
       <div class="col-12 col-md-6">
         <div class="car-container">
           <div>
-          <div class="show" href="/product-images/<%=product.mainImage.filename%>">
-            <img src="/product-images/<%=product.mainImage.filename%>" id="show-img">
+          <div class="show" href="<%=product.mainImage.url%>">
+            <img src="<%=product.mainImage.url%>" id="show-img">
           </div>
         
           <!-- Secondary carousel image thumbnail gallery -->
@@ -18,7 +18,7 @@
                 <div class="small-container">
                 <div id="small-img-roll">
                   <% product.sideImages.forEach((item, index)=>{ %>
-                    <img src="/product-images/<%=item.filename%>" class="show-small-img" alt="">
+                    <img src="<%=item.url%>" class="show-small-img" alt="">
                     <% }) %>
                 </div>
                 </div>
