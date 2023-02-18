@@ -4,7 +4,6 @@ import upload from "../middlewares/multer.js"
 const router = express.Router()
 
 
-
 router.get("/", getDashboard)
 router.get("/orders", getAdminOrders)
 router.get("/product", getAdminProduct)

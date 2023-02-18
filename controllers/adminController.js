@@ -15,12 +15,19 @@ export async function getAdminOrders(req, res) {
   let name= req.query.name ?? "";
   let pageCount=await orderModel.find().count()
   let orders
-  if(isNaN(name)){
-    orders = await orderModel.find({"address.name":new RegExp(name, 'i')}).sort({ createdAt: -1 }).skip(page*10).limit(10)
-    .lean();
-  }else{
-    orders = await orderModel.find({orderId:name}).sort({ createdAt: -1 }).skip(page*10).limit(10)
-    .lean();
+  if(req.query.name){
+
+    if(isNaN(name)){
+      orders = await orderModel.find({"address.name":new RegExp(name, 'i')}).sort({ createdAt: -1 }).skip(page*10).limit(10)
+      .lean();
+    }else{
+      orders = await orderModel.find({orderId:name}).sort({ createdAt: -1 }).skip(page*10).limit(10)
+      .lean();
+    }
+  }
+  else{
+    orders = await orderModel.find().sort({ createdAt: -1 }).skip(page*10).limit(10)
+
   }
   pageCount=Math.floor(pageCount/10);
   res.render("admin/adminOrders", { orders, page, pageCount, name });

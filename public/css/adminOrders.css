@@ -138,6 +138,13 @@ table th, table td{
     cursor: pointer
 }
 .order-status-filter{
-    height: 70px !important;
     margin-left: 20px;
+}
+.order-status-filter{
+    width: 150px;
+    height: 50px !important;
+    border: none;
+    font-size: 1rem;
+    background-color: rgb(32, 32, 32);
+    color: white;
 }

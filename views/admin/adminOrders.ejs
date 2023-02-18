@@ -36,12 +36,18 @@
           <input type="text" placeholder="search for orders" name="name" value="<%= name %>">
           <button class="ri-search-line"></button>
       </form>
-      <select class="form-select form-select-lg" aria-label=".form-select-lg example" class="order-status-filter">
-        <option selected>Open this select menu</option>
-        <option value="1">One</option>
-        <option value="2">Two</option>
-        <option value="3">Three</option>
+      <form action="/admin/orders" method="get">
+
+        <select name="filter" class="form-select form-select-lg order-status-filter" onchange="this.form.submit()" aria-label=".form-select-lg example" class="order-status-filter">
+          <option selected>filte by status</option>
+          <option value="pending">Pending</option>
+          <option value="outForDelivery">Out for delivery</option>
+          <option value="delivery">Delivery</option>
+          <option value="cancelled">Cancelled</option>
+          <option value="returnProcessing">Return Processing</option>
+          <option value="returned">Returned</option>
       </select>
+    </form>
       
 
   </div>

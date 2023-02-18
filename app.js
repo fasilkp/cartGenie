@@ -23,7 +23,7 @@ app.use(session({
     resave:false
 }))
 
-app.use(morgan("dev"))
+// app.use(morgan("dev"))
 app.use(express.urlencoded({extended:true}))
 
 app.use(express.json())
