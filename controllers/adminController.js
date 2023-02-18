@@ -356,7 +356,7 @@ export async function addProduct(req, res) {
         await unlinkAsync(sideImages[i].path)
         let imageFile=await cloudinary.uploader.upload(sideImages[i].path+".png",{folder:'cartGenie'})
         await unlinkAsync(sideImages[i].path+".png")
-        sideImages[i].imageFile
+        sideImages[i]=imageFile
       });
     }
 
@@ -411,6 +411,7 @@ export async function editProduct(req, res) {
     _id,
     deletedImages,
   } = req.body;
+  console.log(req.body)
   if (deletedImages) {
     if (Array.isArray(deletedImages)) {
       await productModel.updateOne(
@@ -421,9 +422,9 @@ export async function editProduct(req, res) {
           },
         }
       );
-      for(let item of deletedImages){
-        await unlinkAsync('public/product-images/'+item)
-      }
+      // for(let item of deletedImages){
+      //   await unlinkAsync('public/product-images/'+item)
+      // }
     } else {
       await productModel.updateOne(
         { _id },
@@ -433,16 +434,15 @@ export async function editProduct(req, res) {
           },
         }
       );
-      await unlinkAsync('public/product-images/'+deletedImages)
     }
   }
   
     const categoryId = category.split(" ")[0];
     const categoryName = category.split(" ")[1];
-    const mainImage=req.files?.image?.[0]
-    const sideImages=req.files?.images
+    let mainImage=req.files?.image?.[0]
+    let sideImages=req.files?.images
     if(req.files?.image){
-      await sharp(mainImage.path)
+      await sharp(req.files.image[0].path)
       .png()
       .resize(540, 540, {
         kernel: sharp.kernel.nearest,
@@ -450,17 +450,17 @@ export async function editProduct(req, res) {
         position: 'center',
         background: { r: 255, g: 255, b: 255, alpha: 0 }
       })
-      .toFile(mainImage.path+".png")
+      .toFile(req.files.image[0].path+".png")
       .then(async () => {
-        await unlinkAsync(mainImage.path)
-        let imageFile=await cloudinary.uploader.upload(mainImage.path+".png",{folder:'cartGenie'})
-        await unlinkAsync(mainImage.path+".png")
+        await unlinkAsync(req.files.image[0].path)
+        let imageFile=await cloudinary.uploader.upload(req.files.image[0].path+".png",{folder:'cartGenie'})
+        // await unlinkAsync(req.files.image[0].path+".png")
         mainImage=imageFile
       });
     }
     if(req.files?.images){
-      for (let i in sideImages) {
-        await sharp(sideImages[i].path)
+      for (let i in req.files.images) {
+        await sharp(req.files.images[i].path)
         .png()
         .resize(540, 540, {
           kernel: sharp.kernel.nearest,
@@ -468,11 +468,11 @@ export async function editProduct(req, res) {
           position: 'center',
           background: { r: 255, g: 255, b: 255, alpha: 0 }
         })
-        .toFile(sideImages[i].path+".png")
+        .toFile(req.files.images[i].path+".png")
         .then(async() => {
-          await unlinkAsync(sideImages[i].path)
-          let imageFile=await cloudinary.uploader.upload(sideImages[i].path+".png",{folder:'cartGenie'})
-          await unlinkAsync(sideImages[i]+".png")
+          await unlinkAsync(req.files.images[i].path)
+          let imageFile=await cloudinary.uploader.upload(req.files.images[i].path+".png",{folder:'cartGenie'})
+          // await unlinkAsync(req.files.images[i]+".png")
           sideImages[i]=imageFile
         });
       }

@@ -108,22 +108,64 @@
             <button class="mt-3" type="Submit">Save</button>
           </form>
           <% } %> 
+
+          <button class="btn btn-dark mt-3 rounded-0" onclick="downloadInvoice()">Downlad invoice</button>
         </div>
       </div>
     </div>
   </div>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
 
 <script>
-  function cancelOrder(){
-    if(window.confirm("Are you sure ? cancel this order")){
-      window.location.href="/cancel-order/<%=order._id%>"
+  let productName= '<%=order.product.name %>'
+  let productQuantity= '<%=order.quantity %>'
+  let productPrice= '<%=order.product.price %>'
+  let productTotal= '<%=order.total %>'
+  let orderId= '<%=order.orderId %>'
+  let discount= '<%=order.coupon.price %>'
+  let userName= '<%=order.address.name %>'
+  let mobile= '<%=order.address.mobile %>'
+  let address= '<%=order.address.city +", "+order.address.state+", "+order.address.pincode %>'
+  let dispatch= '<%=order.dispatch.toLocaleDateString()%>'
+  console.log(productName, productQuantity, productPrice, productTotal)
+
+   
+   function cancelOrder(){
+     if(window.confirm("Are you sure ? cancel this order")){
+       window.location.href="/cancel-order/<%=order._id%>"
+      }
     }
-  }
-  function returnOrder(){
-    if(window.confirm("Are you sure ? return this product")){
-      window.location.href="/return-order/<%=order._id%>"
+    function returnOrder(){
+      if(window.confirm("Are you sure ? return this product")){
+        window.location.href="/return-order/<%=order._id%>"
+      }
     }
+    function downloadInvoice(){
+    const { jsPDF } = window.jspdf;
+    const doc= new jsPDF();
+    doc.text(15, 20, "Cart Genie Invoice");
+    doc.setFontSize(12);
+      doc.text(15, 30, "Invoice No : "+orderId);
+      doc.text(15, 40, "Name : "+userName);
+      doc.text(15, 50, "Address : "+address);
+      doc.text(15, 60, "Mobile : "+mobile);
+      doc.text(15, 70, "Date : "+dispatch);
+      doc.autoTable({
+        head: [['Product Name', 'Quantity', 'price', "total"]],
+        body: [
+              [productName, productQuantity, productPrice, productTotal],
+              ["", "", "", ""],
+              ["", "", "Discount", discount],
+              ["", "", "Total", productTotal-discount],
+              ["", "", "", ""]
+              ],
+        startY: 80
+      })
+    doc.setFontSize(14);
+      doc.text(15, doc.lastAutoTable.finalY + 70, "Thank you for the purchase . Continue shopping with us...");
+      doc.save('invoice.pdf');
   }
 </script>
