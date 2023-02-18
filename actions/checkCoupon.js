@@ -1,5 +1,5 @@
 export default function(coupon, price){
-  if(!coupopn){
+  if(!coupon){
     return {
       error: true
     }
@@ -17,6 +17,6 @@ export default function(coupon, price){
       return {
         price,
         error: false,
-        couponPrice: Math.floor(discountAmount),
+        couponPrice: Math.floor(discountAmount)
       }
 }

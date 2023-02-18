@@ -67,7 +67,7 @@
                         <th scope="row">
                           <a href="/product/<%=item._id%>" target="_blank"><%= item.name  %> </a>
                         </th>
-                        <td><img src="http://localhost:4001/product-images/<%= item.mainImage.filename  %>" style="height: 50px;" alt=""></td>
+                        <td><img src="/product-images/<%= item.mainImage.filename  %>" style="height: 50px;" alt=""></td>
                         <td><%=item.category %> </td>
                         <td><%= item.MRP  %></td>
                         <td><%= item.price  %></td>

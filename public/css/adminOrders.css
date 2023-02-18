@@ -137,3 +137,7 @@ table th, table td{
 .dropdown-menu li, .dropdown-menu a{
     cursor: pointer
 }
+.order-status-filter{
+    height: 70px !important;
+    margin-left: 20px;
+}

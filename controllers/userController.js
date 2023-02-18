@@ -478,13 +478,14 @@ export async function checkout(req, res) {
           .catch(function (error) {
             console.error(error);
           });
+          return 0;
       }
     } else {
       req.session.tempOrder = { ...req.session.tempOrder, addressId };
       return res.redirect("/payment/" + addressId);
     }
   }
-  else{
+  // else{
 
   const cart = req?.user?.cart ?? [];
   let cartQuantities = {};
@@ -581,7 +582,7 @@ export async function checkout(req, res) {
     $set: { cart: [] },
   });
   res.redirect("order-placed");
-}
+// }
 }
 
 export async function applyCoupon(req, res) {

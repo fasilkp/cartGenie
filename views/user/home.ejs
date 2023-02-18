@@ -88,12 +88,7 @@
                 <div class="carousel-inner">
                   <% offers.forEach(item=>{ %>
                     <div class="carousel-item active" onclick="window.location.href='<%=item.url%>'">
-                      <img src="http://localhost:4001/product-images/<%= item.image  %> " class="d-block w-100 carousal-img" alt="...">
-                      <!-- <div style="position:relative; top:-150px; left: 200px; color: white;  max-width: 250px; display: flex; flex-direction: column; justify-content: center; padding: 10px;">
-
-                        <h3 class="text-center" style="-webkit-text-stroke-width: 1px; -webkit-text-stroke-color: black;"><%=item.name  %> </h3>
-                        <a class="btn btn-dark p-2" style="background-color: black;">Shop Now</a>
-                      </div> -->
+                      <img src="/product-images/<%= item.image  %> " class="d-block w-100 carousal-img" alt="...">
                     </div>
                   <% }) %> 
                 </div>
@@ -116,7 +111,7 @@
               <div class="recommendation">
                 <a href="/product/<%=item._id%>" class="product-card">
                   <div class="product-img">
-                    <img src="http://localhost:4001/product-images/<%= item.mainImage.filename  %>" alt="">
+                    <img src="/product-images/<%= item.mainImage.filename  %>" alt="">
                   </div>
                   <div class="product-desc">
                     <div class="product-name"><%= item.name  %> </div>

@@ -10,6 +10,7 @@ import dbConnect from './config/mongoose/dbConnect.js'
 import session from 'express-session'
 import verifyAdmin from './middlewares/verifyAdmin.js'
 import pageNotFound from './middlewares/pageNotFound.js'
+import morgan from 'morgan'
 
 
 const app = express();
@@ -22,7 +23,9 @@ app.use(session({
     resave:false
 }))
 
+app.use(morgan("dev"))
 app.use(express.urlencoded({extended:true}))
+
 app.use(express.json())
 app.use(express.static(__dirname+"/public"))
 app.use(ejsLayout)
@@ -40,5 +43,7 @@ app.use("/", userRouter)
 app.use(pageNotFound)
 
 
-
-app.listen(4001);
+const port = process.env.PORT || 4001;
+app.listen(port, ()=>{
+    console.log("port running on port ", port)
+});
