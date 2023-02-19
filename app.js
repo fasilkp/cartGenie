@@ -49,7 +49,7 @@ app.use("/", userRouter)
 app.use(pageNotFound)
 
 
-const port = process.env.PORT || 4001;
+const port = process.env.PORT || 8080;
 app.listen(port, ()=>{
     console.log("port running on port ", port)
 });
