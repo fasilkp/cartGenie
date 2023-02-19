@@ -461,7 +461,7 @@ export async function checkout(req, res) {
               customer_phone: address[0].mobile,
             },
             order_meta: {
-              return_url: "http://localhost:4001/return?order_id={order_id}",
+              return_url: process.env.SERVER_URL+"return?order_id={order_id}",
             },
           },
         };
@@ -715,7 +715,7 @@ export async function payNow(req, res) {
         customer_phone: address[0].mobile,
       },
       order_meta: {
-        return_url: "http://localhost:4001/return?order_id={order_id}",
+        return_url: process.env.SERVER_URL+"return?order_id={order_id}",
       },
     },
   };
