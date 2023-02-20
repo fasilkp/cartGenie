@@ -61,6 +61,48 @@ export async function getProductList(req, res) {
   });
 }
 
+
+
+export async function getProductListApi(req, res) {
+  const category = req.query.category ?? "";
+  const key = req.query.key ?? "";
+  const filter = req.query.filter ?? "";
+  const page = req.query.page ?? 0;
+  let count = 0;
+  let products = [];
+  if (filter == 0) {
+    products = await productModel
+      .find({
+        name: new RegExp(key, "i"),
+        categoryId: new RegExp(category, "i"),
+        unlist: false,
+      })
+      .sort({ uploadedAt: -1 })
+      .skip(page * 9)
+      .limit(9)
+      .lean();
+    count = products.length;
+  } else {
+    products = await productModel
+      .find({
+        name: new RegExp(key, "i"),
+        categoryId: new RegExp(category, "i"),
+        unlist: false,
+      })
+      .sort({ price: filter })
+      .skip(page * 9)
+      .limit(9)
+      .lean();
+    count = products.length;
+  }
+  let pageCount = Math.floor(count / 9);
+  return res.json({
+    products,
+    pageCount,
+    page,
+  });
+}
+
 export async function getProduct(req, res) {
   try {
     const proId = req.params.id;

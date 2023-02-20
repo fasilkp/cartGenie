@@ -417,9 +417,7 @@ export async function editProduct(req, res) {
           },
         }
       );
-      // for(let item of deletedImages){
-      //   await unlinkAsync('public/product-images/'+item)
-      // }
+
     } else {
       await productModel.updateOne(
         { _id },

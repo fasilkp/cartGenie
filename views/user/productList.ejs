@@ -16,15 +16,15 @@
           </div>
           <div class="filter-options mt-3">
             <div class="ft-option">
-              <input type="radio" value="" name="category" id="d" onchange="this.form.submit()"
-                  <% if(category==""){ %> checked <% } %> onchange="this.form.submit()"
+              <input type="radio" value="" name="category" id="d"
+                  <% if(category==""){ %> checked <% } %> onchange="handleChange('category', '')"
               />
               <label for="d">All</label>
             </div>
             <% categories.forEach(item=>{ %> 
               <div class="ft-option">
                 <input type="radio" value="<%=item._id%>" name="category" id="<%=item._id%>"
-                <% if(category==item._id){ %> checked <% } %> onchange="this.form.submit()"
+                <% if(category==item._id){ %> checked <% } %> onchange="handleChange('category', '<%= item._id%>')"
                 />
                 <label for="<%=item._id%>"><%=item.category%></label>
             </div>
@@ -36,20 +36,20 @@
           <div class="filter-options mt-3">
             <div class="ft-option">
                 <input type="radio" value="1" name="filter" id="lowToHigh"
-                <% if(filter==1){ %> checked <% } %> onchange="this.form.submit()"
+                <% if(filter==1){ %> checked <% } %> onchange="handleChange('filter', 1)"
                 />
                 <label for="lowToHigh">Price - Low to High</label>
             </div>
             <div class="ft-option">
                 <input type="radio" value="-1" name="filter" id="highToLow"
-                <% if(filter==-1){ %> checked <% } %> onchange="this.form.submit()"
+                <% if(filter==-1){ %> checked <% } %> onchange="handleChange('filter', -1)"
                 
                 />
                 <label for="highToLow">Price - High to Low</label>
             </div>
             <div class="ft-option">
                 <input type="radio" value="0" name="filter" id="newLaunches"
-                <% if(filter==0){ %> checked <% } %> onchange="this.form.submit()"
+                <% if(filter==0){ %> checked <% } %> onchange="handleChange('filter', 0)"
                 />
                 <label for="newLaunches">New Launches</label>
             </div>
@@ -68,7 +68,7 @@
         <div class="row mt-3">
           <h5>Products</h5>
         </div>
-        <div class="row">
+        <div class="row" id="productList">
           <% products.forEach(item=>{ %> 
 
           <div class="col-6 col-md-4">
@@ -102,7 +102,7 @@
           </div>
           <% } %> 
         </div>
-        <div class="row d-flex justify-content-center mt-5">
+        <div class="row d-flex justify-content-center mt-5" id="pagination">
           <% if(pageCount>0) {%> 
           <nav aria-label="Page navigation example text-dark pl-pagination">
             <ul class="pagination d-flex justify-content-center text-dark">
@@ -130,14 +130,18 @@
   </div>
 </div>
 
+<script src="https://unpkg.com/axios@1.1.2/dist/axios.min.js"></script>
+
 <script>
+  let mainUrl= new URL(window.location.href);
+  let mainSearchParams=mainUrl.searchParams
+  let newMainUrl=''
+  
   function gotoPage(page){
-    var url = new URL(window.location.href);
-    var search_params = url.searchParams;
-    search_params.set('page', page);
-    url.search = search_params.toString();
-    var new_url = url.toString();
-    window.location.href=new_url
+    mainSearchParams.set('page', page);
+    mainUrl.search = mainSearchParams.toString();
+    newMainUrl = mainUrl.toString();
+    window.location.href=newMainUrl
   }
 
   function showFilter(){
@@ -148,4 +152,83 @@
     var filterSec=document.querySelector('.filter-sec');
     filterSec.style.top="-1000px"
   }
+
+  let url = new URL("http://localhost:8080/product-list");
+  let searchParams= url.searchParams;
+
+
+  async function handleChange(setName, value){
+    searchParams.set(setName, value);
+    mainSearchParams.set(setName, value);
+    url.search = searchParams.toString();
+    mainUrl.search = mainSearchParams.toString();
+    var newURL = url.toString();
+    newMainURL = url.toString();
+    let response = await axios.get(newURL)
+    console.log(response.data)
+    let productList=document.getElementById('productList')
+    productList.innerHTML=""
+    response.data.products.forEach((item, index)=>{
+      let div=document.createElement('div');
+      div.setAttribute('class', "col-6 col-md-4")
+      div.innerHTML=`
+            <div class="recommendation">
+              <a href="/product/${item._id }" class="product-card">
+                <div class="product-img">
+                  <img src="${item.mainImage.url}" alt="" />
+                </div>
+                <div class="product-desc">
+                  <div class="product-name">${item.name}</div>
+                  <div class="product-spec" style="max-height: 65px; overflow: hidden;">
+                    ${item.description} 
+                  </div>
+                  <div class="product-price">
+                    ₹${item.price}
+                      &nbsp;
+                      <strike style="font-size: small;">
+                        ₹${item.MRP}
+                      </strike>
+                  </div>
+                </div>
+              </a>
+            </div>
+          `
+          productList.appendChild(div)
+    })
+    if(response?.data?.pageCount<=0){
+      let pagination=document.getElementById('pagination')
+      pagination.innerHTML=""
+    }else{
+      let pagination=document.getElementById('pagination')
+      pagination.innerHTML=`
+      <nav aria-label="Page navigation example text-dark pl-pagination">
+            <ul class="pagination d-flex justify-content-center text-dark" id="paginationUl">
+            </ul>
+          </nav>
+      `
+      let paginationUl=document.getElementById('paginationUl');
+      paginationUl.append(`
+      <li class="page-item ">
+                <span class="page-link text-dark" aria-label="Previous">
+                  <span aria-hidden="true" onclick="gotoPage('${response.data.pageCount - 1}')">&laquo;</span>
+                </span>
+      </li>
+      `)
+      for(let i=0; i<response.data.pageCount; i++){
+        paginationUl.append(`
+        <li class="page-item">
+          <span onclick="gotoPage('${i}')" class="page-link text-dark"> ${i+1} </span>
+        </li>
+        `)
+      }
+      paginationUl.append(`
+      <li class="page-item">
+                <span class="page-link text-dark" aria-label="Next">
+                  <span aria-hidden="true" onclick="gotoPage('${response.data.pageCount - 1}'">&raquo;</span>
+                </span>
+      </li>
+      `)
+    }
+  }
+
 </script>
