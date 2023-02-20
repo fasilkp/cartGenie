@@ -14,6 +14,7 @@ const unlinkAsync = promisify(fs.unlink)
 export async function getAdminOrders(req, res) {
   let page= req.query.page ?? 0;
   let name= req.query.name ?? "";
+  let filter= req.query.filter ?? "";
   let pageCount=await orderModel.find().count()
   let orders
   if(req.query.name){
@@ -27,7 +28,7 @@ export async function getAdminOrders(req, res) {
     }
   }
   else{
-    orders = await orderModel.find().sort({ createdAt: -1 }).skip(page*10).limit(10)
+    orders = await orderModel.find({orderStatus:new RegExp(filter, 'i')}).sort({ createdAt: -1 }).skip(page*10).limit(10)
 
   }
   pageCount=Math.floor(pageCount/10);

@@ -15,6 +15,11 @@ import cloudinary from './config/cloudinary/cloudinary.js'
 
 
 const app = express();
+
+app.get("/test", (req, res)=>{
+    res.send("<h1> App Running...</h1>")
+})
+
 app.set("view engine", "ejs");
 const __dirname=path.resolve()
 
