@@ -60,7 +60,6 @@ export async function getDashboard(req, res) {
   for(let i=1; i<=12; i++){
       monthlyData[i-1]= monthlyDataObject[i] ?? 0
     }
-    console.log(monthlyData)
 
  
 
@@ -86,7 +85,6 @@ export async function getAdminProduct(req, res) {
 
 export async function getAdminUsers(req, res) {
   const name=req.query.name ?? "";
-  console.log(name)
   let page= req.query.page ?? 0;
   let pageCount=await UserModel.find().count()
   const users = await UserModel.find(
@@ -200,7 +198,6 @@ export async function getSalesReport(req, res) {
     .find({createdAt: { $gt: startDate, $lt: endDate }})
     .sort({ createdAt: -1 })
     .lean();
-  // console.log(orders)
   let totalOrders = orders.length;
   let totalRevenue = 0;
   let totalPending = 0;
@@ -219,7 +216,6 @@ export async function getSalesReport(req, res) {
   orders.map(item=>{
     orderTable.push([item.product.name, item.total, item.orderStatus, item.quantity, item.createdAt.toLocaleDateString() ])
   })
-  console.log(startDate, endDate)
   let byCategory= await orderModel.aggregate([{$match:{createdAt: { $gt: startDate, $lt: endDate }}},{$group:{_id:"$product.categoryId", count:{$sum:1}, price:{$sum:"$product.price"}}}])
   let byBrand= await orderModel.aggregate([{$match:{createdAt: { $gt: startDate, $lt: endDate}}},{$group:{_id:"$product.brand", count:{$sum:1}, profit:{$sum:"$product.price"}}}])
 
@@ -385,7 +381,6 @@ export async function addProduct(req, res) {
         });
       } else {
         res.redirect("/admin/product");
-        console.log("completed");
       }
     });
   } catch (err) {
@@ -412,7 +407,6 @@ export async function editProduct(req, res) {
     _id,
     deletedImages,
   } = req.body;
-  console.log(req.body)
   if (deletedImages) {
     if (Array.isArray(deletedImages)) {
       await productModel.updateOne(

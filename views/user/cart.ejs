@@ -117,7 +117,6 @@
       if(response?.data?.error){
         document.getElementById('cartAlert').style.display="flex"
         response.data.outOfQuantity.forEach(item=>{
-          console.log(item)
           if(item.balanceQuantity<=0){
             document.getElementById(item.id).innerHTML="Out Of Stock"
           }else{

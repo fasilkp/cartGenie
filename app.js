@@ -38,11 +38,6 @@ app.use(ejsLayout)
 
 dbConnect();
 
-app.get("/check",async (req, res)=>{
-    const s=await cloudinary.uploader.upload('public/images/banner.jpg',{folder:'cartGenie'})
-    console.log(s)
-})
-
 //Routers
 app.use("/", userAuth)
 app.use("/admin/", adminAuth)

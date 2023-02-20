@@ -18,7 +18,6 @@
     window.onload= function(){
       var paymentSessionId = "<%= sessionId%>";
       const cashfree = new Cashfree(paymentSessionId);
-      console.log(cashfree)
       cashfree.redirect();
 
 }

@@ -55,7 +55,6 @@
     var amountPayable = document.getElementById("amountPayable");
     var totalPrice='<%=totalPrice%>'
     axios.post("/apply-coupon", {coupon}).then(function (response) {
-      console.log(response.data)
       if(response.data.error){
         message.innerHTML= `<b class="text-danger" id="message">${response.data.message}</b>`
         couponPrice.innerHTML=0;

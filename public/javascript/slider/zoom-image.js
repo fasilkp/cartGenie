@@ -1,7 +1,6 @@
 /**
  * by MonsterDuang
  */
-console.log("zooom")
 
 ;(function($) {
     /**

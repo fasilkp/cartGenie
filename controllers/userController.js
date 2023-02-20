@@ -167,10 +167,8 @@ export async function checkQuantity(req, res) {
     .lean();
   let quantityError = false;
   let outOfQuantity = [];
-  console.log(cartQuantities);
   for (let item of products) {
     totalPrice = totalPrice + item.price * cartQuantities[item._id];
-    console.log(item.quantity, cartQuantities[item._id]);
     if (item.quantity < cartQuantities[item._id]) {
       quantityError = true;
       outOfQuantity.push({ id: item._id, balanceQuantity: item.quantity });
@@ -188,7 +186,6 @@ export async function checkQuantity(req, res) {
 
 export async function getPayment(req, res) {
   const addressId = req.params.id;
-  console.log(addressId);
   const cart = req?.user?.cart ?? [];
   const cartList = cart.map((item) => {
     return item.id;
@@ -392,7 +389,6 @@ export async function minusQuantity(req, res) {
     { "cart.id": req.params.id },
     { _id: 0, cart: { $elemMatch: { id: req.params.id } } }
   );
-  console.log(req.params.id);
   if (cart[0].quantity <= 1) {
     let user = await UserModel.updateOne(
       { _id: req.session.user.id },
@@ -418,7 +414,6 @@ export async function minusQuantity(req, res) {
 
 export async function checkout(req, res) {
   const { payment, address: addressId } = req.body;
-  console.log(req.session.tempOrder)
   if (!req.body?.address) {
     let Address = req.user.address;
     return res.render("user/checkout", {
@@ -434,11 +429,7 @@ export async function checkout(req, res) {
   );
   if (payment != "cod") {
     if (req.body.wallet) {
-      console.log(req.user.wallet)
-      console.log(req.session.tempOrder.totalPrice)
-      console.log("inside wallet")
       if (req.user.wallet < req.session.tempOrder.totalPrice) {
-        console.log("inside wallet-totalPrice")
         req.session.tempOrder = { ...req.session.tempOrder, addressId, wallet:req.body.wallet };
         let orderId = "order_" + createId();
         const options = {
@@ -469,7 +460,6 @@ export async function checkout(req, res) {
         await axios
           .request(options)
           .then(function (response) {
-            console.log(response.data);
             return res.render("user/paymentScreen", {
               orderId,
               sessionId: response.data.payment_session_id,
@@ -660,7 +650,6 @@ export async function payNow(req, res) {
     { "address.id": addressId },
     { _id: 0, address: { $elemMatch: { id: addressId } } }
   );
-  console.log(address);
   const cart = req?.user?.cart ?? [];
   const cartQuantities = {};
   const cartList = cart.map((item) => {
@@ -723,7 +712,6 @@ export async function payNow(req, res) {
   axios
     .request(options)
     .then(function (response) {
-      console.log(response.data);
       res.render("user/paymentScreen", {
         orderId,
         sessionId: response.data.payment_session_id,
@@ -751,7 +739,6 @@ export async function returnURL(req, res) {
 
     const response = await axios.request(options);
 
-    console.log(response.data);
     if (response.data.order_status == "PAID") {
       const cart = req?.user?.cart ?? [];
       const cartQuantities = {};
@@ -767,7 +754,6 @@ export async function returnURL(req, res) {
       let products = await productModel
         .find({ _id: { $in: cartList }, unlist: false })
         .lean();
-      console.log(products);
       const coupon = req.session.tempOrder.coupon;
       let orders = [];
       let totalCash=0
@@ -866,12 +852,10 @@ export async function editProfile(req, res) {
 
 export async function addRating(req, res) {
   const { proId, rating } = req.body;
-  console.log(req.body);
   const ratingExist = await productModel.findOne({
     _id: proId,
     ratings: { $elemMatch: { userId: req.session.user.id } },
   });
-  console.log(ratingExist);
   if (ratingExist) {
     await productModel.updateOne(
       { _id: proId, ratings: { $elemMatch: { userId: req.session.user.id } } },
@@ -899,7 +883,6 @@ export async function addRating(req, res) {
 }
 export async function addReview(req, res) {
   const { proId, review } = req.body;
-  console.log(req.body);
   const reviewExist = await productModel.findOne({
     _id: proId,
     reviews: { $elemMatch: { userId: req.session.user.id } },
@@ -934,7 +917,6 @@ export async function cancelOrder(req, res) {
   const _id = req.params.id;
   const order = await orderModel.findOne({ _id });
   let walletInc=order.total-order.amountPayable;
-  console.log(order);
   if (walletInc!=0) {
     await userModel.updateOne(
       { _id: req.session.user.id },
@@ -955,7 +937,6 @@ export async function cancelOrder(req, res) {
 export async function returnOrder(req, res) {
   const _id = req.params.id;
   const order = await orderModel.findOne({ _id });
-  console.log(order);
   await orderModel.updateOne(
     { _id },
     {

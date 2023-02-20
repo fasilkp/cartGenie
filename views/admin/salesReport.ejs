@@ -203,7 +203,6 @@
     orders=JSON.parse(orders);
     categories=JSON.parse(categories);
     brands=JSON.parse(brands);
-    console.log(orders)
     categoryBody= categories.map(item=>{
       return [item.category, item.count, item.profit]
     })
@@ -245,8 +244,6 @@
 
       doc.save('sales-report('+startDate+' - '+endDate+').pdf');
     }
-    console.log(categories)
-    console.log(brandXLSX)
     function downloadExcel(){
       let report=[
         {type:"Total Revenue", value:totalRevenue},
