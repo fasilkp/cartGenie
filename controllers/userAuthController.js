@@ -10,13 +10,13 @@ export function getUserSignup(req, res) {
     res.render("user/signup", { error: false });
 }
 export function getVerifyEmail(req, res) {
-    res.render("user/emailVerify", { error: false });
+    res.render("user/emailVerify", { error: false,  });
 }
 export function getForgotPassword(req, res) {
     res.render("user/forgotPassword", {error:false});
 }
 export function getForgotPassVerify(req, res) {
-    res.render("user/forgotPassVerify", {error:false});
+    res.render("user/forgotPassVerify", {error:false, user:req.session.tempUser});
 }
 export function getChanegPassword(req, res) {
     res.render("user/changePassword");
@@ -154,7 +154,7 @@ export async function forgotPasswordVerify(req, res){
     if(req.session.tempUser.otp==otp){
         return res.render("user/changePassword",{error:false})
     }
-    return res.render("user/forgotPassVerify", {error:true, message:"invalid otp"})
+    return res.render("user/forgotPassVerify", {error:true, message:"invalid otp", user:req.session.tempUser})
 }
 
 export async function changePassword(req, res){

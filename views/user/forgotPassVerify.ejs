@@ -7,7 +7,7 @@
           <div class="login-box">
             <form action="/forgot-password-verify" method="post">
               <h2>Verify OTP</h2>
-              <p>Enter the OTP sent to <b>fasil@gmail.com</b></p>
+              <p>Enter the OTP sent to <% if(user){ %><b><%= user.email  %></b><% } %></p>
               <div class="form-row">
                 <input type="text" placeholder="OTP" name="otp" />
               </div>
@@ -29,7 +29,7 @@
       </div>
       <script>
         let countdown=document.getElementById("countdown");
-        let count=31;
+        let count=61;
         const coundownInterval = setInterval(() => {
           count--;
           countdown.innerText=" OTP Resend in "+count;

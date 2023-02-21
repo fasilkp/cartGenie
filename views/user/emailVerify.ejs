@@ -3,12 +3,12 @@
         <header class="container login-header">
           <h3>E-cart</h3>
         </header>
-        <div class="container login-container">
+        <div class="container login-container" style="padding-top: 50px;">
           <div class="login-box">
             <form action="/verifyEmail" method="post">
               <h2>Verify OTP</h2>
-              <p>Enter the OTP sent to <b>fasil@gmail.com</b></p>
-              <input type="text" name="email" style="height: 0px; visibility: hidden;" value="<%= user?.email %>"/>
+              <p class="text-center">Enter the OTP sent to <% if(user){ %><b><%= user.email  %></b><% } %></p>
+              <input type="text" name="email" style="height: 0px; visibility: hidden; margin-top: -100px;" value="<%= user?.email %>"/>
               <input type="text" name="name" style="height: 0px; visibility: hidden;" value="<%= user?.name %>" />
               <input type="text" name="password" style="height: 0px; visibility: hidden;" value="<%= user?.password  %>" />
               <div class="form-row">
@@ -33,10 +33,10 @@
 
       <script>
         let countdown=document.getElementById("countdown");
-        let count=31;
+        let count=61;
         const coundownInterval = setInterval(() => {
           count--;
-          countdown.innerText=" OTP Resend in "+count;
+          countdown.innerText=" Resend OTP in "+count;
           checkOver()
         }, 1000);
         function checkOver(){
