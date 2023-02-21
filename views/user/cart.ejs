@@ -56,7 +56,7 @@
               <div class="cart-quantity">
                 <div class="cartquantiy-box">
                   <button onclick="decQuantity('<%=item._id%>', '<%=item.price%>', '<%=item.MRP%>')">-</button>
-                  <input type="number" value="<%=item.cartQuantity%>" id="<%='q'+item._id%>">
+                  <input type="number" readonly value="<%=item.cartQuantity%>" id="<%='q'+item._id%>">
                   <button onclick="addQuantity('<%=item._id%>', '<%=item.price%>', '<%=item.MRP%>')">+</button>
                 </div>
               </div>

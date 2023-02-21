@@ -146,11 +146,17 @@ a{
     font-size: 1.3rem;
     margin-right: 10px;
   }
+
   .search-box{
     width:100%;
   }
   .search-box input{
     width: 90%;
+  }
+  .adminHeader{
+    max-height: 70px;
+    padding: 0px;
+    overflow: hidden;
   }
   
 }

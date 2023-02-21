@@ -1,6 +1,6 @@
 <%- include('../partials/adminHeader') %>
 <div class="orders-main">
-  <div class="side-menu">
+  <div class="side-menu" id="adminSideMenu">
     <a href="/admin/">
       <li><i class="ri-dashboard-fill"></i>DashBoard</li>
     </a>
@@ -30,15 +30,12 @@
     </a>
   </div>
   <div class="order-container">
-    <div class="mt-2 p-3 d-flex align-items-center">
+    <div class="w-100 mt-3 d-flex align-items-center tablesHeader">
         <h3>Offers Banner</h3>
-        <!-- <div class="product-search">
-            <input type="text" placeholder="search for product">
-            <i class="ri-search-line"></i>
-        </div> -->
+
         <a href="/admin/add-offer"><button class="btn btn-dark" style="height: 50px; margin-left:30px;">Add Offers </button></a>
     </div>
-    <div class="row mt-2 p-3">
+    <div class="w-100 mt-3">
         <div class="orders-table">
             <table class="table table-striped">
                 <thead>

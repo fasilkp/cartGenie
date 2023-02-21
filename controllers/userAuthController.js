@@ -171,7 +171,6 @@ export async function changePassword(req, res){
         }
         return res.render("user/changePassword", {error:true, message:"password not match"})
     }catch(err){
-        console.log(err)
         return res.render("user/changePassword", {error:true, message:"change password failed"})
     }
 }

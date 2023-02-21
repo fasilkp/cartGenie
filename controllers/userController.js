@@ -142,7 +142,6 @@ export async function getProduct(req, res) {
       });
     }
   } catch (err) {
-    console.log(err);
     return res.status(404).render("partials/error404");
   }
 }
@@ -858,7 +857,6 @@ export async function returnURL(req, res) {
     req.session.tempOrder=null;
     res.render("user/orderPlaced", { key: "", failed: true });
   } catch (err) {
-    console.log(err);
     res.render("user/orderPlaced", { key: "", failed: true });
     req.session.tempOrder=null;
 

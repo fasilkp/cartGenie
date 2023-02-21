@@ -6,7 +6,7 @@
         <form class="filter-sec" method="get">
           <div class="row bg-white d-md-none d-flex p-2">
             <div class="col d-flex flex-row-reverse align-items-center" onclick="hideFilter()">
-              <i class="ri-close-fill" style="margin-top: -10px; font-size: 1.8rem;"></i>
+              <i class="ri-close-fill" style="margin-top: 10px; font-size: 1.8rem;"></i>
             </div>
           </div>
           <input type="text" value="<%=key%>" name="key" style="height: 0px; visibility: hidden;"
@@ -31,7 +31,7 @@
             <% }) %> 
           </div>
           <div class="row mt-5">
-            <h6>Filter</h6>
+            <h6>Sort By </h6>
           </div>
           <div class="filter-options mt-3">
             <div class="ft-option">
@@ -54,7 +54,6 @@
                 <label for="newLaunches">New Launches</label>
             </div>
             </div>
-            <!-- <button class="mt-5" type="submit">Save</button> -->
 
         </form>
       </div>
@@ -135,10 +134,12 @@
 <script>
   let mainUrl= new URL(window.location.href);
   let mainSearchParams=mainUrl.searchParams
+  let key='<%=key%>'
   let newMainUrl=''
   
   function gotoPage(page){
     mainSearchParams.set('page', page);
+    mainSearchParams.set('key', key);
     mainUrl.search = mainSearchParams.toString();
     newMainUrl = mainUrl.toString();
     window.location.href=newMainUrl
@@ -159,13 +160,13 @@
 
   async function handleChange(setName, value){
     searchParams.set(setName, value);
+    searchParams.set('key', key);
     mainSearchParams.set(setName, value);
     url.search = searchParams.toString();
     mainUrl.search = mainSearchParams.toString();
     var newURL = url.toString();
     newMainURL = url.toString();
     let response = await axios.get(newURL)
-    console.log(response.data)
     let productList=document.getElementById('productList')
     productList.innerHTML=""
     response.data.products.forEach((item, index)=>{

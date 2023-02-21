@@ -1,6 +1,6 @@
 <%- include('../partials/adminHeader') %>
 <div class="orders-main">
-  <div class="side-menu">
+  <div class="side-menu" id="adminSideMenu">
     <a href="/admin/">
       <li><i class="ri-dashboard-fill"></i>DashBoard</li>
     </a>
@@ -31,15 +31,15 @@
   </div>
   <div class="order-container">
     <h3>Filter</h3>
-    <div class="container-fluid d-flex align-items-end">
-      <h6 style="margin-right: 36px;">Filter by : </h6>
+    <div class="container-fluid d-flex align-items-end tablesHeader">
+      <h6 >Filter by : </h6>
       <a href="/admin/sales-report?filter=lastWeek" class="btn btn-<% if(filter!='lastWeek'){ %>outline-<% } %>dark ms-2">Last week</a>
       <a href="/admin/sales-report?filter=lastMonth" class="btn btn-<% if(filter!='lastMonth'){ %>outline-<% } %>dark  ms-2">Last month</a>
       <a href="/admin/sales-report?filter=thisMonth" class="btn btn-<% if(filter!='thisMonth'){ %>outline-<% } %>dark ms-2">This Month</a>
       <a href="/admin/sales-report?filter=lastYear" class="btn btn-<% if(filter!='lastYear'){ %>outline-<% } %>dark ms-2">Last Year</a>
       <a href="/admin/sales-report?filter=thisYear" class="btn btn-<% if(filter!='thisYear'){ %>outline-<% } %>dark ms-2">This year</a>
     </div>
-    <div class="container-fluid filter-head pt-4">
+    <div class="container-fluid filter-head pt-4 tablesHeader">
        <h6>Filter by date : </h6>
       <form action="/admin/sales-report" class="d-flex" method="get">
         <input type="date" class="form-control" name="startDate" value="<%= startDate %>" onchange="this.form.submit()">
@@ -47,7 +47,7 @@
         <input type="date" class="form-control" name="endDate" value="<%= endDate %>" onchange="this.form.submit()">
       </form>
     </div>
-    <div class="report-btns container-fluid">
+    <div class="report-btns container-fluid tablesHeader">
       <h3 >Sales Report</h3>
       <div>
         <button onclick="downloadExcel()" class="btn btn-outline-dark ">Download in Excel</button>
@@ -83,7 +83,7 @@
               </table>
         </div>
     </div>
-    <h3 class="mt-3">Sales By Category</h3>
+    <h3 class="mt-3 head3">Sales By Category</h3>
     <div class="row mt-2 p-3">
         <div class="orders-table">
             <table class="table table-striped">
@@ -106,7 +106,7 @@
               </table>
         </div>
     </div>
-    <h3 class="mt-3">Sales By Brand</h3>
+    <h3 class="mt-3 head3">Sales By Brand</h3>
     <div class="row mt-2 p-3">
         <div class="orders-table">
             <table class="table table-striped">
@@ -129,11 +129,11 @@
               </table>
         </div>
     </div>
-    <h3 class="mt-3">Orders</h3>
+    <h3 class="mt-3 head3">Orders</h3>
     <div class="row mt-2 p-3">
         <div class="orders-table" id="content">
           <div class="table-responsive">
-            <table class="table table-striped" id="table">
+            <table class="table table-hover" id="table">
                 <thead>
                     <tr>
                       <th scope="col">No</th>
@@ -163,9 +163,12 @@
                         <% if(item.paid){ %> Paid
                         <% }else{ %> Not Paid <% } %> 
                         </td>
-                      <td class="d-flex justify-content-center">
-                        <div class="del-status <%= item.orderStatus  %> ">
+                      <td class="d-flex justify-content-center align-items-center h-100">
+                        <div>
+
+                          <div class="del-status <%= item.orderStatus  %> ">
                             <%= item.orderStatus  %> 
+                          </div>
                         </div>
                     </td>
                       

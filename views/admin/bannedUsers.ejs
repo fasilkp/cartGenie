@@ -1,6 +1,6 @@
 <%- include('../partials/adminHeader') %>
 <div class="orders-main">
-  <div class="side-menu">
+  <div class="side-menu" id="adminSideMenu">
     <a href="/admin/">
       <li><i class="ri-dashboard-fill"></i>DashBoard</li>
     </a>
@@ -30,7 +30,7 @@
       </a>
   </div>
   <div class="order-container">
-    <div class="mt-2 p-3 d-flex align-items-center">
+    <div class="w-100 mt-3 d-flex align-items-center tablesHeader">
         <h3>Banned users</h3>
         <form method="get" action="/admin/banned-users" class="product-search">
             <input type="text" placeholder="search for users" name="name">

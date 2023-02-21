@@ -372,7 +372,6 @@ export async function addProduct(req, res) {
 
     product.save(async (err, data) => {
       if (err) {
-        console.log(err);
         const categories = await categoryModel.find().lean();
         res.render("admin/addProduct", {
           error: true,
@@ -384,7 +383,6 @@ export async function addProduct(req, res) {
       }
     });
   } catch (err) {
-    console.log(err);
     const categories = await categoryModel.find().lean();
     res.render("admin/addProduct", {
       error: true,
@@ -540,7 +538,6 @@ export async function editProduct(req, res) {
     }
     return res.redirect("/admin/product");
   } catch (err) {
-    console.log(err);
     const categories = await categoryModel.find().lean();
     res.render("admin/editProduct", {
       error: true,
@@ -681,13 +678,9 @@ export async function addCoupon(req, res) {
       code,
     });
     coupon.save((err, data) => {
-      if (err) {
-        console.log(err);
-      }
       res.redirect("/admin/coupons");
     });
   } catch (err) {
-    console.log(err);
     res.redirect("/admin/coupons");
   }
 }
@@ -719,7 +712,6 @@ export async function editCoupon(req, res) {
     });
     res.redirect("/admin/coupons");
   } catch (err) {
-    console.log(err);
     res.redirect("/admin/coupons");
   }
 }
@@ -730,7 +722,6 @@ export async function listCoupon(req, res) {
     await couponModel.updateOne({ _id }, { $set: { unlist: false } });
     res.redirect("/admin/coupons");
   } catch (err) {
-    console.log(err);
     res.redirect("/admin/coupons");
   }
 }
@@ -740,7 +731,6 @@ export async function unListCoupon(req, res) {
     await couponModel.updateOne({ _id }, { $set: { unlist: true } });
     res.redirect("/admin/coupons");
   } catch (err) {
-    console.log(err);
     res.redirect("/admin/coupons");
   }
 }

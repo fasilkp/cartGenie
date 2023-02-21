@@ -120,7 +120,6 @@
   let wishlist= document.getElementById('wishlist')
   async function addToWishlist(){
   let response=await axios.get("/add-to-wishlist/"+productId);
-  console.log(response)
   if(!response.data.success){
       window.location.href="/login"
     }else{
