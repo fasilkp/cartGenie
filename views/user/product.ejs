@@ -38,21 +38,18 @@
       </div>
       <div class="col-12 col-md-6">
         <div class="product-container">
-          <div class="product-head mt-5">
+          <div class="product-head mt-5" id="productHead">
             <h3 ><%= product.name  %> </h3>
-            <% if(wish){ %> 
-              <i class="ri-heart-fill" style="color:red"
-              onclick="
-              if(confirm('Are you Sure Remove this item from wishlist ?')) 
-                window.location.href='/remove-from-wishlist/<%=product._id %>'"
-              ></i>
-            <% }else{ %> 
-                <i class="ri-heart-line"
-                onclick="
-                if(confirm('Add New Item to wishlist ?')) 
-                  window.location.href='/add-to-wishlist/<%=product._id %>'"
-                ></i>
-            <% } %> 
+            <div id="wishlist">
+
+              <% if(wish){ %> 
+                <i class="ri-heart-fill" style="color:red"
+                onclick="removeFromWishlist()"></i>
+                <% }else{ %> 
+                  <i class="ri-heart-line"
+                  onclick="addToWishlist()"></i>
+                  <% } %> 
+            </div>
           </div>
           <div class="ratings">
             <% for(let i=0; i<rating; i++) {%> 
@@ -108,7 +105,9 @@
 </div>
 
   </div>
+  <script src="https://unpkg.com/axios@1.1.2/dist/axios.min.js"></script>
 <script>
+  let productId='<%=product._id %>'
   function quantityInc(){
     var quantity= document.getElementById("quantity")
     quantity.value++;
@@ -116,6 +115,26 @@
   function quantityDec(){
     var quantity= document.getElementById("quantity")
     quantity.value--;
+  }
+
+  let wishlist= document.getElementById('wishlist')
+  async function addToWishlist(){
+  let response=await axios.get("/add-to-wishlist/"+productId);
+  console.log(response)
+  if(!response.data.success){
+      window.location.href="/login"
+    }else{
+      wishlist.innerHTML=`<i class="ri-heart-fill" style="color:red"
+      onclick="removeFromWishlist()"></i>`
+    }
+                
+  }
+  async function removeFromWishlist(){
+    if(confirm('Are you sure remove this item from wishlist ?')) {
+          wishlist.innerHTML=`<i class="ri-heart-line"
+          onclick="addToWishlist()"></i>`
+          let response=await axios.get('/remove-from-wishlist/'+productId)
+  }        
   }
 </script>
 

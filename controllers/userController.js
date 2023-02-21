@@ -312,12 +312,13 @@ export async function addToWishlist(req, res) {
       },
     }
   );
-  res.redirect("back");
+  res.json({success:true});
 }
 
 export async function removeFromWishlist(req, res) {
   const _id = req.session.user.id;
   const proId = req.params.id;
+  let wishlistSize=req.user.wishlist.length - 1
   await UserModel.updateOne(
     { _id },
     {
@@ -326,7 +327,7 @@ export async function removeFromWishlist(req, res) {
       },
     }
   );
-  res.redirect("back");
+  res.json({success:true, wishlistSize});
 }
 
 export async function addToCart(req, res) {

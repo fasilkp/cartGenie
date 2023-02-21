@@ -12,7 +12,7 @@
           <input type="text" value="<%=key%>" name="key" style="height: 0px; visibility: hidden;"
           >
           <div class="row">
-            <h6>Cartegory</h6>
+            <h6>Category</h6>
           </div>
           <div class="filter-options mt-3">
             <div class="ft-option">
@@ -207,27 +207,30 @@
           </nav>
       `
       let paginationUl=document.getElementById('paginationUl');
-      paginationUl.append(`
-      <li class="page-item ">
-                <span class="page-link text-dark" aria-label="Previous">
-                  <span aria-hidden="true" onclick="gotoPage('${response.data.pageCount - 1}')">&laquo;</span>
-                </span>
-      </li>
-      `)
-      for(let i=0; i<response.data.pageCount; i++){
-        paginationUl.append(`
-        <li class="page-item">
-          <span onclick="gotoPage('${i}')" class="page-link text-dark"> ${i+1} </span>
-        </li>
-        `)
+      let li1= document.createElement('li');
+      li1.setAttribute('class', 'page-item')
+      li1.innerHTML=`
+          <span class="page-link text-dark" aria-label="Previous">
+            <span aria-hidden="true" onclick="gotoPage('${response.data.pageCount - 1}')">&laquo;</span>
+          </span>
+      `
+      paginationUl.appendChild(li1)
+      for(let i=0; i<=response.data.pageCount; i++){
+        let li2= document.createElement('li');
+      li2.setAttribute('class', 'page-item')
+        li2.innerHTML=`
+        <span onclick="gotoPage('${i}')" class="page-link text-dark"> ${i+1} </span>
+        `
+        paginationUl.appendChild(li2)
       }
-      paginationUl.append(`
-      <li class="page-item">
-                <span class="page-link text-dark" aria-label="Next">
-                  <span aria-hidden="true" onclick="gotoPage('${response.data.pageCount - 1}'">&raquo;</span>
+      let li3= document.createElement('li');
+      li3.setAttribute('class', 'page-item')
+      li3.innerHTML=`
+      <span class="page-link text-dark" aria-label="Next">
+                  <span aria-hidden="true" onclick="gotoPage('${response.data.pageCount - 1}')">&raquo;</span>
                 </span>
-      </li>
-      `)
+      `
+      paginationUl.appendChild(li3)
     }
   }
 

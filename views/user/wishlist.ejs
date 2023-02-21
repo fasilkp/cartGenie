@@ -1,40 +1,59 @@
 <%- include('../partials/header') %>
 
 <div class="wishlist-main">
-    <div class="container">
-        <h3 class="wish-head">Wishlist <i class="ri-heart-line"></i></h3>
-        <div class="row">
-            <% products.forEach(item=>{ %>
-                <div  class="col-12 col-md-6">
-                    <div class="wish-item">
-                        <a href="/product/<%=item._id %>"class="wish-img">
-                            <img src="<%=item.mainImage.url  %>" alt="">
-                        </a>
-                        <div class="wish-detail">
-                            <b><%=item.name  %> </b>
-                            <h5>₹<%= item.price  %> </h4>
-                        </div>
-                        <div class="wish-cancel">
-                            <a href="/add-to-cart/<%=item._id %>" class="btn btn-dark rounded-0 me-2" style="width: 110px;">Add to cart</a>
-                                <i class="ri-close-line"
-                                onclick="
-                                if(confirm('Are you Sure Remove this item from wishlist ?')) 
-                                    window.location.href='/remove-from-wishlist/<%=item._id %>'"
-                                ></i>
-                        </div>
-                    </div>
-                   
-                </div>
-            <% }) %> 
+  <div class="container">
+    <h3 class="wish-head">Wishlist <i class="ri-heart-line"></i></h3>
+    <div class="row" id="wislistRow">
+      <% products.forEach(item=>{ %>
+      <div class="col-12 col-md-6" id="<%='wish'+item._id%>">
+        <div class="wish-item">
+          <a href="/product/<%=item._id %>" class="wish-img">
+            <img src="<%=item.mainImage.url  %>" alt="">
+          </a>
+          <div class="wish-detail">
+            <b><%=item.name  %> </b>
+            <h5>₹<%= item.price  %> </h4>
+          </div>
+          <div class="wish-cancel">
+            <a href="/add-to-cart/<%=item._id %>" class="btn btn-dark rounded-0 me-2" style="width: 110px;">Add to cart</a>
+            <i class="ri-close-line" onclick="removeFromWishlist('<%=item._id%>')"></i>
+          </div>
         </div>
-        <div class="row">
-            <% if(!products[0]){ %> 
-                <div class="empty-container w-100 h-50 d-flex flex-column justify-content-center align-items-center" style="gap:10px">
-                  <img src="/images/empty-wishlist.png" height="250px" alt="">
-                  <h3>Your wishlist is empty!</h3>
-                   <p>Tap Heart button to start saving your favourites</p> 
-                </div>
-            <% } %> 
-        </div>
+
+      </div>
+      <% }) %>
     </div>
+    <div class="row" id="emptyWishlist">
+      <% if(!products[0]){ %>
+      <div class="empty-container w-100 h-50 d-flex flex-column justify-content-center align-items-center" style="gap:10px">
+        <img src="/images/empty-wishlist.png" height="250px" alt="">
+        <h3>Your wishlist is empty!</h3>
+        <p>Tap Heart button to start saving your favourites</p>
+      </div>
+      <% } %>
+    </div>
+  </div>
 </div>
+<script src="https://unpkg.com/axios@1.1.2/dist/axios.min.js"></script>
+<script>
+  let WishlistRow = document.getElementById('wishlistRow')
+  async function removeFromWishlist(id) {
+    if(confirm('Are you sure remove this item from wishlist ?')) {
+    let response = await axios.get("/remove-from-wishlist/"+id);
+    if (!response.data.success) {
+      window.location.href = "/login"
+    } else {
+      document.getElementById('wish'+id).style.display="none"
+      if(response.data.wishlistSize <= 0){
+        document.getElementById('emptyWishlist').innerHTML=`
+        <div class="empty-container w-100 h-50 d-flex flex-column justify-content-center align-items-center" style="gap:10px">
+        <img src="/images/empty-wishlist.png" height="250px" alt="">
+        <h3>Your wishlist is empty!</h3>
+        <p>Tap Heart button to start saving your favourites</p>
+      </div>
+        `
+      }
+    }
+}
+  }
+</script>
