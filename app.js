@@ -25,12 +25,16 @@ app.use(session({
     secret:"secretkey",
     saveUninitialized:true,
     resave:false,
+    store: MongoStore.create({ mongoUrl: process.env.DB_CONFIG }),
+    proxy: true,
     cookie:{
-        sameSite:"none",
-        secure:true,
-        maxAge:1000*60*60*24*7
-    },
-    store: MongoStore.create({ mongoUrl: process.env.DB_CONFIG })
+            sameSite:"none",
+            secure:true,
+            httpOnly:true,
+            // domain:"cartgenie.store",
+            maxAge:60*60*1000*24*7
+    }
+
 }))
 
 app.use(express.urlencoded({extended:true}))
