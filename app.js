@@ -15,7 +15,7 @@ import MongoStore from 'connect-mongo'
 const app = express();
 
 app.get("/test", (req, res)=>{
-    res.send("<h1> App Running...</h1>")
+    res.send("<h1> App Running... beta3</h1>")
 })
 
 app.set("view engine", "ejs");
@@ -25,9 +25,10 @@ app.use(session({
     secret:"secretkey",
     saveUninitialized:true,
     resave:false,
-    cookie: {
-        secure: true,
-        sameSite: "None"
+    cookie:{
+        sameSite:"none",
+        secure:true,
+        maxAge:1000*60*60*24*7
     },
     store: MongoStore.create({ mongoUrl: process.env.DB_CONFIG })
 }))
