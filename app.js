@@ -12,7 +12,7 @@ import verifyAdmin from './middlewares/verifyAdmin.js'
 import pageNotFound from './middlewares/pageNotFound.js'
 import morgan from 'morgan'
 import cloudinary from './config/cloudinary/cloudinary.js'
-
+import MongoStore from 'connect-mongo'
 
 const app = express();
 
@@ -26,12 +26,12 @@ const __dirname=path.resolve()
 app.use(session({
     secret:"secretkey",
     saveUninitialized:true,
-    resave:false
+    resave:false,
+    store: MongoStore.create({ mongoUrl: process.env.DB_CONFIG })
 }))
 
 // app.use(morgan("dev"))
 app.use(express.urlencoded({extended:true}))
-
 app.use(express.json())
 app.use(express.static(__dirname+"/public"))
 app.use(ejsLayout)
