@@ -10,8 +10,6 @@ import dbConnect from './config/mongoose/dbConnect.js'
 import session from 'express-session'
 import verifyAdmin from './middlewares/verifyAdmin.js'
 import pageNotFound from './middlewares/pageNotFound.js'
-import morgan from 'morgan'
-import cloudinary from './config/cloudinary/cloudinary.js'
 import MongoStore from 'connect-mongo'
 
 const app = express();
@@ -27,10 +25,13 @@ app.use(session({
     secret:"secretkey",
     saveUninitialized:true,
     resave:false,
+    cookie: {
+        secure: true,
+        sameSite: "None"
+    },
     store: MongoStore.create({ mongoUrl: process.env.DB_CONFIG })
 }))
 
-// app.use(morgan("dev"))
 app.use(express.urlencoded({extended:true}))
 app.use(express.json())
 app.use(express.static(__dirname+"/public"))
