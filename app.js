@@ -15,7 +15,7 @@ import MongoStore from 'connect-mongo'
 const app = express();
 
 app.get("/test", (req, res)=>{
-    res.send("<h1> App Running... beta3</h1>")
+    res.send("<h1> App Running... 22</h1>")
 })
 
 app.set("view engine", "ejs");

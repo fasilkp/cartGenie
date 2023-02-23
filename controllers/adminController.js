@@ -20,15 +20,15 @@ export async function getAdminOrders(req, res) {
   if(req.query.name){
 
     if(isNaN(name)){
-      orders = await orderModel.find({"address.name":new RegExp(name, 'i')}).sort({ createdAt: -1 }).skip(page*10).limit(10)
+      orders = await orderModel.find({"address.name":new RegExp(name, 'i')}).sort({ _id: -1 }).skip(page*10).limit(10)
       .lean();
     }else{
-      orders = await orderModel.find({orderId:name}).sort({ createdAt: -1 }).skip(page*10).limit(10)
+      orders = await orderModel.find({orderId:name}).sort({ _id: -1 }).skip(page*10).limit(10)
       .lean();
     }
   }
   else{
-    orders = await orderModel.find({orderStatus:new RegExp(filter, 'i')}).sort({ createdAt: -1 }).skip(page*10).limit(10)
+    orders = await orderModel.find({orderStatus:new RegExp(filter, 'i')}).sort({ _id: -1 }).skip(page*10).limit(10)
 
   }
   pageCount=Math.floor(pageCount/10);

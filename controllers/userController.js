@@ -176,7 +176,7 @@ export async function getCart(req, res) {
 export async function getOrderHistory(req, res) {
   const orders = await orderModel
     .find({ userId: req.session.user.id })
-    .sort({ createdAt: -1 })
+    .sort({ _id: -1 })
     .lean();
   res.render("user/orderHistory", { key: "", orders });
 }
@@ -529,6 +529,7 @@ export async function checkout(req, res) {
     .find({ _id: { $in: cartList }, unlist: false })
     .lean();
   let orders = [];
+  let i=0;
   for (let item of products) {
     await productModel.updateOne(
       { _id: item._id },
@@ -546,8 +547,9 @@ export async function checkout(req, res) {
       quantity: cartQuantities[item._id],
       total: cartQuantities[item._id] * item.price,
       amountPayable: item.price,
-      orderId:orderCount+1000
+      orderId:orderCount+1000+i
     });
+    i++;
   }
   if (req.body.wallet) {
     let wallet = req.user.wallet;
@@ -559,6 +561,7 @@ export async function checkout(req, res) {
         },
       });
       orders = [];
+      let i=0
       for (let item of products) {
         let orderCount=await orderModel.find().count()
         orders.push({
@@ -569,8 +572,9 @@ export async function checkout(req, res) {
           total: cartQuantities[item._id] * item.price,
           amountPayable: 0,
           paid:true,
-          orderId:1000+orderCount
+          orderId:1000+orderCount+i
         });
+        i++;
       }
     } else {
       await userModel.findByIdAndUpdate(req.session.user.id, {
@@ -580,6 +584,7 @@ export async function checkout(req, res) {
       });
       totalCash = totalCash - wallet;
       orders = [];
+      let i=0
       for (let item of products) {
         let amountPayable=0;
         let paid=false
@@ -602,8 +607,9 @@ export async function checkout(req, res) {
           total: cartQuantities[item._id] * item.price,
           amountPayable,
           paid,
-          orderId:orderCount+1000
+          orderId:orderCount+1000+i
         });
+        i++;
       }
     }
   }
@@ -712,7 +718,7 @@ export async function payNow(req, res) {
           totalPrice +
           item.price * cartQuantities[item._id] -
           couponCheck.couponPrice;
-      } 
+      }
     }
     else {
       totalPrice = totalPrice + item.price * cartQuantities[item._id];
@@ -799,6 +805,7 @@ export async function returnURL(req, res) {
       const coupon = req.session.tempOrder.coupon;
       let orders = [];
       let totalCash=0
+      let i=0;
       for (let item of products) {
         await productModel.updateOne(
           { _id: item._id },
@@ -817,7 +824,9 @@ export async function returnURL(req, res) {
             totalPrice =
               item.price * cartQuantities[item._id] - couponCheck.couponPrice;
             couponObj = { price: couponCheck.couponPrice, applied: true, coupon };
-          } 
+          }else{
+            totalPrice = item.price * cartQuantities[item._id]
+          }
         }
         else {
           totalPrice = item.price * cartQuantities[item._id];
@@ -835,7 +844,7 @@ export async function returnURL(req, res) {
           amountPayable:0,
           total: totalPrice,
           coupon: couponObj,
-          orderId:orderCount+1000
+          orderId:orderCount+1000+i
         });
       }
 

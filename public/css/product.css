@@ -156,7 +156,7 @@
 .product-textarea::-webkit-scrollbar {
   display: none;
 }
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 800px) {
   .car-container{
     margin-top: 0px;
     height: 50vh;
@@ -171,4 +171,11 @@
   .small-img{
     left: 0px !important;
   }
+  .product-main{
+    overflow: hidden;
+  }
+  .show div{
+    display: none !important;
+  }
+
 }
