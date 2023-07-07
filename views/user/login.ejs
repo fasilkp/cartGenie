@@ -9,18 +9,19 @@
             <h2>Login</h2>
             <div class="form-row">
               <label>Email</label>
-              <input type="text" placeholder="email" name="email"  />
+              <input type="text" id="email" placeholder="email" name="email"  />
             </div>
             <div class="form-row">
               <label>Password</label>
-              <input type="password" name="password" placeholder="password" />
+              <input type="password" id="password" name="password" placeholder="password" />
               <a href="/forgot-password">Forgot Password </a>
             </div>
             <div class="form-row">
               <% if(error){ %> 
                 <b class="text-danger"><%= message  %> </b>
               <% } %> 
-              <button>Login</button>
+              <button type="submit">Login</button>
+              <button type="button" onclick="demoLogin(this)">Demo Login</button>
               <a class="text-center" href="/signup">Don't have account create one </a>
             </div>
           </form>
@@ -30,3 +31,11 @@
         </div>
       </div>
     </div>
+    <script>
+      function demoLogin(obj){
+        document.getElementById('email').value='kpfasil314@gmail.com'
+        document.getElementById('password').value='123'
+        obj.form.submit()
+      }
+    </script>
+
